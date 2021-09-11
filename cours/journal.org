@@ -1,0 +1,12 @@
+#+TITLE: Compilation 2021/2022 -- Journal du cours
+#+AUTHOR: Adrien Guatto
+#+EMAIL: guatto@irif.org
+#+LANGUAGE: fr
+#+OPTIONS: ^:nil p:nil
+#+LATEX_CLASS: article
+#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
+#+LATEX_HEADER: \usepackage{a4wide}
+#+LATEX_HEADER: \usepackage{microtype}
+#+LATEX_HEADER: \hypersetup{colorlinks = true}
+#+LATEX_HEADER: \usepackage[french]{babel}
+# (org-latex-export-to-pdf)
