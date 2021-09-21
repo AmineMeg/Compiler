@@ -129,3 +129,13 @@
      [[http://pauillac.inria.fr/~fpottier/menhir/manual.pdf]]
 **** TODO Faire les exercices de marthe.ml
 **** TODO Vérifier son environnement de développement *avant* le TP
+* Cours 2 : Analyse lexicale et syntaxique (1/2) <2021-09-21>
+** Le micro-langage Marthe : compilation
+   On présente le fonctionnement de la compilation de Marthe, cf. les fonctions
+   ~vm_interpret~ et ~compile~ du fichier ~marthe.ml~ donné au premier cours.
+** L'analyse lexicale et syntaxique
+   Voir les [[file:cours-02/cours-02-parsing.pdf][transparents]]. On s'est
+   arrêté juste avant l'exemple de l'automate à pile.
+** Pour la prochaine fois
+*** TODO Finir les exercices de ~marthe.ml~
+*** TODO Lire le sujet du Jalon 1 qui sera rendu disponible dans la semaine

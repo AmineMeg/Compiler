@@ -713,20 +713,19 @@ let vm_interpret : machine -> int =
    abstraite vers un code pour la machine précédente. *)
 let compile : e -> instruction array =
   fun e ->
-    (* [nb_idx] est le dernier indice utilisé pour nommer les
-        variables de sommation.
+  (* [nb_idx] est le dernier indice utilisé pour nommer les variables de
+     sommation.
 
-        [variable_idx] est une liste associative des noms de variable
-        du code source vers leurs indices associés.
+     [variable_idx] est une liste associative des noms de variable du code
+     source vers leurs indices associés.
 
-        [pos] est la position courante dans le code machine
-        produit.
+     [pos] est la position courante dans le code machine produit.
 
-        La fonction de compilation fait un parcours en profondeur
-        de l'arbre de syntaxe abstraite et pour chaque sous-arbre A
-        produit un code machine C tel que l'évaluation de C place
-        le résultat de l'évaluation du sous-arbre A au sommet de
-        la pile de la machine.
+     La fonction de compilation fait un parcours en profondeur de l'arbre de
+     syntaxe abstraite et pour chaque sous-arbre A produit un code machine C tel
+     que l'évaluation de C place le résultat de l'évaluation du sous-arbre A au
+     sommet de la pile de la machine, sans modifier celle-ci autrement.
+
     *)
     let rec aux nb_idx variable_idx pos = function
       | EInt x ->
