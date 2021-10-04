@@ -9,30 +9,62 @@
 %token EOF
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
-%token LET EQUALS
+%token LET EQUALS FUN LPAR RPAR COMMA COLONLINE AND
 
 %start<HopixAST.t> program
 
 %%
 
-program: e=exp EOF
+program: v=located(definition)* EOF
 {
-  e  (*creer un analyser syntacique ici*)
+  v
 }
 
-exp 
-x = INT
+
+definition: 
+(*FAIRE LES AUTRES DEFINITIONS PLUS TARD*)
+v = vdefinition 
 {
-  | Lint x
+  DefineValue v
 }
-| x = ID
+(*--------------------VDEFINITION----------------------------*)
+vdefinition:
+LET x=located(identifier)  EQUALS y=located(expression)
 {
-  | ID s
+  SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
 }
-| LET x=ID EQUALS y=exp
+| FUN l=separated_nonempty_list(AND, fundef)
 {
-  Define (x, y)
+  RecFunctions(l)
 }
+(*---------------------FUNDEF---------------------------*)
+fundef: id=located(identifier) p=located(pattern) EQUALS e=located(expression)
+{
+  (id, None, FunctionDefinition(p, e))
+  
+}
+(*----------------------PATTERN--------------------------*)
+pattern:x=located(identifier)
+{
+  PVariable(x)
+}
+(*--------------------IDENTIFIER----------------------------*)
+identifier:x= ID
+{
+  Id x
+}
+(*----------------------EXPRESSION--------------------------*)
+expression: l=located(literal)
+{
+  Literal l
+}
+(*----------------------LITTERAL--------------------------*)
+literal: x = INT
+{
+  LInt x
+}
+
+
 
 %inline located(X): x=X {
   Position.with_poss $startpos $endpos x
