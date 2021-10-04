@@ -9,7 +9,8 @@
 %token EOF
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
-%token LET EQUALS FUN LPAR RPAR COMMA COLONLINE AND
+%token LET EQUALS FUN LPAR RPAR COMMA COLONLINE AND WILDCARD TRUE FALSE
+%token PLUS MINUS DIV MULT
 
 %start<HopixAST.t> program
 
@@ -19,7 +20,6 @@ program: v=located(definition)* EOF
 {
   v
 }
-
 
 definition: 
 (*FAIRE LES AUTRES DEFINITIONS PLUS TARD*)
@@ -44,26 +44,25 @@ fundef: id=located(identifier) p=located(pattern) EQUALS e=located(expression)
   
 }
 (*----------------------PATTERN--------------------------*)
-pattern:x=located(identifier)
-{
-  PVariable(x)
-}
+pattern:x=
+    located(identifier) { PVariable(x) }
+  | WILDCARD                 { PWildcard }
 (*--------------------IDENTIFIER----------------------------*)
 identifier:x= ID
 {
   Id x
 }
 (*----------------------EXPRESSION--------------------------*)
-expression: l=located(literal)
-{
-  Literal l
-}
+expression:
+    l=located(literal)  
+      { Literal l }
+  | e1=expression op e2=expression
+      { }
 (*----------------------LITTERAL--------------------------*)
-literal: x = INT
-{
-  LInt x
-}
-
+literal:
+      TRUE { LBool true }
+    | FALSE { LBool false }
+    | i = INT   { LInt i }
 
 
 %inline located(X): x=X {
@@ -72,3 +71,4 @@ literal: x = INT
 
 
 (* pour faire tourner les tests : dans tests : make "nom du test"*)
+(* dans l'enoncé : dune exec ./src/flap.exe *)

@@ -1,0 +1,36 @@
+type token =
+    WILDCARD
+  | TVAR of string
+  | TRUE
+  | STRING of string
+  | RPAR
+  | LPAR
+  | LET
+  | INT of int64
+  | ID of string
+  | FUN
+  | FALSE
+  | EQUALS
+  | EOF
+  | COMMA
+  | COLONLINE
+  | CID of string
+  | AND
+val menhir_begin_marker : int
+val xv_vdefinition : HopixAST.value_definition
+val xv_separated_nonempty_list_AND_fundef_ :
+  HopixAST.function_definition HopixAST.polymorphic_definition list
+val xv_program : HopixAST.t
+val xv_pattern : HopixAST.pattern
+val xv_located_pattern_ : HopixAST.pattern Position.located
+val xv_located_literal_ : HopixAST.literal Position.located
+val xv_located_identifier_ : HopixAST.identifier Position.located
+val xv_located_expression_ : HopixAST.expression Position.located
+val xv_located_definition_ : HopixAST.definition Position.located
+val xv_literal : HopixAST.literal
+val xv_list_located_definition__ : HopixAST.t
+val xv_identifier : HopixAST.identifier
+val xv_fundef : HopixAST.function_definition HopixAST.polymorphic_definition
+val xv_expression : HopixAST.expression
+val xv_definition : HopixAST.definition
+val menhir_end_marker : int

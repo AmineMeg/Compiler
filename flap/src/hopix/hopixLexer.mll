@@ -35,25 +35,31 @@ let constr_id = ['A'-'Z']['A'-'Z' 'a'-'z' '0'-'9' '_']*
 
 
 rule token = parse
-  |"="               { EQUALS                      }
-  |"let"             { LET                         }
-  |"fun"             { FUN                         }
-  |"("               { LPAR                        }
-  |")"               { RPAR                        }
-  |","               { COMMA                       }
-  |":"               { COLONLINE                   }
-  |"and"             { AND                         }
-  | integer as i     { INT (Mint.of_string i)      }
-  | var_id as s      { ID s                        }
-  | constr_id as cid { CID cid                     }
-  | type_var as tvar { TVAR tvar                   }
-  
+  | "="               { EQUALS                      }
+  | "let"             { LET                         }
+  | "fun"             { FUN                         }
+  | "True"            { TRUE    }
+  | "False"           { FALSE   }
+  | "("               { LPAR                        }
+  | ")"               { RPAR                        }
+  | ","               { COMMA                       }
+  | ":"               { COLONLINE                   }
+  | "_"               { WILDCARD                    }
+  | "and"             { AND                         }
+  | "+"               { PLUS }
+  | "-"               { MINUS }
+  | "/"               { DIV }
+  | "*"               { MULT }
+  | integer as i      { INT (Mint.of_string i)      }
+  | var_id as s       { ID s                        }
+  | constr_id as cid  { CID cid                     }
+  | type_var as tvar  { TVAR tvar                   }
   (** Layout *)
-  | newline          { next_line_and token lexbuf  }
-  | blank+           { token lexbuf                }
-  | eof              { EOF                         }
+  | newline           { next_line_and token lexbuf  }
+  | blank+            { token lexbuf                }
+  | eof               { EOF                         }
 
   (** Lexing error. *)
-  | _               { error lexbuf "unexpected character." }
+  | _                 { error lexbuf "unexpected character." }
 
 

@@ -1,0 +1,77 @@
+type token =
+    UPPERSAND
+  | TAIL
+  | SWITCH
+  | SUB
+  | SEMICOLON
+  | RPAREN
+  | RID of string
+  | RET
+  | RARROW
+  | ORELSE
+  | OR
+  | MUL
+  | LTE
+  | LT
+  | LSTRING of string
+  | LPAREN
+  | LOCAL
+  | LCHAR of char
+  | LARROW
+  | JUMPIF
+  | JUMP
+  | INT of int64
+  | ID of string
+  | GTE
+  | GT
+  | GLOBALS
+  | EXTERNAL
+  | EXIT
+  | EQ
+  | EOF
+  | END
+  | DIV
+  | DEF
+  | COPY
+  | COMMENT of string
+  | COMMA
+  | COLON
+  | CALL
+  | AND
+  | ADD
+val fresh_label : unit -> RetrolixAST.label
+val bool_of_unit_option : unit option -> bool
+val menhir_begin_marker : int
+val xv_separated_nonempty_list_COMMA_rvalue_ : RetrolixAST.rvalue list
+val xv_separated_nonempty_list_COMMA_label_ : RetrolixAST.label list
+val xv_separated_nonempty_list_COMMA_identifier_ :
+  RetrolixAST.identifier list
+val xv_separated_list_COMMA_rvalue_ : RetrolixAST.rvalue list
+val xv_separated_list_COMMA_label_ : RetrolixAST.label list
+val xv_separated_list_COMMA_identifier_ : RetrolixAST.identifier list
+val xv_rvalue : RetrolixAST.rvalue
+val xv_register : RetrolixAST.register
+val xv_program : RetrolixAST.t
+val xv_orelse_label : RetrolixAST.label
+val xv_option_orelse_label_ : RetrolixAST.label option
+val xv_option_TAIL_ : unit option
+val xv_op : RetrolixAST.op
+val xv_lvalue : RetrolixAST.lvalue
+val xv_loption_separated_nonempty_list_COMMA_rvalue__ :
+  RetrolixAST.rvalue list
+val xv_loption_separated_nonempty_list_COMMA_label__ : RetrolixAST.label list
+val xv_loption_separated_nonempty_list_COMMA_identifier__ :
+  RetrolixAST.identifier list
+val xv_locals : RetrolixAST.identifier list
+val xv_literal : RetrolixAST.literal
+val xv_list_labelled_instruction_ : RetrolixAST.labelled_instruction list
+val xv_list_definition_ : RetrolixAST.t
+val xv_labelled_instruction : RetrolixAST.labelled_instruction
+val xv_label : RetrolixAST.label
+val xv_instruction : RetrolixAST.instruction
+val xv_identifier : RetrolixAST.identifier
+val xv_function_identifier : RetrolixAST.function_identifier
+val xv_definition : RetrolixAST.definition
+val xv_condition : RetrolixAST.condition
+val xv_block : RetrolixAST.block
+val menhir_end_marker : int
