@@ -55,15 +55,15 @@ patternList:
 pattern:
     id=located(identifier) { PVariable(id) }
   | WILDCARD                 { PWildcard }
-(*--------------------IDENTIFIER----------------------------*)
-identifier:x= ID
-{
-  Id x
-}
+
 (*----------------------EXPRESSION--------------------------*)
 expression:
-    l=located(literal)  
-      { Literal l }
+      l=located(literal) { Literal l }
+    | c=located(constructor)
+      LPAR l=separated_list(COMMA,located(expression)) RPAR
+      {
+        Tagged (c, None, l)
+      }
     | IF e1=located(expression) 
       THEN e2=located(expression) 
       ELSE e3=located(expression)
@@ -73,10 +73,18 @@ expression:
   
 (*----------------------LITTERAL--------------------------*)
 literal:
-      TRUE { LBool true }
-    | FALSE { LBool false }
-    | i = INT   { LInt i }
+    TRUE { LBool true }
+  | FALSE { LBool false }
+  | i = INT   { LInt i }
 
+(*--------------------IDENTIFIER----------------------------*)
+identifier:
+    id=ID { Id id }
+  
+(*------------------ CONSTRUCTEUR --------------------------*)
+constructor:
+    c=CID { KId c }
+     
 
 %inline located(X): x=X {
   Position.with_poss $startpos $endpos x
