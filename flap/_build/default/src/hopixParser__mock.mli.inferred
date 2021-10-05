@@ -2,26 +2,37 @@ type token =
     WILDCARD
   | TVAR of string
   | TRUE
+  | THEN
   | STRING of string
   | RPAR
+  | PLUS
+  | MULT
+  | MINUS
   | LPAR
   | LET
   | INT of int64
+  | IF
   | ID of string
   | FUN
   | FALSE
   | EQUALS
   | EOF
+  | ELSE
+  | DIV
   | COMMA
   | COLONLINE
   | CID of string
   | AND
 val menhir_begin_marker : int
 val xv_vdefinition : HopixAST.value_definition
+val xv_separated_nonempty_list_COMMA_located_pattern__ :
+  HopixAST.pattern Position.located list
 val xv_separated_nonempty_list_AND_fundef_ :
   HopixAST.function_definition HopixAST.polymorphic_definition list
 val xv_program : HopixAST.t
+val xv_patternList : HopixAST.pattern
 val xv_pattern : HopixAST.pattern
+val xv_located_patternList_ : HopixAST.pattern Position.located
 val xv_located_pattern_ : HopixAST.pattern Position.located
 val xv_located_literal_ : HopixAST.literal Position.located
 val xv_located_identifier_ : HopixAST.identifier Position.located

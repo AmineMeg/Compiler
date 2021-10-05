@@ -1,10 +1,6 @@
 FLAP?=../_build/default/src/flap.exe
 JALONS=\
-	01-Parsing.results \
-	02-Interpreter.results \
-	03-Typing.results \
-	04-Retrolix_to_x86-64.results \
-	06-Hobix_to_Fopix.results
+	01-Parsing.results 
 EXTS=parsing.hopix eval.hopix typing.hopix hobix fopix retrolix
 
 .PHONY: all clean test FAKE

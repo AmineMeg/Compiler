@@ -1,2 +1,1 @@
-Global Error (during parsing)
-  Syntax error.
+Fatal error: exception "Match_failure src/hopix/hopixPrettyPrinter.ml:374:14"

@@ -10,6 +10,8 @@
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
 %token LET EQUALS FUN LPAR RPAR COMMA COLONLINE AND WILDCARD TRUE FALSE
+%token PLUS MINUS DIV MULT
+%token IF THEN ELSE
 
 %start<HopixAST.t> program
 
@@ -26,9 +28,10 @@ v = vdefinition
 {
   DefineValue v
 }
+
 (*--------------------VDEFINITION----------------------------*)
 vdefinition:
-LET x=located(identifier)  EQUALS y=located(expression)
+  LET x=located(identifier)  EQUALS y=located(expression)
 {
   SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
 }
@@ -36,15 +39,21 @@ LET x=located(identifier)  EQUALS y=located(expression)
 {
   RecFunctions(l)
 }
+
 (*---------------------FUNDEF---------------------------*)
-fundef: id=located(identifier) p=located(pattern) EQUALS e=located(expression)
+fundef: id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
 {
   (id, None, FunctionDefinition(p, e))
-  
 }
 (*----------------------PATTERN--------------------------*)
-pattern:x=
-    located(identifier) { PVariable(x) }
+patternList:
+    l=separated_nonempty_list(COMMA, located(pattern))
+    {
+      PTuple(l)
+    }
+
+pattern:
+    id=located(identifier) { PVariable(id) }
   | WILDCARD                 { PWildcard }
 (*--------------------IDENTIFIER----------------------------*)
 identifier:x= ID
@@ -53,7 +62,15 @@ identifier:x= ID
 }
 (*----------------------EXPRESSION--------------------------*)
 expression:
-    l=located(literal) { Literal l }
+    l=located(literal)  
+      { Literal l }
+    | IF e1=located(expression) 
+      THEN e2=located(expression) 
+      ELSE e3=located(expression)
+      {
+        IfThenElse (e1, e2, e3)
+      }
+  
 (*----------------------LITTERAL--------------------------*)
 literal:
       TRUE { LBool true }

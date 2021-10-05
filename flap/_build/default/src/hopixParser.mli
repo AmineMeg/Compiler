@@ -5,16 +5,23 @@ type token =
   | WILDCARD
   | TVAR of (string)
   | TRUE
+  | THEN
   | STRING of (string)
   | RPAR
+  | PLUS
+  | MULT
+  | MINUS
   | LPAR
   | LET
   | INT of (Mint.t)
+  | IF
   | ID of (string)
   | FUN
   | FALSE
   | EQUALS
   | EOF
+  | ELSE
+  | DIV
   | COMMA
   | COLONLINE
   | CID of (string)

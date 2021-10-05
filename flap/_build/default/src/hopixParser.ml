@@ -16,34 +16,41 @@ module MenhirBasics = struct
 # 17 "src/hopixParser.ml"
   )
     | TRUE
+    | THEN
     | STRING of (
 # 11 "src/hopixParser.mly"
        (string)
-# 23 "src/hopixParser.ml"
+# 24 "src/hopixParser.ml"
   )
     | RPAR
+    | PLUS
+    | MULT
+    | MINUS
     | LPAR
     | LET
     | INT of (
 # 10 "src/hopixParser.mly"
        (Mint.t)
-# 31 "src/hopixParser.ml"
+# 35 "src/hopixParser.ml"
   )
+    | IF
     | ID of (
 # 11 "src/hopixParser.mly"
        (string)
-# 36 "src/hopixParser.ml"
+# 41 "src/hopixParser.ml"
   )
     | FUN
     | FALSE
     | EQUALS
     | EOF
+    | ELSE
+    | DIV
     | COMMA
     | COLONLINE
     | CID of (
 # 11 "src/hopixParser.mly"
        (string)
-# 47 "src/hopixParser.ml"
+# 54 "src/hopixParser.ml"
   )
     | AND
   
@@ -62,7 +69,7 @@ let _eRR =
 
 
 
-# 66 "src/hopixParser.ml"
+# 73 "src/hopixParser.ml"
 
 module Tables = struct
   
@@ -72,32 +79,46 @@ module Tables = struct
     fun _tok ->
       match _tok with
       | AND ->
-          17
+          24
       | CID _ ->
-          16
+          23
       | COLONLINE ->
-          15
+          22
       | COMMA ->
-          14
+          21
+      | DIV ->
+          20
+      | ELSE ->
+          19
       | EOF ->
-          13
+          18
       | EQUALS ->
-          12
+          17
       | FALSE ->
-          11
+          16
       | FUN ->
-          10
+          15
       | ID _ ->
-          9
+          14
+      | IF ->
+          13
       | INT _ ->
-          8
+          12
       | LET ->
-          7
+          11
       | LPAR ->
-          6
+          10
+      | MINUS ->
+          9
+      | MULT ->
+          8
+      | PLUS ->
+          7
       | RPAR ->
-          5
+          6
       | STRING _ ->
+          5
+      | THEN ->
           4
       | TRUE ->
           3
@@ -120,6 +141,10 @@ module Tables = struct
           Obj.repr ()
       | COMMA ->
           Obj.repr ()
+      | DIV ->
+          Obj.repr ()
+      | ELSE ->
+          Obj.repr ()
       | EOF ->
           Obj.repr ()
       | EQUALS ->
@@ -130,16 +155,26 @@ module Tables = struct
           Obj.repr ()
       | ID _v ->
           Obj.repr _v
+      | IF ->
+          Obj.repr ()
       | INT _v ->
           Obj.repr _v
       | LET ->
           Obj.repr ()
       | LPAR ->
           Obj.repr ()
+      | MINUS ->
+          Obj.repr ()
+      | MULT ->
+          Obj.repr ()
+      | PLUS ->
+          Obj.repr ()
       | RPAR ->
           Obj.repr ()
       | STRING _v ->
           Obj.repr _v
+      | THEN ->
+          Obj.repr ()
       | TRUE ->
           Obj.repr ()
       | TVAR _v ->
@@ -148,22 +183,22 @@ module Tables = struct
           Obj.repr ()
   
   and default_reduction =
-    (8, "\000\000\005\000\000\b\n\t\003\016\000\017\000\012\000\000\004\011\000\000\015\002\001\000\r\000\007")
+    (8, "\000\000\006\000\000\t\011\000\n\003\000\000\000\000\004\020\000\021\000\000\r\014\000\000\000\005\000\000\019\012\000\000\017\002\001\000\015\000\b")
   
   and error =
-    (18, "\001$\000\016\000\000\000\000 \016\144\000\000\000\000\000\000\000\000\000\000\000\000\004\000\000\000@@\000\000\000\000\128B@\000\000\000\000\000\018D\001\000\000\000\000\000\000\000\000\000\016\000\000\000I\000\000\000")
+    (25, "\000\017 \000\001\000\000\000\000\000\000\b\001\000\200\000\000\000\000\000\000\000 \025\000\000\000\000\000\000\000\002\000\000\002\001\144\000\000\001\000\128d\000\000\000\000\000\000\000\000\002\000\000\000\000\000\b\000\b\000@\000\000\000\000\000\000\000\b\000\000\000\000\128\016\012\128\000\000\000\000\128\001\b\000@\000\000\000\000\000\000\000\000D\130\000\004\000\000\000\000\000\000\000\000\000\000\000\000\004\000\000\000\000\000\137\000\000\000\000")
   
   and start =
     1
   
   and action =
-    ((8, "\r\015\000\015\n\000\000\000\000\000\015\000\016\000\003\n\000\000\015\015\000\000\000\003\000\r\000"), (8, "5\006\n5*\0185\021\0226N>c\026\000\000\030\n"))
+    ((8, "\000\021\000\023\007\000\000\007\000\000\006\007\015\007\000\000\021\000\018\004\000\000\028\b\007\000\t\004\000\000\021\021\000\000\000\b\000\000\000"), (8, "\022=ER\n=\018.=\026\030\0066\"~B\nn\025N^b\147"))
   
   and lhs =
-    (4, "\n\152veUD2!\016")
+    (4, "\012\187\169\136wveC2!\016")
   
   and goto =
-    ((8, "\003\t\000\000\014\000\000\000\000\000\003\000\026\000\000\026\000\000\000\012\000\000\000\000\000\018\000"), (8, "\022\012\023\004\000\024\r\019\021\026\022\000\t\r\019\027\n\015\t\026\018\000\017"))
+    ((8, "\003\015\000\000\024\000\000\026\000\000\000\030\000(\000\000\006\000\000\003\000\000\000\000*\000\000\016\000\000\000\012\000\000\000\000\000\"\000"), (8, "\"\022\004#\023\027\018$\030!\029&\019\031\027\019\031\030\"\n\n\000\n\016\011'\r\n\n&\000\015\026"))
   
   and semantic_action =
     [|
@@ -181,11 +216,11 @@ module Tables = struct
         let _startpos = _startpos_v_ in
         let _endpos = _endpos_v_ in
         let _v : (HopixAST.definition) = 
-# 26 "src/hopixParser.mly"
+# 28 "src/hopixParser.mly"
 (
   DefineValue v
 )
-# 189 "src/hopixParser.ml"
+# 224 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -211,17 +246,17 @@ module Tables = struct
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 219 "src/hopixParser.ml"
+# 254 "src/hopixParser.ml"
           
         in
         
-# 56 "src/hopixParser.mly"
-                       ( Literal l )
-# 225 "src/hopixParser.ml"
+# 66 "src/hopixParser.mly"
+      ( Literal l )
+# 260 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -239,27 +274,138 @@ module Tables = struct
           MenhirLib.EngineTypes.endp = _endpos_x_inlined2_;
           MenhirLib.EngineTypes.next = {
             MenhirLib.EngineTypes.state = _;
-            MenhirLib.EngineTypes.semv = _3;
-            MenhirLib.EngineTypes.startp = _startpos__3_;
-            MenhirLib.EngineTypes.endp = _endpos__3_;
+            MenhirLib.EngineTypes.semv = _5;
+            MenhirLib.EngineTypes.startp = _startpos__5_;
+            MenhirLib.EngineTypes.endp = _endpos__5_;
             MenhirLib.EngineTypes.next = {
               MenhirLib.EngineTypes.state = _;
               MenhirLib.EngineTypes.semv = x_inlined1;
               MenhirLib.EngineTypes.startp = _startpos_x_inlined1_;
               MenhirLib.EngineTypes.endp = _endpos_x_inlined1_;
               MenhirLib.EngineTypes.next = {
-                MenhirLib.EngineTypes.state = _menhir_s;
-                MenhirLib.EngineTypes.semv = x;
-                MenhirLib.EngineTypes.startp = _startpos_x_;
-                MenhirLib.EngineTypes.endp = _endpos_x_;
-                MenhirLib.EngineTypes.next = _menhir_stack;
+                MenhirLib.EngineTypes.state = _;
+                MenhirLib.EngineTypes.semv = _3;
+                MenhirLib.EngineTypes.startp = _startpos__3_;
+                MenhirLib.EngineTypes.endp = _endpos__3_;
+                MenhirLib.EngineTypes.next = {
+                  MenhirLib.EngineTypes.state = _;
+                  MenhirLib.EngineTypes.semv = x;
+                  MenhirLib.EngineTypes.startp = _startpos_x_;
+                  MenhirLib.EngineTypes.endp = _endpos_x_;
+                  MenhirLib.EngineTypes.next = {
+                    MenhirLib.EngineTypes.state = _menhir_s;
+                    MenhirLib.EngineTypes.semv = _1;
+                    MenhirLib.EngineTypes.startp = _startpos__1_;
+                    MenhirLib.EngineTypes.endp = _endpos__1_;
+                    MenhirLib.EngineTypes.next = _menhir_stack;
+                  };
+                };
               };
             };
           };
         } = _menhir_stack in
         let x_inlined2 : (HopixAST.expression) = Obj.magic x_inlined2 in
+        let _5 : unit = Obj.magic _5 in
+        let x_inlined1 : (HopixAST.expression) = Obj.magic x_inlined1 in
         let _3 : unit = Obj.magic _3 in
+        let x : (HopixAST.expression) = Obj.magic x in
+        let _1 : unit = Obj.magic _1 in
+        let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
+        let _startpos = _startpos__1_ in
+        let _endpos = _endpos_x_inlined2_ in
+        let _v : (HopixAST.expression) = let e3 =
+          let (_endpos_x_, _startpos_x_, x) = (_endpos_x_inlined2_, _startpos_x_inlined2_, x_inlined2) in
+          let _endpos = _endpos_x_ in
+          let _startpos = _startpos_x_ in
+          
+# 81 "src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 326 "src/hopixParser.ml"
+          
+        in
+        let e2 =
+          let (_endpos_x_, _startpos_x_, x) = (_endpos_x_inlined1_, _startpos_x_inlined1_, x_inlined1) in
+          let _endpos = _endpos_x_ in
+          let _startpos = _startpos_x_ in
+          
+# 81 "src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 338 "src/hopixParser.ml"
+          
+        in
+        let e1 =
+          let _endpos = _endpos_x_ in
+          let _startpos = _startpos_x_ in
+          
+# 81 "src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 349 "src/hopixParser.ml"
+          
+        in
+        
+# 70 "src/hopixParser.mly"
+      (
+        IfThenElse (e1, e2, e3)
+      )
+# 357 "src/hopixParser.ml"
+         in
+        {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = Obj.repr _v;
+          MenhirLib.EngineTypes.startp = _startpos;
+          MenhirLib.EngineTypes.endp = _endpos;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        });
+      (fun _menhir_env ->
+        let _menhir_stack = _menhir_env.MenhirLib.EngineTypes.stack in
+        let {
+          MenhirLib.EngineTypes.state = _;
+          MenhirLib.EngineTypes.semv = x_inlined2;
+          MenhirLib.EngineTypes.startp = _startpos_x_inlined2_;
+          MenhirLib.EngineTypes.endp = _endpos_x_inlined2_;
+          MenhirLib.EngineTypes.next = {
+            MenhirLib.EngineTypes.state = _;
+            MenhirLib.EngineTypes.semv = _5;
+            MenhirLib.EngineTypes.startp = _startpos__5_;
+            MenhirLib.EngineTypes.endp = _endpos__5_;
+            MenhirLib.EngineTypes.next = {
+              MenhirLib.EngineTypes.state = _;
+              MenhirLib.EngineTypes.semv = _4;
+              MenhirLib.EngineTypes.startp = _startpos__4_;
+              MenhirLib.EngineTypes.endp = _endpos__4_;
+              MenhirLib.EngineTypes.next = {
+                MenhirLib.EngineTypes.state = _;
+                MenhirLib.EngineTypes.semv = x_inlined1;
+                MenhirLib.EngineTypes.startp = _startpos_x_inlined1_;
+                MenhirLib.EngineTypes.endp = _endpos_x_inlined1_;
+                MenhirLib.EngineTypes.next = {
+                  MenhirLib.EngineTypes.state = _;
+                  MenhirLib.EngineTypes.semv = _2;
+                  MenhirLib.EngineTypes.startp = _startpos__2_;
+                  MenhirLib.EngineTypes.endp = _endpos__2_;
+                  MenhirLib.EngineTypes.next = {
+                    MenhirLib.EngineTypes.state = _menhir_s;
+                    MenhirLib.EngineTypes.semv = x;
+                    MenhirLib.EngineTypes.startp = _startpos_x_;
+                    MenhirLib.EngineTypes.endp = _endpos_x_;
+                    MenhirLib.EngineTypes.next = _menhir_stack;
+                  };
+                };
+              };
+            };
+          };
+        } = _menhir_stack in
+        let x_inlined2 : (HopixAST.expression) = Obj.magic x_inlined2 in
+        let _5 : unit = Obj.magic _5 in
+        let _4 : unit = Obj.magic _4 in
         let x_inlined1 : (HopixAST.pattern) = Obj.magic x_inlined1 in
+        let _2 : unit = Obj.magic _2 in
         let x : (HopixAST.identifier) = Obj.magic x in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos_x_ in
@@ -269,11 +415,11 @@ module Tables = struct
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 277 "src/hopixParser.ml"
+# 423 "src/hopixParser.ml"
           
         in
         let p =
@@ -281,31 +427,30 @@ module Tables = struct
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 289 "src/hopixParser.ml"
+# 435 "src/hopixParser.ml"
           
         in
         let id =
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 300 "src/hopixParser.ml"
+# 446 "src/hopixParser.ml"
           
         in
         
-# 41 "src/hopixParser.mly"
+# 45 "src/hopixParser.mly"
 (
   (id, None, FunctionDefinition(p, e))
-  
 )
-# 309 "src/hopixParser.ml"
+# 454 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -326,17 +471,17 @@ module Tables = struct
         let x : (
 # 11 "src/hopixParser.mly"
        (string)
-# 330 "src/hopixParser.ml"
+# 475 "src/hopixParser.ml"
         ) = Obj.magic x in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos_x_ in
         let _endpos = _endpos_x_ in
         let _v : (HopixAST.identifier) = 
-# 51 "src/hopixParser.mly"
+# 60 "src/hopixParser.mly"
 (
   Id x
 )
-# 340 "src/hopixParser.ml"
+# 485 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -354,7 +499,7 @@ module Tables = struct
         let _v : (HopixAST.t) = 
 # 211 "<standard.mly>"
     ( [] )
-# 358 "src/hopixParser.ml"
+# 503 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -387,17 +532,17 @@ module Tables = struct
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 395 "src/hopixParser.ml"
+# 540 "src/hopixParser.ml"
           
         in
         
 # 213 "<standard.mly>"
     ( x :: xs )
-# 401 "src/hopixParser.ml"
+# 546 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -420,9 +565,9 @@ module Tables = struct
         let _startpos = _startpos__1_ in
         let _endpos = _endpos__1_ in
         let _v : (HopixAST.literal) = 
-# 59 "src/hopixParser.mly"
+# 76 "src/hopixParser.mly"
            ( LBool true )
-# 426 "src/hopixParser.ml"
+# 571 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -445,9 +590,9 @@ module Tables = struct
         let _startpos = _startpos__1_ in
         let _endpos = _endpos__1_ in
         let _v : (HopixAST.literal) = 
-# 60 "src/hopixParser.mly"
+# 77 "src/hopixParser.mly"
             ( LBool false )
-# 451 "src/hopixParser.ml"
+# 596 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -468,15 +613,15 @@ module Tables = struct
         let i : (
 # 10 "src/hopixParser.mly"
        (Mint.t)
-# 472 "src/hopixParser.ml"
+# 617 "src/hopixParser.ml"
         ) = Obj.magic i in
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos_i_ in
         let _endpos = _endpos_i_ in
         let _v : (HopixAST.literal) = 
-# 61 "src/hopixParser.mly"
+# 78 "src/hopixParser.mly"
                 ( LInt i )
-# 480 "src/hopixParser.ml"
+# 625 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -498,21 +643,21 @@ module Tables = struct
         let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
         let _startpos = _startpos_x_ in
         let _endpos = _endpos_x_ in
-        let _v : (HopixAST.pattern) = let x =
+        let _v : (HopixAST.pattern) = let id =
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 510 "src/hopixParser.ml"
+# 655 "src/hopixParser.ml"
           
         in
         
-# 47 "src/hopixParser.mly"
-                        ( PVariable(x) )
-# 516 "src/hopixParser.ml"
+# 56 "src/hopixParser.mly"
+                           ( PVariable(id) )
+# 661 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -535,9 +680,36 @@ module Tables = struct
         let _startpos = _startpos__1_ in
         let _endpos = _endpos__1_ in
         let _v : (HopixAST.pattern) = 
-# 48 "src/hopixParser.mly"
+# 57 "src/hopixParser.mly"
                              ( PWildcard )
-# 541 "src/hopixParser.ml"
+# 686 "src/hopixParser.ml"
+         in
+        {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = Obj.repr _v;
+          MenhirLib.EngineTypes.startp = _startpos;
+          MenhirLib.EngineTypes.endp = _endpos;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        });
+      (fun _menhir_env ->
+        let _menhir_stack = _menhir_env.MenhirLib.EngineTypes.stack in
+        let {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = l;
+          MenhirLib.EngineTypes.startp = _startpos_l_;
+          MenhirLib.EngineTypes.endp = _endpos_l_;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        } = _menhir_stack in
+        let l : (HopixAST.pattern Position.located list) = Obj.magic l in
+        let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
+        let _startpos = _startpos_l_ in
+        let _endpos = _endpos_l_ in
+        let _v : (HopixAST.pattern) = 
+# 51 "src/hopixParser.mly"
+    (
+      PTuple(l)
+    )
+# 713 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -567,11 +739,11 @@ module Tables = struct
         let _startpos = _startpos_v_ in
         let _endpos = _endpos__2_ in
         let _v : (HopixAST.t) = 
-# 19 "src/hopixParser.mly"
+# 21 "src/hopixParser.mly"
 (
   v
 )
-# 575 "src/hopixParser.ml"
+# 747 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -596,7 +768,7 @@ module Tables = struct
         let _v : (HopixAST.function_definition HopixAST.polymorphic_definition list) = 
 # 241 "<standard.mly>"
     ( [ x ] )
-# 600 "src/hopixParser.ml"
+# 772 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -635,7 +807,93 @@ module Tables = struct
         let _v : (HopixAST.function_definition HopixAST.polymorphic_definition list) = 
 # 243 "<standard.mly>"
     ( x :: xs )
-# 639 "src/hopixParser.ml"
+# 811 "src/hopixParser.ml"
+         in
+        {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = Obj.repr _v;
+          MenhirLib.EngineTypes.startp = _startpos;
+          MenhirLib.EngineTypes.endp = _endpos;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        });
+      (fun _menhir_env ->
+        let _menhir_stack = _menhir_env.MenhirLib.EngineTypes.stack in
+        let {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = x;
+          MenhirLib.EngineTypes.startp = _startpos_x_;
+          MenhirLib.EngineTypes.endp = _endpos_x_;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        } = _menhir_stack in
+        let x : (HopixAST.pattern) = Obj.magic x in
+        let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
+        let _startpos = _startpos_x_ in
+        let _endpos = _endpos_x_ in
+        let _v : (HopixAST.pattern Position.located list) = let x =
+          let _endpos = _endpos_x_ in
+          let _startpos = _startpos_x_ in
+          
+# 81 "src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 841 "src/hopixParser.ml"
+          
+        in
+        
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 847 "src/hopixParser.ml"
+         in
+        {
+          MenhirLib.EngineTypes.state = _menhir_s;
+          MenhirLib.EngineTypes.semv = Obj.repr _v;
+          MenhirLib.EngineTypes.startp = _startpos;
+          MenhirLib.EngineTypes.endp = _endpos;
+          MenhirLib.EngineTypes.next = _menhir_stack;
+        });
+      (fun _menhir_env ->
+        let _menhir_stack = _menhir_env.MenhirLib.EngineTypes.stack in
+        let {
+          MenhirLib.EngineTypes.state = _;
+          MenhirLib.EngineTypes.semv = xs;
+          MenhirLib.EngineTypes.startp = _startpos_xs_;
+          MenhirLib.EngineTypes.endp = _endpos_xs_;
+          MenhirLib.EngineTypes.next = {
+            MenhirLib.EngineTypes.state = _;
+            MenhirLib.EngineTypes.semv = _2;
+            MenhirLib.EngineTypes.startp = _startpos__2_;
+            MenhirLib.EngineTypes.endp = _endpos__2_;
+            MenhirLib.EngineTypes.next = {
+              MenhirLib.EngineTypes.state = _menhir_s;
+              MenhirLib.EngineTypes.semv = x;
+              MenhirLib.EngineTypes.startp = _startpos_x_;
+              MenhirLib.EngineTypes.endp = _endpos_x_;
+              MenhirLib.EngineTypes.next = _menhir_stack;
+            };
+          };
+        } = _menhir_stack in
+        let xs : (HopixAST.pattern Position.located list) = Obj.magic xs in
+        let _2 : unit = Obj.magic _2 in
+        let x : (HopixAST.pattern) = Obj.magic x in
+        let _endpos__0_ = _menhir_stack.MenhirLib.EngineTypes.endp in
+        let _startpos = _startpos_x_ in
+        let _endpos = _endpos_xs_ in
+        let _v : (HopixAST.pattern Position.located list) = let x =
+          let _endpos = _endpos_x_ in
+          let _startpos = _startpos_x_ in
+          
+# 81 "src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 891 "src/hopixParser.ml"
+          
+        in
+        
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 897 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -683,30 +941,30 @@ module Tables = struct
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 691 "src/hopixParser.ml"
+# 949 "src/hopixParser.ml"
           
         in
         let x =
           let _endpos = _endpos_x_ in
           let _startpos = _startpos_x_ in
           
-# 64 "src/hopixParser.mly"
+# 81 "src/hopixParser.mly"
                         (
   Position.with_poss _startpos _endpos x
 )
-# 702 "src/hopixParser.ml"
+# 960 "src/hopixParser.ml"
           
         in
         
-# 32 "src/hopixParser.mly"
+# 35 "src/hopixParser.mly"
 (
   SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
 )
-# 710 "src/hopixParser.ml"
+# 968 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -736,11 +994,11 @@ module Tables = struct
         let _startpos = _startpos__1_ in
         let _endpos = _endpos_l_ in
         let _v : (HopixAST.value_definition) = 
-# 36 "src/hopixParser.mly"
+# 39 "src/hopixParser.mly"
 (
   RecFunctions(l)
 )
-# 744 "src/hopixParser.ml"
+# 1002 "src/hopixParser.ml"
          in
         {
           MenhirLib.EngineTypes.state = _menhir_s;
@@ -781,4 +1039,4 @@ end
 # 269 "<standard.mly>"
   
 
-# 785 "src/hopixParser.ml"
+# 1043 "src/hopixParser.ml"

@@ -50,6 +50,9 @@ rule token = parse
   | "-"               { MINUS }
   | "/"               { DIV }
   | "*"               { MULT }
+  | "if"              { IF }
+  | "then"            { THEN }
+  | "else"            { ELSE }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
   | constr_id as cid  { CID cid                     }
