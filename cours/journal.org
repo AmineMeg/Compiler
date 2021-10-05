@@ -139,3 +139,15 @@
 ** Pour la prochaine fois
 *** TODO Finir les exercices de ~marthe.ml~
 *** TODO Lire le sujet du Jalon 1 qui sera rendu disponible dans la semaine
+* Cours 03 <2021-09-28>
+** Introduction à l'analyse lexicale et syntaxique
+   On termine les [[file:cours-02/cours-02-parsing.pdf][transparents]].
+** Introduction à flap et au Jalon 1
+   Voir le [[file:../flap][code]] du compilateur Flap, ainsi que l'énoncé du
+   jalon 1, dans [[../jalons/jalon-1.pdf][jalon-1.pdf]].
+* Cours 04 <2021-10-05>
+** Discussion sur le jalon 1
+** Introduction à la sémantique et au typage
+   Voir la première partie des
+   [[file:cours-04-à-06/cours-04-a-06-intro-semantique-typage.pdf][transparents]]
+   dédiés.
