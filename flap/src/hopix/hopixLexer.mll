@@ -42,6 +42,8 @@ rule token = parse
   | "False"           { FALSE   }
   | "("               { LPAR                        }
   | ")"               { RPAR                        }
+  | "<"               { INF }
+  | ">"               { SUP }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
   | "_"               { WILDCARD                    }
@@ -50,9 +52,11 @@ rule token = parse
   | "-"               { MINUS }
   | "/"               { DIV }
   | "*"               { MULT }
+  | "|"               { PIPE }
   | "if"              { IF }
   | "then"            { THEN }
   | "else"            { ELSE }
+  | "type"            { TYPE }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
   | constr_id as cid  { CID cid                     }

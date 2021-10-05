@@ -3,17 +3,21 @@
 
 type token = 
   | WILDCARD
+  | TYPE
   | TVAR of (string)
   | TRUE
   | THEN
+  | SUP
   | STRING of (string)
   | RPAR
   | PLUS
+  | PIPE
   | MULT
   | MINUS
   | LPAR
   | LET
   | INT of (Mint.t)
+  | INF
   | IF
   | ID of (string)
   | FUN

@@ -9,9 +9,9 @@
 %token EOF
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
-%token LET EQUALS FUN LPAR RPAR COMMA COLONLINE AND WILDCARD TRUE FALSE
-%token PLUS MINUS DIV MULT
-%token IF THEN ELSE
+%token LET FUN LPAR RPAR COMMA COLONLINE AND WILDCARD TYPE
+%token PLUS MINUS DIV MULT EQUALS INF SUP PIPE
+%token IF THEN ELSE TRUE FALSE
 
 %start<HopixAST.t> program
 
@@ -24,37 +24,40 @@ program: v=located(definition)* EOF
 
 definition: 
 (*FAIRE LES AUTRES DEFINITIONS PLUS TARD*)
-v = vdefinition 
-{
-  DefineValue v
-}
+    v = vdefinition { DefineValue v }
+  | TYPE t=located(typecons) EQUALS s=tdef
+    {
+      DefineType (t, [], s)
+    }
 
 (*--------------------VDEFINITION----------------------------*)
 vdefinition:
-  LET x=located(identifier)  EQUALS y=located(expression)
-{
-  SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
-}
-| FUN l=separated_nonempty_list(AND, fundef)
-{
-  RecFunctions(l)
-}
+    LET x=located(identifier)  EQUALS y=located(expression)
+    {
+      SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
+    }
+  | FUN l=separated_nonempty_list(AND, fundef)
+    {
+      RecFunctions(l)
+    }
 
 (*---------------------FUNDEF---------------------------*)
-fundef: id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
-{
-  (id, None, FunctionDefinition(p, e))
-}
+fundef: 
+    id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
+      {
+        (id, None, FunctionDefinition(p, e))
+      }
+
 (*----------------------PATTERN--------------------------*)
 patternList:
-    l=separated_nonempty_list(COMMA, located(pattern))
+    l=separated_list(COMMA, located(pattern))
     {
       PTuple(l)
     }
 
 pattern:
-    id=located(identifier) { PVariable(id) }
-  | WILDCARD                 { PWildcard }
+    id=located(identifier)    { PVariable(id) }
+  | WILDCARD                  { PWildcard }
 
 (*----------------------EXPRESSION--------------------------*)
 expression:
@@ -63,6 +66,10 @@ expression:
       LPAR l=separated_list(COMMA,located(expression)) RPAR
       {
         Tagged (c, None, l)
+      }
+    | LPAR l=separated_list(COMMA,located(expression)) RPAR
+      {
+        Tuple (l)
       }
     | IF e1=located(expression) 
       THEN e2=located(expression) 
@@ -81,10 +88,31 @@ literal:
 identifier:
     id=ID { Id id }
   
-(*------------------ CONSTRUCTEUR --------------------------*)
+(*------------------ CONSTRUCTOR --------------------------*)
 constructor:
     c=CID { KId c }
-     
+
+(*---------------------- TYPE ------------------------------*)
+tdef:
+    l=separated_list(COMMA, tlist)
+    { 
+      DefineSumType (l) 
+    }
+
+tlist:
+    c=located(constructor) t=separated_list(COMMA, located(ty))
+    {
+      (c, t)
+    }
+
+ty:
+    t=typevar { TyVar t }
+
+typecons:
+    t=ID { TCon t }
+
+typevar:
+    v=TVAR { TId v }
 
 %inline located(X): x=X {
   Position.with_poss $startpos $endpos x

@@ -1,2 +1,2 @@
-Global Error (during parsing)
-  Syntax error.
+Line 2, characters 17-18: Error (during lexing)
+  unexpected character.
