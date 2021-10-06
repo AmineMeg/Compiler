@@ -1,2 +1,1 @@
-Global Error (during parsing)
-  Syntax error.
+type unit =  Unit 

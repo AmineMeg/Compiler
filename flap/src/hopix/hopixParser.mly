@@ -11,7 +11,7 @@
 %token <string> ID STRING CID TVAR
 %token LET FUN LPAR RPAR COMMA COLONLINE AND WILDCARD TYPE
 %token PLUS MINUS DIV MULT EQUALS INF SUP PIPE
-%token IF THEN ELSE TRUE FALSE
+%token IF THEN ELSE 
 
 %start<HopixAST.t> program
 
@@ -80,9 +80,8 @@ expression:
   
 (*----------------------LITTERAL--------------------------*)
 literal:
-    TRUE { LBool true }
-  | FALSE { LBool false }
-  | i = INT   { LInt i }
+    i=INT     { LInt i }
+  | s=STRING  { LString s }
 
 (*--------------------IDENTIFIER----------------------------*)
 identifier:

@@ -33,13 +33,18 @@ let type_var = '\''var_id
 
 let constr_id = ['A'-'Z']['A'-'Z' 'a'-'z' '0'-'9' '_']*
 
+let atom = ['\000' - '\127'] | '\\' | '\'' | '\n' | '\t' | '\b' | '\r'
+
+let char = '\'' (atom \ {'\''} ) '\''
+
+let string = '\"' ((atom | "'" | "\"")-{'"'})* '\"'
+
+let bool = ("True" | "False")
 
 rule token = parse
   | "="               { EQUALS                      }
   | "let"             { LET                         }
-  | "fun"             { FUN                         }
-  | "True"            { TRUE    }
-  | "False"           { FALSE   }
+  | "fun"             { FUN  }
   | "("               { LPAR                        }
   | ")"               { RPAR                        }
   | "<"               { INF }
@@ -58,9 +63,10 @@ rule token = parse
   | "else"            { ELSE }
   | "type"            { TYPE }
   | integer as i      { INT (Mint.of_string i)      }
+  | string as s       { STRING s}
   | var_id as s       { ID s                        }
   | constr_id as cid  { CID cid                     }
-  | type_var as tvar  { TVAR tvar                   }
+  | type_var as tvar  { TVAR tvar }
   (** Layout *)
   | newline           { next_line_and token lexbuf  }
   | blank+            { token lexbuf                }
