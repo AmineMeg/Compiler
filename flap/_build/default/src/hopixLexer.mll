@@ -11,10 +11,26 @@
   let error lexbuf =
     error "during lexing" (lex_join lexbuf.lex_start_p lexbuf.lex_curr_p)
 
+  let is_a_valid_ascii code = if code < 256 then Char.chr(code) else failwith "Lexer.special_char" 
+
+  let spe_char_switch = function
+  | 'r'  -> '\r'
+  | 'b'  -> '\b'
+  | 't'  -> '\t'
+  | 'n'  -> '\n'
+  | '"'  -> '"'
+  | '\''  -> '\''
+  | '\\' -> '\\'
+  | _  -> failwith "Lexer.special_char"
+
+
+  let longueur = ref 0
+  let taille_char = ref 0
+
 
 }
 
-(*C'est con mais faut un lexer ici mdr*)
+
 let layout = ' ' | '\t' | '\n'
 
 let newline = ('\010' | '\013' | "\013\010")
@@ -29,16 +45,19 @@ let integer = ['-']?['0'-'9']+ | '0''x'['0'-'9' 'a'-'f' 'A'-'F']+ | '0''b'['0'-'
 
 let var_id = ['a'-'z'][ 'A'-'Z' 'a'-'z' '0'-'9' '_' ]*
 
-let type_var = ('`' | '\'')var_id
+let type_var = '`'var_id
 
 let constr_id = ['A'-'Z']['A'-'Z' 'a'-'z' '0'-'9' '_']*
 
-let atom = ['\000' - '\127'] | '\\' | '\'' | '\n' | '\t' | '\b' | '\r'
+let atom = ['\000' - '\127'] 
 
+let character_speciaux = ['\\' ''' '"' 'n' 't' 'b' 'r']
 
+let bool = ("True" | "False")
 
 rule token = parse
   | "="               { EQUALS                      }
+  | "\'"              { char(Buffer.create 2) lexbuf}
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
@@ -70,7 +89,7 @@ rule token = parse
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
   | constr_id as cid  { CID cid                     }
-  | type_var as tvar  { TVAR tvar }
+  | type_var as tvar  { TVAR tvar                   }
   (** Layout *)
   | newline           { next_line_and token lexbuf  }
   | blank+            { token lexbuf                }
@@ -80,3 +99,12 @@ rule token = parse
   | _                 { error lexbuf "unexpected character." }
 
 
+and char buffer = parse 
+|'\''                               { incr taille_char; if !taille_char = !longueur then CHAR (Buffer.nth buffer 0) else error lexbuf "unexpected character."}   
+|'\n'                               { new_line lexbuf; Buffer.add_char buffer '\n'; incr longueur; char buffer lexbuf}                                                   
+| '\\' (ascii as ch)                { Buffer.add_char buffer (Char.chr(int_of_string(ch))); incr longueur; char buffer lexbuf}
+| '\\' (character_speciaux as ch)   { Buffer.add_char buffer (spe_char_switch ch); incr longueur; char buffer lexbuf}
+| '\\' (digit digit digit as asc)   { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); incr longueur; char buffer lexbuf }
+| '\\' (layout)                     { char buffer lexbuf }
+| _ as ch                           { Buffer.add_char buffer ch; incr longueur; char buffer lexbuf }
+| eof                               { error lexbuf "caractère non fini" }                   

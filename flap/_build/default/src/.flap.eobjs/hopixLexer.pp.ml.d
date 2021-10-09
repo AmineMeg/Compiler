@@ -1,1 +1,1 @@
-src/hopixLexer.pp.ml: Error HopixParser Lexing Mint Position
+src/hopixLexer.pp.ml: Buffer Char Error HopixParser Lexing Mint Position
