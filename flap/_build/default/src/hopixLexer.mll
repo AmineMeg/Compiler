@@ -52,6 +52,7 @@ rule token = parse
   | ">"               { SUP }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
+  | "."               { DOT }
   | "_"               { WILDCARD                    }
   | "and"             { AND                         }
   | "+"               { PLUS }

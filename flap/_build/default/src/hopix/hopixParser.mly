@@ -9,7 +9,8 @@
 %token EOF
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
-%token LPAR RPAR LBRACK RBRACK LSQR RSQR COMMA COLONLINE AND
+%token COMMA COLONLINE AND DOT
+%token LPAR RPAR LBRACK RBRACK LSQR RSQR 
 %token LET FUN EXTERN WILDCARD TYPE
 %token PLUS MINUS DIV MULT EQUALS INF SUP PIPE
 %token IF THEN ELSE TRUE FALSE
@@ -19,35 +20,51 @@
 
 %%
 
-program: v=located(definition)* EOF
+program: v=located(def)* EOF
 {
   v
 }
 
-definition: 
+(*--------------------PROGRAMME----------------------------*)
+
+def: 
     TYPE t=located(typecons) 
-    l=loption(terminated(preceded(INF,separated_nonempty_list(COMMA, located(typevar))
-    ),SUP))
+    l=loption(delimited(INF,separated_nonempty_list(COMMA, located(typevar)),
+    SUP))
     EQUALS s=tdef
     {
       DefineType (t, l, s)
     }
   | EXTERN id=located(identifier) COLONLINE ts=located(tscheme)
     { DeclareExtern (id,ts) }
-  | v = vdefinition { DefineValue v }
+  | v = vdef { DefineValue v }
 
-(*--------------------VDEFINITION----------------------------*)
-vdefinition:
-    LET x=located(identifier)  EQUALS y=located(expression)
+tdef:
+    PIPE? l=separated_list(PIPE, 
+    pair(located(constructor) ,
+    loption(delimited(LPAR, separated_nonempty_list(COMMA, located(ty)), RPAR))
+    ))
+    { 
+      DefineSumType (l) 
+    }
+  | l=loption(delimited(
+    LBRACK, 
+    separated_nonempty_list(COMMA, separated_pair(located(label), COLONLINE, located(ty))), 
+    RBRACK))
+    { DefineRecordType (l) }
+
+vdef:
+    LET x=located(identifier) 
+    t=option(preceded(COLONLINE,located(tscheme))) 
+    EQUALS y=located(expression)
     {
-      SimpleValue (x ,None, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
+      SimpleValue (x, t, y)  (*UTILISER X? OU OPTION(X)  pour option*) 
     }
   | FUN l=separated_nonempty_list(AND, fundef)
     {
       RecFunctions(l)
     }
 
-(*---------------------FUNDEF---------------------------*)
 fundef: 
     id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
       {
@@ -55,36 +72,51 @@ fundef:
       }
 
 (*---------------------- TYPE ------------------------------*)
-tdef:
-    PIPE? l=separated_list(PIPE, 
-    pair(located(constructor) ,
-    loption(terminated(preceded(LPAR, separated_nonempty_list(COMMA, located(ty))), RPAR))
-    ))
-    { 
-      DefineSumType (l) 
-    }
-  | l=loption(terminated(preceded(
-    LBRACK, 
-    separated_nonempty_list(COMMA, separated_pair(located(label), COLONLINE, located(ty)))), 
-    RBRACK))
-    { DefineRecordType (l) }
   
 ty:
     t=typecons 
-    l=loption(terminated(preceded(INF,separated_nonempty_list(COMMA, located(ty))
-    ),SUP))
+    l=loption(delimited(INF,separated_nonempty_list(COMMA, located(ty)),
+    SUP))
     { TyCon(t, l) }
   | t1=located(ty) RARROW t2=located(ty)
     { TyArrow (t1,t2) }
-  (*| l=separated_nonempty_list(MULT, located(ty))
-    { TyTuple(l) }*)
+  (*| l=[located(ty),separated_nonempty_list(MULT, located(ty))]
+    { TyTuple([t|l]) }*)
   | t=typevar 
     { TyVar t }
 
 tscheme:
-    l=loption(terminated(preceded(LSQR,nonempty_list(located(typevar))
-    ),RSQR)) t=located(ty)
+    l=loption(delimited(LSQR,nonempty_list(located(typevar)),
+    RSQR)) t=located(ty)
     {  ForallTy (l,t) }
+
+(*----------------------EXPRESSION--------------------------*)
+expression:
+      l=located(literal) { Literal l }
+    | id=located(identifier) l=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+      { Variable(id, l) }
+    | c=located(constructor)
+      l1=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+      l2=loption(delimited(LPAR,separated_list(COMMA,located(expression)), RPAR))
+      { Tagged (c, l1, l2) }
+    | LBRACK l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, located(expression))) RBRACK
+      l2=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+      { Record( l1, l2) }
+    | e=located(expression) DOT l=located(label)
+      { Field (e, l) }
+    | e1=located(expression) PLUS e2=located(expression)
+      { Apply (e1, e2) }
+    | LPAR l=separated_list(COMMA,located(expression)) RPAR
+      {
+        Tuple (l)
+      }
+    | IF e1=located(expression) 
+      THEN e2=located(expression) 
+      ELSE e3=located(expression)
+      {
+        IfThenElse (e1, e2, e3)
+      }
+
 
 (*----------------------PATTERN--------------------------*)
 patternList:
@@ -97,39 +129,14 @@ pattern:
     id=located(identifier)    { PVariable(id) }
   | WILDCARD                  { PWildcard }
 
-(*----------------------EXPRESSION--------------------------*)
-expression:
-      l=located(literal) { Literal l }
-    | c=located(constructor)
-      LPAR l=separated_list(COMMA,located(expression)) RPAR
-      {
-        Tagged (c, None, l)
-      }
-    | e1=located(expression) PLUS e2=located(expression)
-      {
-        Apply(e1, e2)
-      }
-    | LPAR l=separated_list(COMMA,located(expression)) RPAR
-      {
-        Tuple (l)
-      }
-    | IF e1=located(expression) 
-      THEN e2=located(expression) 
-      ELSE e3=located(expression)
-      {
-        IfThenElse (e1, e2, e3)
-      }
-  
-(*----------------------LITTERAL--------------------------*)
+(*---------------------- FINAL --------------------------*)
 literal:
     i=INT     { LInt i }
   | TRUE  { LBool true }
 
-(*--------------------IDENTIFIER----------------------------*)
 identifier:
     id=ID { Id id }
   
-(*------------------ CONSTRUCTOR --------------------------*)
 constructor:
     c=CID { KId c }
 

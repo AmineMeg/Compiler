@@ -31,6 +31,7 @@ type token =
   | EQUALS
   | EOF
   | ELSE
+  | DOT
   | DIV
   | COMMA
   | COLONLINE

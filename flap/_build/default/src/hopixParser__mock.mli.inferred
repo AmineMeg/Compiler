@@ -28,32 +28,28 @@ type token =
   | EQUALS
   | EOF
   | ELSE
+  | DOT
   | DIV
   | COMMA
   | COLONLINE
   | CID of string
   | AND
 val menhir_begin_marker : int
-val xv_vdefinition : HopixAST.value_definition
+val xv_vdef : HopixAST.value_definition
 val xv_typevar : HopixAST.type_variable
 val xv_typecons : HopixAST.type_constructor
 val xv_ty : HopixAST.ty
 val xv_tscheme : HopixAST.type_scheme
-val xv_terminated_preceded_LSQR_nonempty_list_located_typevar____RSQR_ :
-  HopixAST.type_variable Position.located list
-val xv_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR_ :
-  HopixAST.ty Position.located list
-val xv_terminated_preceded_LBRACK_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty_____RBRACK_ :
-  (HopixAST.label Position.located * HopixAST.ty Position.located) list
-val xv_terminated_preceded_INF_separated_nonempty_list_COMMA_located_typevar____SUP_ :
-  HopixAST.type_variable Position.located list
-val xv_terminated_preceded_INF_separated_nonempty_list_COMMA_located_ty____SUP_ :
-  HopixAST.ty Position.located list
 val xv_tdef : HopixAST.type_definition
+val xv_separated_pair_located_label__EQUALS_located_expression__ :
+  HopixAST.label Position.located * HopixAST.expression Position.located
 val xv_separated_pair_located_label__COLONLINE_located_ty__ :
   HopixAST.label Position.located * HopixAST.ty Position.located
-val xv_separated_nonempty_list_PIPE_pair_located_constructor__loption_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR____ :
+val xv_separated_nonempty_list_PIPE_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____ :
   (HopixAST.constructor Position.located * HopixAST.ty Position.located list)
+  list
+val xv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression___ :
+  (HopixAST.label Position.located * HopixAST.expression Position.located)
   list
 val xv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___ :
   (HopixAST.label Position.located * HopixAST.ty Position.located) list
@@ -67,48 +63,49 @@ val xv_separated_nonempty_list_COMMA_located_expression__ :
   HopixAST.expression Position.located list
 val xv_separated_nonempty_list_AND_fundef_ :
   HopixAST.function_definition HopixAST.polymorphic_definition list
-val xv_separated_list_PIPE_pair_located_constructor__loption_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR____ :
+val xv_separated_list_PIPE_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____ :
   (HopixAST.constructor Position.located * HopixAST.ty Position.located list)
   list
+val xv_separated_list_COMMA_located_ty__ : HopixAST.ty Position.located list
 val xv_separated_list_COMMA_located_pattern__ :
   HopixAST.pattern Position.located list
 val xv_separated_list_COMMA_located_expression__ :
   HopixAST.expression Position.located list
 val xv_program : HopixAST.t
-val xv_preceded_LSQR_nonempty_list_located_typevar___ :
-  HopixAST.type_variable Position.located list
-val xv_preceded_LPAR_separated_nonempty_list_COMMA_located_ty___ :
-  HopixAST.ty Position.located list
-val xv_preceded_LBRACK_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty____ :
-  (HopixAST.label Position.located * HopixAST.ty Position.located) list
-val xv_preceded_INF_separated_nonempty_list_COMMA_located_typevar___ :
-  HopixAST.type_variable Position.located list
-val xv_preceded_INF_separated_nonempty_list_COMMA_located_ty___ :
-  HopixAST.ty Position.located list
+val xv_preceded_COLONLINE_located_tscheme__ :
+  HopixAST.type_scheme Position.located
 val xv_patternList : HopixAST.pattern
 val xv_pattern : HopixAST.pattern
-val xv_pair_located_constructor__loption_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR___ :
+val xv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___ :
   HopixAST.constructor Position.located * HopixAST.ty Position.located list
+val xv_option_preceded_COLONLINE_located_tscheme___ :
+  HopixAST.type_scheme Position.located option
+val xv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__ :
+  HopixAST.ty Position.located list option
 val xv_option_PIPE_ : unit option
 val xv_nonempty_list_located_typevar__ :
   HopixAST.type_variable Position.located list
-val xv_loption_terminated_preceded_LSQR_nonempty_list_located_typevar____RSQR__ :
-  HopixAST.type_variable Position.located list
-val xv_loption_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR__ :
-  HopixAST.ty Position.located list
-val xv_loption_terminated_preceded_LBRACK_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty_____RBRACK__ :
-  (HopixAST.label Position.located * HopixAST.ty Position.located) list
-val xv_loption_terminated_preceded_INF_separated_nonempty_list_COMMA_located_typevar____SUP__ :
-  HopixAST.type_variable Position.located list
-val xv_loption_terminated_preceded_INF_separated_nonempty_list_COMMA_located_ty____SUP__ :
-  HopixAST.ty Position.located list
-val xv_loption_separated_nonempty_list_PIPE_pair_located_constructor__loption_terminated_preceded_LPAR_separated_nonempty_list_COMMA_located_ty____RPAR_____ :
+val xv_loption_separated_nonempty_list_PIPE_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_____ :
   (HopixAST.constructor Position.located * HopixAST.ty Position.located list)
   list
+val xv_loption_separated_nonempty_list_COMMA_located_ty___ :
+  HopixAST.ty Position.located list
 val xv_loption_separated_nonempty_list_COMMA_located_pattern___ :
   HopixAST.pattern Position.located list
 val xv_loption_separated_nonempty_list_COMMA_located_expression___ :
   HopixAST.expression Position.located list
+val xv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__ :
+  HopixAST.type_variable Position.located list
+val xv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__ :
+  HopixAST.ty Position.located list
+val xv_loption_delimited_LPAR_separated_list_COMMA_located_expression___RPAR__ :
+  HopixAST.expression Position.located list
+val xv_loption_delimited_LBRACK_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty____RBRACK__ :
+  (HopixAST.label Position.located * HopixAST.ty Position.located) list
+val xv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__ :
+  HopixAST.type_variable Position.located list
+val xv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__ :
+  HopixAST.ty Position.located list
 val xv_located_typevar_ : HopixAST.type_variable Position.located
 val xv_located_typecons_ : HopixAST.type_constructor Position.located
 val xv_located_ty_ : HopixAST.ty Position.located
@@ -119,14 +116,28 @@ val xv_located_literal_ : HopixAST.literal Position.located
 val xv_located_label_ : HopixAST.label Position.located
 val xv_located_identifier_ : HopixAST.identifier Position.located
 val xv_located_expression_ : HopixAST.expression Position.located
-val xv_located_definition_ : HopixAST.definition Position.located
+val xv_located_def_ : HopixAST.definition Position.located
 val xv_located_constructor_ : HopixAST.constructor Position.located
 val xv_literal : HopixAST.literal
-val xv_list_located_definition__ : HopixAST.t
+val xv_list_located_def__ : HopixAST.t
 val xv_label : HopixAST.label
 val xv_identifier : HopixAST.identifier
 val xv_fundef : HopixAST.function_definition HopixAST.polymorphic_definition
 val xv_expression : HopixAST.expression
-val xv_definition : HopixAST.definition
+val xv_delimited_LSQR_nonempty_list_located_typevar___RSQR_ :
+  HopixAST.type_variable Position.located list
+val xv_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_ :
+  HopixAST.ty Position.located list
+val xv_delimited_LPAR_separated_list_COMMA_located_expression___RPAR_ :
+  HopixAST.expression Position.located list
+val xv_delimited_LBRACK_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty____RBRACK_ :
+  (HopixAST.label Position.located * HopixAST.ty Position.located) list
+val xv_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP_ :
+  HopixAST.type_variable Position.located list
+val xv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_ :
+  HopixAST.ty Position.located list
+val xv_delimited_INF_separated_list_COMMA_located_ty___SUP_ :
+  HopixAST.ty Position.located list
+val xv_def : HopixAST.definition
 val xv_constructor : HopixAST.constructor
 val menhir_end_marker : int

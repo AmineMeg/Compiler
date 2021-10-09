@@ -1,10 +1,10 @@
 # dune build --display=quiet
 # OCAMLPARAM: unset
 # Workspace root: "/home/lua/Master 1/Compilation/compilation-m1-2021/flap"
-$ /usr/bin/nproc > /tmp/dune124715.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dune224b4b.output 2> /dev/null
 # Auto-detected concurrency: 2
 # disable binary cache
-$ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dunef80943.output
+$ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dune4b5ef1.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -111,33 +111,3 @@ $ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dunef80943.output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/menhir --explain --table src/hopixParser.mly --base src/hopixParser --infer-write-query src/hopixParser__mock.ml.mock)
-> File "src/hopixParser.mly", line 14, characters 18-21:
-> Warning: the token DIV is unused.
-> File "src/hopixParser.mly", line 15, characters 25-30:
-> Warning: the token FALSE is unused.
-> File "src/hopixParser.mly", line 14, characters 12-17:
-> Warning: the token MINUS is unused.
-> File "src/hopixParser.mly", line 14, characters 22-26:
-> Warning: the token MULT is unused.
-> File "src/hopixParser.mly", line 11, characters 19-25:
-> Warning: the token STRING is unused.
-$ (cd _build/default && .ppx/e5c62d576feb9cf4645d7d03ed58d831/ppx.exe -o src/hopixParser__mock.ml.pp.mock --impl src/hopixParser__mock.ml.mock -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamldep.opt -modules -impl src/hopixParser__mock.ml.pp.mock) > _build/default/src/.flap.eobjs/hopixParser__mock.ml.pp.mock.d
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -w -9 -w -32 -g -I src/.flap.eobjs/byte -I /home/lua/.opam/4.11.1/lib/base/caml -I /home/lua/.opam/4.11.1/lib/menhirLib -I /home/lua/.opam/4.11.1/lib/parsexp -I /home/lua/.opam/4.11.1/lib/pprint -I /home/lua/.opam/4.11.1/lib/ppx_sexp_conv/runtime-lib -I /home/lua/.opam/4.11.1/lib/sexplib -I /home/lua/.opam/4.11.1/lib/sexplib0 -open Dune__exe -short-paths -i -impl src/hopixParser__mock.ml.pp.mock) > _build/default/src/hopixParser__mock.mli.inferred
-> File "src/hopixParser.mly", line 4, characters 2-15:
-> Warning 33: unused open Dune__exe.Position.
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/menhir --explain --table src/hopixParser.mly --base src/hopixParser --infer-read-reply src/hopixParser__mock.mli.inferred)
-> Warning: 3 states have shift/reduce conflicts.
-> Warning: one state has reduce/reduce conflicts.
-> Warning: 3 shift/reduce conflicts were arbitrarily resolved.
-> Warning: 5 reduce/reduce conflicts were arbitrarily resolved.
-> File "<standard.mly>", line 140, characters 19-19:
-> Warning: production loption(terminated(preceded(LBRACK,separated_nonempty_list(COMMA,separated_pair(located(label),COLONLINE,located(ty)))),RBRACK)) -> is never reduced.
-> Warning: in total, 1 production is never reduced.
-$ (cd _build/default && .ppx/e5c62d576feb9cf4645d7d03ed58d831/ppx.exe -o src/hopixParser.pp.ml --impl src/hopixParser.ml -corrected-suffix .ppx-corrected -diff-cmd - -dump-ast)
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamldep.opt -modules -impl src/hopixParser.pp.ml) > _build/default/src/.flap.eobjs/hopixParser.pp.ml.d
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -w -9 -w -32 -g -I src/.flap.eobjs/byte -I src/.flap.eobjs/native -I /home/lua/.opam/4.11.1/lib/base/caml -I /home/lua/.opam/4.11.1/lib/menhirLib -I /home/lua/.opam/4.11.1/lib/parsexp -I /home/lua/.opam/4.11.1/lib/pprint -I /home/lua/.opam/4.11.1/lib/ppx_sexp_conv/runtime-lib -I /home/lua/.opam/4.11.1/lib/sexplib -I /home/lua/.opam/4.11.1/lib/sexplib0 -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o src/.flap.eobjs/native/dune__exe__HopixParser.cmx -c -impl src/hopixParser.pp.ml)
-> File "src/hopixParser.mly", line 4, characters 2-15:
-> Warning 33: unused open Dune__exe.Position.
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62-40 -strict-sequence -strict-formats -short-paths -keep-locs -warn-error -A -w -9 -w -32 -g -o src/flap.exe /home/lua/.opam/4.11.1/lib/ocaml/str.cmxa -I /home/lua/.opam/4.11.1/lib/ocaml /home/lua/.opam/4.11.1/lib/pprint/pprint.cmxa /home/lua/.opam/4.11.1/lib/menhirLib/menhirLib.cmxa /home/lua/.opam/4.11.1/lib/ocaml/unix.cmxa -I /home/lua/.opam/4.11.1/lib/ocaml /home/lua/.opam/4.11.1/lib/ocaml/bigarray.cmxa -I /home/lua/.opam/4.11.1/lib/ocaml /home/lua/.opam/4.11.1/lib/sexplib0/sexplib0.cmxa /home/lua/.opam/4.11.1/lib/base/caml/caml.cmxa /home/lua/.opam/4.11.1/lib/parsexp/parsexp.cmxa /home/lua/.opam/4.11.1/lib/sexplib/sexplib.cmxa /home/lua/.opam/4.11.1/lib/ppx_sexp_conv/runtime-lib/ppx_sexp_conv_lib.cmxa src/.flap.eobjs/native/dune__exe.cmx src/.flap.eobjs/native/dune__exe__Position.cmx src/.flap.eobjs/native/dune__exe__Error.cmx src/.flap.eobjs/native/dune__exe__ExtStd.cmx src/.flap.eobjs/native/dune__exe__Languages.cmx src/.flap.eobjs/native/dune__exe__Compilers.cmx src/.flap.eobjs/native/dune__exe__Optimizers.cmx src/.flap.eobjs/native/dune__exe__X86_64_Architecture.cmx src/.flap.eobjs/native/dune__exe__Options.cmx src/.flap.eobjs/native/dune__exe__Version.cmx src/.flap.eobjs/native/dune__exe__CommandLineOptions.cmx src/.flap.eobjs/native/dune__exe__Dict.cmx src/.flap.eobjs/native/dune__exe__ElfAST.cmx src/.flap.eobjs/native/dune__exe__ElfInterpreter.cmx src/.flap.eobjs/native/dune__exe__ElfTypechecker.cmx src/.flap.eobjs/native/dune__exe__Mint.cmx src/.flap.eobjs/native/dune__exe__RetrolixAST.cmx src/.flap.eobjs/native/dune__exe__RetrolixParser.cmx src/.flap.eobjs/native/dune__exe__RetrolixLexer.cmx src/.flap.eobjs/native/dune__exe__SyntacticAnalysis.cmx src/.flap.eobjs/native/dune__exe__Elf.cmx src/.flap.eobjs/native/dune__exe__X86_64_AST.cmx src/.flap.eobjs/native/dune__exe__X86_64_PrettyPrinter.cmx src/.flap.eobjs/native/dune__exe__X86_64_Interpreter.cmx src/.flap.eobjs/native/dune__exe__X86_64_Typechecker.cmx src/.flap.eobjs/native/dune__exe__X86_64.cmx src/.flap.eobjs/native/dune__exe__X86_64toElf.cmx src/.flap.eobjs/native/dune__exe__ElfInitialization.cmx src/.flap.eobjs/native/dune__exe__ExtPPrint.cmx src/.flap.eobjs/native/dune__exe__FopixAST.cmx src/.flap.eobjs/native/dune__exe__FopixPrettyPrinter.cmx src/.flap.eobjs/native/dune__exe__Memory.cmx src/.flap.eobjs/native/dune__exe__FopixInterpreter.cmx src/.flap.eobjs/native/dune__exe__FopixParser.cmx src/.flap.eobjs/native/dune__exe__FopixLexer.cmx src/.flap.eobjs/native/dune__exe__FopixTypechecker.cmx src/.flap.eobjs/native/dune__exe__Fopix.cmx src/.flap.eobjs/native/dune__exe__HobixAST.cmx src/.flap.eobjs/native/dune__exe__HobixInterpreter.cmx src/.flap.eobjs/native/dune__exe__HobixParser.cmx src/.flap.eobjs/native/dune__exe__HobixLexer.cmx src/.flap.eobjs/native/dune__exe__HobixPrettyPrinter.cmx src/.flap.eobjs/native/dune__exe__HopixAST.cmx src/.flap.eobjs/native/dune__exe__HopixTypes.cmx src/.flap.eobjs/native/dune__exe__HobixTypechecker.cmx src/.flap.eobjs/native/dune__exe__Hobix.cmx src/.flap.eobjs/native/dune__exe__HobixToFopix.cmx src/.flap.eobjs/native/dune__exe__FopixInitialization.cmx src/.flap.eobjs/native/dune__exe__Option.cmx src/.flap.eobjs/native/dune__exe__RetrolixInterpreter.cmx src/.flap.eobjs/native/dune__exe__RetrolixPrettyPrinter.cmx src/.flap.eobjs/native/dune__exe__RetrolixTypechecker.cmx src/.flap.eobjs/native/dune__exe__Retrolix.cmx src/.flap.eobjs/native/dune__exe__FopixToRetrolix.cmx src/.flap.eobjs/native/dune__exe__HopixInterpreter.cmx src/.flap.eobjs/native/dune__exe__HopixParser.cmx src/.flap.eobjs/native/dune__exe__HopixLexer.cmx src/.flap.eobjs/native/dune__exe__HopixPrettyPrinter.cmx src/.flap.eobjs/native/dune__exe__HopixTypechecker.cmx src/.flap.eobjs/native/dune__exe__Hopix.cmx src/.flap.eobjs/native/dune__exe__HopixASTHelper.cmx src/.flap.eobjs/native/dune__exe__HopixToHobix.cmx src/.flap.eobjs/native/dune__exe__HobixInitialization.cmx src/.flap.eobjs/native/dune__exe__HopixInitialization.cmx src/.flap.eobjs/native/dune__exe__RetrolixInitialization.cmx src/.flap.eobjs/native/dune__exe__RetrolixToX86_64.cmx src/.flap.eobjs/native/dune__exe__StdUserInput.cmx src/.flap.eobjs/native/dune__exe__UserInput.cmx src/.flap.eobjs/native/dune__exe__X86_64_Initialization.cmx src/.flap.eobjs/native/dune__exe__Flap.cmx)
