@@ -1,10 +1,10 @@
 # dune build --display=quiet
 # OCAMLPARAM: unset
 # Workspace root: "/home/lua/Master 1/Compilation/compilation-m1-2021/flap"
-$ /usr/bin/nproc > /tmp/dunef28bfd.output 2> /dev/null
+$ /usr/bin/nproc > /tmp/dune1140de.output 2> /dev/null
 # Auto-detected concurrency: 2
 # disable binary cache
-$ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dunef6839e.output
+$ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dunef88633.output
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -111,6 +111,3 @@ $ /home/lua/.opam/4.11.1/bin/ocamlc.opt -config > /tmp/dunef6839e.output
 #      ; windows_unicode = false
 #      }
 #  }
-$ (cd _build/default && /home/lua/.opam/4.11.1/bin/ocamllex -q -o src/hopixLexer.ml src/hopixLexer.mll)
-> File "src/hopixLexer.mll", line 38, character 23: illegal character \\.
-[3]

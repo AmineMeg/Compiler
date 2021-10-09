@@ -126,7 +126,7 @@ and literal =
   | LInt    of Mint.t
   | LString of string
   | LChar   of char
-  | LBool   of string
+  | LBool   of bool
 
 and identifier =
   | Id of string

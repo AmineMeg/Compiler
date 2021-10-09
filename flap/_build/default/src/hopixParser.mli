@@ -5,6 +5,7 @@ type token =
   | WILDCARD
   | TYPE
   | TVAR of (string)
+  | TRUE
   | THEN
   | SUP
   | STRING of (string)
@@ -20,6 +21,7 @@ type token =
   | IF
   | ID of (string)
   | FUN
+  | FALSE
   | EQUALS
   | EOF
   | ELSE

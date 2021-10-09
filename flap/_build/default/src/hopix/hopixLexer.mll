@@ -35,11 +35,7 @@ let constr_id = ['A'-'Z']['A'-'Z' 'a'-'z' '0'-'9' '_']*
 
 let atom = ['\000' - '\127'] | '\\' | '\'' | '\n' | '\t' | '\b' | '\r'
 
-let char = '\'' (atom \ {'\''} ) '\''
 
-let string = '\"' ((atom | "'" | "\"")-{'"'})* '\"'
-
-let bool = ("True" | "False")
 
 rule token = parse
   | "="               { EQUALS                      }
@@ -62,8 +58,9 @@ rule token = parse
   | "then"            { THEN }
   | "else"            { ELSE }
   | "type"            { TYPE }
+  | "True"            { TRUE }
+  | "False"           { FALSE }
   | integer as i      { INT (Mint.of_string i)      }
-  | string as s       { STRING s}
   | var_id as s       { ID s                        }
   | constr_id as cid  { CID cid                     }
   | type_var as tvar  { TVAR tvar }
