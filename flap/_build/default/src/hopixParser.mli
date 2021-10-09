@@ -9,19 +9,25 @@ type token =
   | THEN
   | SUP
   | STRING of (string)
+  | RSQR
   | RPAR
+  | RBRACK
+  | RARROW
   | PLUS
   | PIPE
   | MULT
   | MINUS
+  | LSQR
   | LPAR
   | LET
+  | LBRACK
   | INT of (Mint.t)
   | INF
   | IF
   | ID of (string)
   | FUN
   | FALSE
+  | EXTERN
   | EQUALS
   | EOF
   | ELSE

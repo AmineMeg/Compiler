@@ -1,0 +1,117 @@
+
+** Conflict (shift/reduce) in state 70.
+** Token involved: PLUS
+** This state is reached from program after reading:
+
+LET identifier EQUALS IF expression THEN expression ELSE expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(definition)) EOF 
+definition list(located(definition)) 
+vdefinition 
+LET identifier EQUALS expression 
+                      (?)
+
+** In state 70, looking ahead at PLUS, shifting is permitted
+** because of the following sub-derivation:
+
+IF expression THEN expression ELSE expression 
+                                   expression . PLUS expression 
+
+** In state 70, looking ahead at PLUS, reducing production
+** expression -> IF expression THEN expression ELSE expression
+** is permitted because of the following sub-derivation:
+
+expression PLUS expression // lookahead token appears
+IF expression THEN expression ELSE expression . 
+
+** Conflict (shift/reduce) in state 60.
+** Token involved: PLUS
+** This state is reached from program after reading:
+
+LET identifier EQUALS expression PLUS expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(definition)) EOF 
+definition list(located(definition)) 
+vdefinition 
+LET identifier EQUALS expression 
+                      (?)
+
+** In state 60, looking ahead at PLUS, shifting is permitted
+** because of the following sub-derivation:
+
+expression PLUS expression 
+                expression . PLUS expression 
+
+** In state 60, looking ahead at PLUS, reducing production
+** expression -> expression PLUS expression
+** is permitted because of the following sub-derivation:
+
+expression PLUS expression // lookahead token appears
+expression PLUS expression . 
+
+** Conflict (shift/reduce) in state 25.
+** Token involved: RARROW
+** This state is reached from program after reading:
+
+EXTERN identifier COLONLINE loption(terminated(preceded(LSQR,nonempty_list(located(typevar))),RSQR)) ty RARROW ty
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(definition)) EOF 
+definition list(located(definition)) 
+EXTERN identifier COLONLINE tscheme 
+                            loption(terminated(preceded(LSQR,nonempty_list(located(typevar))),RSQR)) ty 
+                                                                                                     (?)
+
+** In state 25, looking ahead at RARROW, shifting is permitted
+** because of the following sub-derivation:
+
+ty RARROW ty 
+          ty . RARROW ty 
+
+** In state 25, looking ahead at RARROW, reducing production
+** ty -> ty RARROW ty
+** is permitted because of the following sub-derivation:
+
+ty RARROW ty // lookahead token appears
+ty RARROW ty . 
+
+** Conflict (reduce/reduce) in state 12.
+** Tokens involved: TYPE LET FUN EXTERN EOF
+** The following explanations concentrate on token TYPE.
+** This state is reached from program after reading:
+
+TYPE typecons loption(terminated(preceded(INF,separated_nonempty_list(COMMA,located(typevar))),SUP)) EQUALS
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(definition)) EOF 
+definition list(located(definition)) // lookahead token appears because list(located(definition)) can begin with TYPE
+TYPE typecons loption(terminated(preceded(INF,separated_nonempty_list(COMMA,located(typevar))),SUP)) EQUALS tdef // lookahead token is inherited
+                                                                                                            (?)
+
+** In state 12, looking ahead at TYPE, reducing production
+** loption(terminated(preceded(LBRACK,separated_nonempty_list(COMMA,separated_pair(located(label),COLONLINE,located(ty)))),RBRACK)) ->
+** is permitted because of the following sub-derivation:
+
+loption(terminated(preceded(LBRACK,separated_nonempty_list(COMMA,separated_pair(located(label),COLONLINE,located(ty)))),RBRACK)) // lookahead token is inherited
+. 
+
+** In state 12, looking ahead at TYPE, reducing production
+** option(PIPE) ->
+** is permitted because of the following sub-derivation:
+
+option(PIPE) loption(separated_nonempty_list(PIPE,pair(located(constructor),loption(terminated(preceded(LPAR,separated_nonempty_list(COMMA,located(ty))),RPAR))))) // lookahead token is inherited because loption(separated_nonempty_list(PIPE,pair(located(constructor),loption(terminated(preceded(LPAR,separated_nonempty_list(COMMA,located(ty))),RPAR))))) can vanish
+. 
