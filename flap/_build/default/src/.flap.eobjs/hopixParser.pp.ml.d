@@ -1,1 +1,1 @@
-src/hopixParser.pp.ml: HopixAST MenhirLib Mint Obj Position
+src/hopixParser.pp.ml: Error HopixAST MenhirLib Mint Obj Position

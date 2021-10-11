@@ -88,8 +88,6 @@ rule token = parse
   | "then"            { THEN }
   | "else"            { ELSE }
   | "type"            { TYPE }
-  | "True"            { TRUE }
-  | "False"           { FALSE }
   | "->"              { RARROW }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }

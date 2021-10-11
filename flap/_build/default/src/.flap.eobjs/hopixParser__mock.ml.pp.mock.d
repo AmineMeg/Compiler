@@ -1,1 +1,1 @@
-src/hopixParser__mock.ml.pp.mock: HopixAST Lexing Mint Position
+src/hopixParser__mock.ml.pp.mock: Error HopixAST Lexing Mint Position

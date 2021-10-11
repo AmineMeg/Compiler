@@ -6,6 +6,7 @@ type token =
   | TYPE
   | TVAR of (string)
   | TRUE
+  | TO
   | THEN
   | SUP
   | STRING of (string)
@@ -23,9 +24,12 @@ type token =
   | LBRACK
   | INT of (Mint.t)
   | INF
+  | IN
   | IF
   | ID of (string)
   | FUN
+  | FROM
+  | FOR
   | FALSE
   | EXTERN
   | EQUALS
@@ -36,6 +40,7 @@ type token =
   | COMMA
   | COLONLINE
   | CID of (string)
+  | CHAR of (char)
   | AND
 
 (* This exception is raised by the monolithic API functions. *)

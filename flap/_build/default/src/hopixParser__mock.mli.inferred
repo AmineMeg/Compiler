@@ -3,6 +3,7 @@ type token =
   | TYPE
   | TVAR of string
   | TRUE
+  | TO
   | THEN
   | SUP
   | STRING of string
@@ -20,9 +21,12 @@ type token =
   | LBRACK
   | INT of int64
   | INF
+  | IN
   | IF
   | ID of string
   | FUN
+  | FROM
+  | FOR
   | FALSE
   | EXTERN
   | EQUALS
@@ -33,6 +37,7 @@ type token =
   | COMMA
   | COLONLINE
   | CID of string
+  | CHAR of char
   | AND
 val menhir_begin_marker : int
 val xv_vdef : HopixAST.value_definition
@@ -67,14 +72,11 @@ val xv_separated_list_PIPE_pair_located_constructor__loption_delimited_LPAR_sepa
   (HopixAST.constructor Position.located * HopixAST.ty Position.located list)
   list
 val xv_separated_list_COMMA_located_ty__ : HopixAST.ty Position.located list
-val xv_separated_list_COMMA_located_pattern__ :
-  HopixAST.pattern Position.located list
 val xv_separated_list_COMMA_located_expression__ :
   HopixAST.expression Position.located list
 val xv_program : HopixAST.t
 val xv_preceded_COLONLINE_located_tscheme__ :
   HopixAST.type_scheme Position.located
-val xv_patternList : HopixAST.pattern
 val xv_pattern : HopixAST.pattern
 val xv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___ :
   HopixAST.constructor Position.located * HopixAST.ty Position.located list
@@ -90,8 +92,6 @@ val xv_loption_separated_nonempty_list_PIPE_pair_located_constructor__loption_de
   list
 val xv_loption_separated_nonempty_list_COMMA_located_ty___ :
   HopixAST.ty Position.located list
-val xv_loption_separated_nonempty_list_COMMA_located_pattern___ :
-  HopixAST.pattern Position.located list
 val xv_loption_separated_nonempty_list_COMMA_located_expression___ :
   HopixAST.expression Position.located list
 val xv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__ :
@@ -110,7 +110,6 @@ val xv_located_typevar_ : HopixAST.type_variable Position.located
 val xv_located_typecons_ : HopixAST.type_constructor Position.located
 val xv_located_ty_ : HopixAST.ty Position.located
 val xv_located_tscheme_ : HopixAST.type_scheme Position.located
-val xv_located_patternList_ : HopixAST.pattern Position.located
 val xv_located_pattern_ : HopixAST.pattern Position.located
 val xv_located_literal_ : HopixAST.literal Position.located
 val xv_located_label_ : HopixAST.label Position.located

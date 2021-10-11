@@ -19,6 +19,7 @@
 
 %start<HopixAST.t> program
 
+
 %%
 
 program: v=located(def)* EOF
@@ -39,6 +40,8 @@ def:
   | EXTERN id=located(identifier) COLONLINE ts=located(tscheme)
     { DeclareExtern (id,ts) }
   | v = vdef { DefineValue v }
+  | error 
+    { let pos=Position.lex_join $startpos $endpos in Error.error "parsing" pos "Syntax error."}
 
 tdef:
     PIPE? l=separated_list(PIPE, 
@@ -67,7 +70,7 @@ vdef:
     }
 
 fundef: 
-    id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
+    id=located(identifier) p=located(pattern) EQUALS e=located(expression)
       {
         (id, None, FunctionDefinition(p, e))
       }
@@ -81,8 +84,8 @@ ty:
     { TyCon(t, l) }
   | t1=located(ty) RARROW t2=located(ty)
     { TyArrow (t1,t2) }
-  (*| l=[located(ty),separated_nonempty_list(MULT, located(ty))]
-    { TyTuple([t|l]) }*)
+  | t1=located(ty) MULT t2=located(ty)
+    { TyTuple(t1::[t2]) }
   | t=typevar 
     { TyVar t }
 
@@ -129,15 +132,12 @@ expression:
 
 
 (*----------------------PATTERN--------------------------*)
-patternList:
-    l=separated_list(COMMA, located(pattern))
-    {
-      PTuple(l)
-    }
 
 pattern:
     id=located(identifier)    { PVariable(id) }
   | WILDCARD                  { PWildcard }
+  | LPAR l=separated_nonempty_list(COMMA, located(pattern)) RPAR
+    { PTuple (l) }
 
 (*---------------------- FINAL --------------------------*)
 literal:
