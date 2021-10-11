@@ -12,13 +12,17 @@
 %token <char> CHAR
 %token COMMA COLONLINE AND DOT FOR FROM TO IN
 %token LPAR RPAR LBRACK RBRACK LSQR RSQR 
-%token LET FUN EXTERN WILDCARD TYPE
-%token PLUS MINUS DIV  MULT EQUALS INF SUP PIPE SUPIDOT INFIDOT EDOT IDOT
-%token IF THEN ELSE TRUE FALSE
+%token LET FUN EXTERN WILDCARD TYPE EDOT IDOT
+%token PLUS MINUS DIV MULT SUPIDOT INFIDOT EQUALS INF SUP PIPE
+%token IF THEN ELSE OPAND OPOR EQIDOT SUPEQIDOT INFEQIDOT DOUBLEDOTEQ
 %token RARROW WHILE
 
 %start<HopixAST.t> program
 
+%left PLUS
+%left RARROW
+%left EDOT
+%nonassoc MULT
 
 %%
 
@@ -113,6 +117,24 @@ expression:
       { Field (e, l) }
     | e1=located(expression) PLUS e2=located(expression)
       { Apply (e1, e2) }
+    | e1=located(expression) MINUS e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) DIV e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) MULT e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) OPAND e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) OPOR e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) SUPIDOT e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) INFIDOT e2=located(expression)
+      { Apply (e1, e2) } 
+    | e1=located(expression) DOUBLEDOTEQ e2=located(expression)
+      { Apply (e1, e2) }     
+    | EDOT e1=located(expression)
+      { Read(e1) }
     | LPAR l=separated_list(COMMA,located(expression)) RPAR
       {
         Tuple (l)

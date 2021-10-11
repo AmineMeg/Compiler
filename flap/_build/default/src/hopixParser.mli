@@ -6,10 +6,10 @@ type token =
   | WHILE
   | TYPE
   | TVAR of (string)
-  | TRUE
   | TO
   | THEN
   | SUPIDOT
+  | SUPEQIDOT
   | SUP
   | STRING of (string)
   | RSQR
@@ -18,6 +18,8 @@ type token =
   | RARROW
   | PLUS
   | PIPE
+  | OPOR
+  | OPAND
   | MULT
   | MINUS
   | LSQR
@@ -26,6 +28,7 @@ type token =
   | LBRACK
   | INT of (Mint.t)
   | INFIDOT
+  | INFEQIDOT
   | INF
   | IN
   | IF
@@ -34,12 +37,13 @@ type token =
   | FUN
   | FROM
   | FOR
-  | FALSE
   | EXTERN
   | EQUALS
+  | EQIDOT
   | EOF
   | ELSE
   | EDOT
+  | DOUBLEDOTEQ
   | DOT
   | DIV
   | COMMA

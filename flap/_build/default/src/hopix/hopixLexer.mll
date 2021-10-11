@@ -53,6 +53,7 @@ let atom = ['\000' - '\127']
 
 let character_speciaux = ['\\' ''' '"' 'n' 't' 'b' 'r']
 
+
 rule token = parse
   | "="               { EQUALS                      }
   | "\'"              { char(Buffer.create 2) lexbuf   }
@@ -69,6 +70,7 @@ rule token = parse
   | "<"               { INF }
   | ">"               { SUP }
   | "<?"              { SUPIDOT                     }
+  | ":="              { DOUBLEDOTEQ }
   | ">?"              { INFIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
@@ -82,6 +84,11 @@ rule token = parse
   | "/"               { DIV }
   | "*"               { MULT }
   | "|"               { PIPE }
+  | "||"              { OPOR }
+  | "&&"              { OPAND }
+  | "=?"              { EQIDOT }
+  | "<=?"             { INFEQIDOT }  
+  | ">=?"             { SUPEQIDOT }
   | "for"             { FOR }
   | "in"              { IN }
   | "from"            { FROM }
