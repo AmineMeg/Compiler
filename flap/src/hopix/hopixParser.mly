@@ -13,11 +13,15 @@
 %token COMMA COLONLINE AND DOT FOR FROM TO IN
 %token LPAR RPAR LBRACK RBRACK LSQR RSQR 
 %token LET FUN EXTERN WILDCARD TYPE
-%token PLUS MINUS DIV MULT EQUALS INF SUP PIPE
+%token PLUS MINUS DIV  MULT EQUALS INF SUP PIPE
 %token IF THEN ELSE TRUE FALSE
-%token RARROW
+%token RARROW WHILE
 
 %start<HopixAST.t> program
+
+%left PLUS
+%left RARROW
+%nonassoc MULT
 
 %%
 
@@ -39,6 +43,9 @@ def:
   | EXTERN id=located(identifier) COLONLINE ts=located(tscheme)
     { DeclareExtern (id,ts) }
   | v = vdef { DefineValue v }
+  | error 
+    {let pos = Position.lex_join $startpos $endpos in
+    Error.error "parsing" pos "Syntax error."}
 
 tdef:
     PIPE? l=separated_list(PIPE, 
@@ -54,6 +61,7 @@ tdef:
     RBRACK))
     { DefineRecordType (l) }
 
+
 vdef:
     LET x=located(identifier) 
     t=option(preceded(COLONLINE,located(tscheme))) 
@@ -65,6 +73,8 @@ vdef:
     {
       RecFunctions(l)
     }
+ 
+
 
 fundef: 
     id=located(identifier) LPAR p=located(patternList) RPAR EQUALS e=located(expression)
@@ -81,15 +91,19 @@ ty:
     { TyCon(t, l) }
   | t1=located(ty) RARROW t2=located(ty)
     { TyArrow (t1,t2) }
-  (*| l=[located(ty),separated_nonempty_list(MULT, located(ty))]
-    { TyTuple([t|l]) }*)
+  | l1=located(ty) MULT l=located(ty)
+    { TyTuple(l1::[l]) }
   | t=typevar 
     { TyVar t }
+ 
+
 
 tscheme:
     l=loption(delimited(LSQR,nonempty_list(located(typevar)),
     RSQR)) t=located(ty)
     {  ForallTy (l,t) }
+
+
 
 (*----------------------EXPRESSION--------------------------*)
 expression:
@@ -117,15 +131,20 @@ expression:
       {
         IfThenElse (e1, e2, e3)
       }
-    | FOR vID=located(identifier)
-      FROM 
-      LPAR e1=located(expression) RPAR
+    | WHILE LPAR e1=located(expression) RPAR 
+      LBRACK e2=located(expression) RBRACK
+      {
+        While(e1, e2)
+      }
+    | FOR vID=located(identifier) 
+      FROM LPAR e1=located(expression) RPAR
       TO 
       LPAR e2=located(expression) RPAR 
       LBRACK e3=located(expression) RBRACK
       {
         For(vID, e1, e2, e3)
       }
+  
 
 
 (*----------------------PATTERN--------------------------*)
@@ -134,35 +153,48 @@ patternList:
     {
       PTuple(l)
     }
+ 
 
 pattern:
     id=located(identifier)    { PVariable(id) }
   | WILDCARD                  { PWildcard }
+  
+
 
 (*---------------------- FINAL --------------------------*)
 literal:
     i=INT     { LInt i }
   | c=CHAR    { LChar c }
   | s=STRING  { LString s }
+  
 
 identifier:
     id=ID { Id id }
   
+  
 constructor:
     c=CID { KId c }
+ 
+
 
 typecons:
     t=ID { TCon t }
+ 
 
 typevar:
     v=TVAR { TId v }
+ 
+
 
 label:
     l=ID { LId l }
+ 
 
 %inline located(X): x=X {
   Position.with_poss $startpos $endpos x
 }
+
+
 
 (* pour faire tourner les tests : dans tests : make "nom du test"*)
 (* dans l'enoncé : dune exec ./src/flap.exe *)
