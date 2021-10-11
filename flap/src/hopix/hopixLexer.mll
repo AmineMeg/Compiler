@@ -57,7 +57,8 @@ let bool = ("True" | "False")
 
 rule token = parse
   | "="               { EQUALS                      }
-  | "\'"              { char(Buffer.create 2) lexbuf}
+  | "\'"              { char(Buffer.create 2) lexbuf   }
+  | "\""              { string(Buffer.create 32) lexbuf}
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
@@ -79,6 +80,10 @@ rule token = parse
   | "/"               { DIV }
   | "*"               { MULT }
   | "|"               { PIPE }
+  | "for"             { FOR }
+  | "in"              { IN }
+  | "from"            { FROM }
+  | "to"              { TO }
   | "if"              { IF }
   | "then"            { THEN }
   | "else"            { ELSE }
@@ -99,6 +104,17 @@ rule token = parse
   | _                 { error lexbuf "unexpected character." }
 
 
+and string buffer = parse
+|'"'                                { STRING (Buffer.contents buffer) }
+|'\n'                               { new_line lexbuf; Buffer.add_char buffer '\n'; string buffer lexbuf}
+|'\\' (ascii as ch)                 { Buffer.add_char buffer (Char.chr(int_of_string(ch))); string buffer lexbuf}
+|'\\' (character_speciaux as ch)    { Buffer.add_char buffer (spe_char_switch ch); string buffer lexbuf}
+|'\\' (digit digit digit as asc)    { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); string buffer lexbuf}
+|'\\' (layout)                      { string buffer lexbuf }
+| _ as ch                           { Buffer.add_char buffer ch; string buffer lexbuf}
+| eof                               { error lexbuf "caractere non fini"}
+
+
 and char buffer = parse 
 |'\''                               { incr taille_char; if !taille_char = !longueur then CHAR (Buffer.nth buffer 0) else error lexbuf "unexpected character."}   
 |'\n'                               { new_line lexbuf; Buffer.add_char buffer '\n'; incr longueur; char buffer lexbuf}                                                   
@@ -107,4 +123,4 @@ and char buffer = parse
 | '\\' (digit digit digit as asc)   { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); incr longueur; char buffer lexbuf }
 | '\\' (layout)                     { char buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; incr longueur; char buffer lexbuf }
-| eof                               { error lexbuf "caractère non fini" }                   
+| eof                               { error lexbuf "caractère non fini" }                           
