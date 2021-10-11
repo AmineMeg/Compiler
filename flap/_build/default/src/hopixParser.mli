@@ -3,11 +3,13 @@
 
 type token = 
   | WILDCARD
+  | WHILE
   | TYPE
   | TVAR of (string)
   | TRUE
   | TO
   | THEN
+  | SUPIDOT
   | SUP
   | STRING of (string)
   | RSQR
@@ -23,9 +25,11 @@ type token =
   | LET
   | LBRACK
   | INT of (Mint.t)
+  | INFIDOT
   | INF
   | IN
   | IF
+  | IDOT
   | ID of (string)
   | FUN
   | FROM
@@ -35,6 +39,7 @@ type token =
   | EQUALS
   | EOF
   | ELSE
+  | EDOT
   | DOT
   | DIV
   | COMMA

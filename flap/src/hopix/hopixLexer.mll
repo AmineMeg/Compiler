@@ -53,8 +53,6 @@ let atom = ['\000' - '\127']
 
 let character_speciaux = ['\\' ''' '"' 'n' 't' 'b' 'r']
 
-let bool = ("True" | "False")
-
 rule token = parse
   | "="               { EQUALS                      }
   | "\'"              { char(Buffer.create 2) lexbuf   }
@@ -70,9 +68,13 @@ rule token = parse
   | "]"               { RSQR }
   | "<"               { INF }
   | ">"               { SUP }
+  | "<?"              { SUPIDOT                     }
+  | ">?"              { INFIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
   | "."               { DOT }
+  | "!"               { EDOT  }
+  | "?"               { IDOT}
   | "_"               { WILDCARD                    }
   | "and"             { AND                         }
   | "+"               { PLUS }
@@ -88,6 +90,7 @@ rule token = parse
   | "then"            { THEN }
   | "else"            { ELSE }
   | "type"            { TYPE }
+  | "while"           { WHILE }
   | "->"              { RARROW }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
