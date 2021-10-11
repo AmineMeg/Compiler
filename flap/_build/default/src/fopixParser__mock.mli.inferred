@@ -1,0 +1,69 @@
+type token =
+    WITH
+  | WHILE
+  | VAL
+  | UPPERSAND
+  | THEN
+  | SWITCH
+  | STAR
+  | SLASH
+  | SEMICOLON
+  | RPAREN
+  | RBRACKET
+  | PLUS
+  | PIPE
+  | ORELSE
+  | MINUS
+  | LTE
+  | LT
+  | LPAREN
+  | LOR
+  | LBRACKET
+  | LAND
+  | INT of int64
+  | IN
+  | IF
+  | ID of string
+  | GTE
+  | GT
+  | EXTERNAL
+  | EVAL
+  | EQUAL
+  | EQ
+  | EOF
+  | END
+  | ELSE
+  | DO
+  | DEF
+  | COMMA
+  | COLON
+  | CALL
+  | BANG
+  | ASSIGNS
+val menhir_begin_marker : int
+val xv_separated_nonempty_list_PIPE_optional_case_ :
+  FopixAST.expression option list
+val xv_separated_nonempty_list_COMMA_located_expression__ :
+  FopixAST.expression list
+val xv_separated_nonempty_list_COMMA_identifier_ : FopixAST.formals
+val xv_separated_list_PIPE_optional_case_ : FopixAST.expression option list
+val xv_separated_list_COMMA_located_expression__ : FopixAST.expression list
+val xv_separated_list_COMMA_identifier_ : FopixAST.formals
+val xv_program : FopixAST.t
+val xv_optional_case : FopixAST.expression option
+val xv_loption_separated_nonempty_list_PIPE_optional_case__ :
+  FopixAST.expression option list
+val xv_loption_separated_nonempty_list_COMMA_located_expression___ :
+  FopixAST.expression list
+val xv_loption_separated_nonempty_list_COMMA_identifier__ : FopixAST.formals
+val xv_located_identifier_ : FopixAST.identifier
+val xv_located_function_identifier_ : FopixAST.function_identifier
+val xv_located_expression_ : FopixAST.expression
+val xv_literal : FopixAST.literal
+val xv_list_definition_ : FopixAST.t
+val xv_identifier : FopixAST.identifier
+val xv_function_identifier : FopixAST.function_identifier
+val xv_expression : FopixAST.expression
+val xv_definition : FopixAST.definition
+val xv_binop : string
+val menhir_end_marker : int
