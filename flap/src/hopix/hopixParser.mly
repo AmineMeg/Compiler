@@ -9,7 +9,8 @@
 %token EOF
 %token <Mint.t> INT
 %token <string> ID STRING CID TVAR
-%token COMMA COLONLINE AND DOT
+%token <char> CHAR
+%token COMMA COLONLINE AND DOT FOR FROM TO IN
 %token LPAR RPAR LBRACK RBRACK LSQR RSQR 
 %token LET FUN EXTERN WILDCARD TYPE
 %token PLUS MINUS DIV MULT EQUALS INF SUP PIPE
@@ -116,6 +117,15 @@ expression:
       {
         IfThenElse (e1, e2, e3)
       }
+    | FOR vID=located(identifier)
+      FROM 
+      LPAR e1=located(expression) RPAR
+      TO 
+      LPAR e2=located(expression) RPAR 
+      LBRACK e3=located(expression) RBRACK
+      {
+        For(vID, e1, e2, e3)
+      }
 
 
 (*----------------------PATTERN--------------------------*)
@@ -132,7 +142,8 @@ pattern:
 (*---------------------- FINAL --------------------------*)
 literal:
     i=INT     { LInt i }
-  | TRUE  { LBool true }
+  | c=CHAR    { LChar c }
+  | s=STRING  { LString s }
 
 identifier:
     id=ID { Id id }
@@ -152,7 +163,6 @@ label:
 %inline located(X): x=X {
   Position.with_poss $startpos $endpos x
 }
-
 
 (* pour faire tourner les tests : dans tests : make "nom du test"*)
 (* dans l'enoncé : dune exec ./src/flap.exe *)
