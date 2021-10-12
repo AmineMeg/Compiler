@@ -1,2 +1,1 @@
-Line 1, characters 14-15: Error (parsing)
-  Syntax error.
+let zero = id 0

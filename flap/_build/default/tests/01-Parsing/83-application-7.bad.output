@@ -1,2 +1,2 @@
-Line 1, characters 30-31: Error (parsing)
-  Syntax error.
+Line 1, characters 60-60: Error (during lexing)
+  caractere non fini

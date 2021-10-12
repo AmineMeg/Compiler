@@ -1,2 +1,1 @@
-Line 1, characters 13-14: Error (parsing)
-  Syntax error.
+let x = (foo (0; (bar 0))); (baz 0)

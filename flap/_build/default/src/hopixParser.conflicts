@@ -1,10 +1,140 @@
 
-** Conflict (shift/reduce) in state 216.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** Conflict (shift/reduce) in state 329.
+** Tokens involved: RARROW MULT
+** The following explanations concentrate on token RARROW.
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS IF expression THEN expression ELSE expression
+EXTERN identifier COLONLINE loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty MULT ty
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+EXTERN identifier COLONLINE tscheme 
+                            loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty 
+                                                                                          (?)
+
+** In state 329, looking ahead at RARROW, shifting is permitted
+** because of the following sub-derivation:
+
+ty MULT ty 
+        ty . RARROW ty 
+
+** In state 329, looking ahead at RARROW, reducing production
+** ty -> ty MULT ty
+** is permitted because of the following sub-derivation:
+
+ty RARROW ty // lookahead token appears
+ty MULT ty . 
+
+** Conflict (shift/reduce) in state 327.
+** Tokens involved: RARROW MULT
+** The following explanations concentrate on token RARROW.
+** This state is reached from program after reading:
+
+EXTERN identifier COLONLINE loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty RARROW ty
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+EXTERN identifier COLONLINE tscheme 
+                            loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty 
+                                                                                          (?)
+
+** In state 327, looking ahead at RARROW, shifting is permitted
+** because of the following sub-derivation:
+
+ty RARROW ty 
+          ty . RARROW ty 
+
+** In state 327, looking ahead at RARROW, reducing production
+** ty -> ty RARROW ty
+** is permitted because of the following sub-derivation:
+
+ty RARROW ty // lookahead token appears
+ty RARROW ty . 
+
+** Conflict (shift/reduce) in state 308.
+** Tokens involved: LET FUN
+** The following explanations concentrate on token LET.
+** This state is reached from program after reading:
+
+FUN identifier option(preceded(COLONLINE,located(tscheme))) pattern EQUALS expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+(?)
+
+** In state 308, looking ahead at LET, reducing production
+** fundef -> pattern EQUALS expression
+** is permitted because of the following sub-derivation:
+
+def list(located(def)) // lookahead token appears because list(located(def)) can begin with LET
+vdef // lookahead token is inherited
+FUN separated_nonempty_list(AND,fundef_aux) // lookahead token is inherited
+    fundef_aux // lookahead token is inherited
+    identifier option(preceded(COLONLINE,located(tscheme))) fundef // lookahead token is inherited
+                                                            pattern EQUALS expression . 
+
+** In state 308, looking ahead at LET, shifting is permitted
+** because of the following sub-derivation:
+
+def list(located(def)) 
+vdef 
+FUN separated_nonempty_list(AND,fundef_aux) 
+    fundef_aux 
+    identifier option(preceded(COLONLINE,located(tscheme))) fundef 
+                                                            pattern EQUALS expression 
+                                                                           expression expression 
+                                                                                      vdef SEMICOLON expression 
+                                                                                      . LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+
+** Conflict (shift/reduce) in state 301.
+** Tokens involved: LET FUN
+** The following explanations concentrate on token LET.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+(?)
+
+** In state 301, looking ahead at LET, shifting is permitted
+** because of the following sub-derivation:
+
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   expression expression 
+                                                                              vdef SEMICOLON expression 
+                                                                              . LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+
+** In state 301, looking ahead at LET, reducing production
+** vdef -> LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression
+** is permitted because of the following sub-derivation:
+
+def list(located(def)) // lookahead token appears because list(located(def)) can begin with LET
+vdef // lookahead token is inherited
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression . 
+
+** Conflict (shift/reduce) in state 300.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS REF expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -16,292 +146,23 @@ vdef
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
                                                                    (?)
 
-** In state 216, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-IF expression THEN expression ELSE expression 
-                                   expression . SUPIDOT expression 
-
-** In state 216, looking ahead at SUPIDOT, reducing production
-** expression -> IF expression THEN expression ELSE expression
+** In state 300, looking ahead at WHILE, reducing production
+** expression -> REF expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-IF expression THEN expression ELSE expression . 
+expression expression // lookahead token appears because expression can begin with WHILE
+REF expression . 
 
-** Conflict (shift/reduce) in state 209.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression DIV expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 209, looking ahead at SUPIDOT, reducing production
-** expression -> expression DIV expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression DIV expression . 
-
-** In state 209, looking ahead at SUPIDOT, shifting is permitted
+** In state 300, looking ahead at WHILE, shifting is permitted
 ** because of the following sub-derivation:
 
-expression DIV expression 
-               expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 204.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression DOUBLEDOTEQ expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 204, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression DOUBLEDOTEQ expression 
-                       expression . SUPIDOT expression 
-
-** In state 204, looking ahead at SUPIDOT, reducing production
-** expression -> expression DOUBLEDOTEQ expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression DOUBLEDOTEQ expression . 
-
-** Conflict (shift/reduce) in state 202.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression INFIDOT expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 202, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression INFIDOT expression 
-                   expression . SUPIDOT expression 
-
-** In state 202, looking ahead at SUPIDOT, reducing production
-** expression -> expression INFIDOT expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression INFIDOT expression . 
-
-** Conflict (shift/reduce) in state 200.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression MINUS expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 200, looking ahead at SUPIDOT, reducing production
-** expression -> expression MINUS expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression MINUS expression . 
-
-** In state 200, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression MINUS expression 
-                 expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 198.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression MULT expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 198, looking ahead at SUPIDOT, reducing production
-** expression -> expression MULT expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression MULT expression . 
-
-** In state 198, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression MULT expression 
-                expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 196.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression OPAND expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 196, looking ahead at SUPIDOT, reducing production
-** expression -> expression OPAND expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression OPAND expression . 
-
-** In state 196, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression OPAND expression 
-                 expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 194.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression OPOR expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 194, looking ahead at SUPIDOT, reducing production
-** expression -> expression OPOR expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression OPOR expression . 
-
-** In state 194, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression OPOR expression 
-                expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 192.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression PLUS expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 192, looking ahead at SUPIDOT, reducing production
-** expression -> expression PLUS expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression PLUS expression . 
-
-** In state 192, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression PLUS expression 
-                expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 190.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression SUPIDOT expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   (?)
-
-** In state 190, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression SUPIDOT expression 
-                   expression . SUPIDOT expression 
-
-** In state 190, looking ahead at SUPIDOT, reducing production
-** expression -> expression SUPIDOT expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression SUPIDOT expression . 
-
-** Conflict (shift/reduce) in state 188.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+REF expression 
+    expression expression 
+               . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 299.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS EDOT expression
@@ -316,25 +177,26 @@ vdef
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
                                                                    (?)
 
-** In state 188, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-EDOT expression 
-     expression . SUPIDOT expression 
-
-** In state 188, looking ahead at SUPIDOT, reducing production
+** In state 299, looking ahead at WHILE, reducing production
 ** expression -> EDOT expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
+expression expression // lookahead token appears because expression can begin with WHILE
 EDOT expression . 
 
-** Conflict (shift/reduce) in state 136.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** In state 299, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+EDOT expression 
+     expression expression 
+                . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 298.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR IF expression THEN expression ELSE expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS ANSLASH pattern RARROW expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -344,30 +206,27 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
+                                                                   (?)
 
-** In state 136, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-IF expression THEN expression ELSE expression 
-                                   expression . SUPIDOT expression 
-
-** In state 136, looking ahead at SUPIDOT, reducing production
-** expression -> IF expression THEN expression ELSE expression
+** In state 298, looking ahead at WHILE, reducing production
+** expression -> ANSLASH pattern RARROW expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-IF expression THEN expression ELSE expression . 
+expression expression // lookahead token appears because expression can begin with WHILE
+ANSLASH pattern RARROW expression . 
 
-** Conflict (shift/reduce) in state 112.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** In state 298, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+ANSLASH pattern RARROW expression 
+                       expression expression 
+                                  . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 293.
+** Token involved: LPAR
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression DIV expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -377,30 +236,28 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
+                                                                   (?)
 
-** In state 112, looking ahead at SUPIDOT, reducing production
-** expression -> expression DIV expression
+** In state 293, looking ahead at LPAR, reducing production
+** loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) ->
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-expression DIV expression . 
+expression expression // lookahead token appears because expression can begin with LPAR
+constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP)) loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) // lookahead token is inherited
+                                                                         . 
 
-** In state 112, looking ahead at SUPIDOT, shifting is permitted
+** In state 293, looking ahead at LPAR, shifting is permitted
 ** because of the following sub-derivation:
 
-expression DIV expression 
-               expression . SUPIDOT expression 
+constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP)) loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) 
+                                                                         . LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
 
-** Conflict (shift/reduce) in state 108.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** Conflict (shift/reduce) in state 291.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression DOUBLEDOTEQ expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -410,30 +267,59 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
+                                                                   (?)
 
-** In state 108, looking ahead at SUPIDOT, shifting is permitted
+** In state 291, looking ahead at WHILE, reducing production
+** expression -> expression expression
+** is permitted because of the following sub-derivation:
+
+expression expression // lookahead token appears because expression can begin with WHILE
+expression expression . 
+
+** In state 291, looking ahead at WHILE, shifting is permitted
 ** because of the following sub-derivation:
 
-expression DOUBLEDOTEQ expression 
-                       expression . SUPIDOT expression 
+expression expression 
+           expression expression 
+                      . WHILE LPAR expression RPAR LBRACK expression RBRACK 
 
-** In state 108, looking ahead at SUPIDOT, reducing production
+** Conflict (shift/reduce) in state 287.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression DOUBLEDOTEQ expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   (?)
+
+** In state 287, looking ahead at WHILE, reducing production
 ** expression -> expression DOUBLEDOTEQ expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
+expression expression // lookahead token appears because expression can begin with WHILE
 expression DOUBLEDOTEQ expression . 
 
-** Conflict (shift/reduce) in state 106.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** In state 287, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+expression DOUBLEDOTEQ expression 
+                       expression expression 
+                                  . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 285.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression INFIDOT expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS vdef SEMICOLON expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -443,30 +329,27 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
+                                                                   (?)
 
-** In state 106, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression INFIDOT expression 
-                   expression . SUPIDOT expression 
-
-** In state 106, looking ahead at SUPIDOT, reducing production
-** expression -> expression INFIDOT expression
+** In state 285, looking ahead at WHILE, reducing production
+** expression -> vdef SEMICOLON expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-expression INFIDOT expression . 
+expression expression // lookahead token appears because expression can begin with WHILE
+vdef SEMICOLON expression . 
 
-** Conflict (shift/reduce) in state 104.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** In state 285, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+vdef SEMICOLON expression 
+               expression expression 
+                          . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 236.
+** Token involved: RPAR
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression MINUS expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -476,30 +359,26 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
+                                                                   (?)
 
-** In state 104, looking ahead at SUPIDOT, reducing production
-** expression -> expression MINUS expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression MINUS expression . 
-
-** In state 104, looking ahead at SUPIDOT, shifting is permitted
+** In state 236, looking ahead at RPAR, shifting is permitted
 ** because of the following sub-derivation:
 
-expression MINUS expression 
-                 expression . SUPIDOT expression 
+LPAR expression . RPAR 
 
-** Conflict (shift/reduce) in state 102.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** In state 236, looking ahead at RPAR, reducing production
+** separated_nonempty_list(COMMA,located(expression)) -> expression
+** is permitted because of the following sub-derivation:
+
+LPAR separated_nonempty_list(COMMA,located(expression)) RPAR // lookahead token appears
+     expression . 
+
+** Conflict (shift/reduce) in state 200.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression MULT expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR REF expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -509,30 +388,28 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
+                                                                   LPAR expression RPAR 
                                                                         (?)
 
-** In state 102, looking ahead at SUPIDOT, reducing production
-** expression -> expression MULT expression
+** In state 200, looking ahead at WHILE, reducing production
+** expression -> REF expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-expression MULT expression . 
+expression expression // lookahead token appears because expression can begin with WHILE
+REF expression . 
 
-** In state 102, looking ahead at SUPIDOT, shifting is permitted
+** In state 200, looking ahead at WHILE, shifting is permitted
 ** because of the following sub-derivation:
 
-expression MULT expression 
-                expression . SUPIDOT expression 
+REF expression 
+    expression expression 
+               . WHILE LPAR expression RPAR LBRACK expression RBRACK 
 
-** Conflict (shift/reduce) in state 100.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** Conflict (shift/reduce) in state 195.
+** Token involved: RPAR
 ** This state is reached from program after reading:
 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression OPAND expression
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR LPAR expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
@@ -542,126 +419,24 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
+                                                                   LPAR expression RPAR 
                                                                         (?)
 
-** In state 100, looking ahead at SUPIDOT, reducing production
-** expression -> expression OPAND expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression OPAND expression . 
-
-** In state 100, looking ahead at SUPIDOT, shifting is permitted
+** In state 195, looking ahead at RPAR, shifting is permitted
 ** because of the following sub-derivation:
 
-expression OPAND expression 
-                 expression . SUPIDOT expression 
+LPAR expression . RPAR 
 
-** Conflict (shift/reduce) in state 98.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression OPOR expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
-
-** In state 98, looking ahead at SUPIDOT, reducing production
-** expression -> expression OPOR expression
+** In state 195, looking ahead at RPAR, reducing production
+** separated_nonempty_list(COMMA,located(expression)) -> expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
-expression OPOR expression . 
+LPAR separated_nonempty_list(COMMA,located(expression)) RPAR // lookahead token appears
+     expression . 
 
-** In state 98, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression OPOR expression 
-                expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 96.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression PLUS expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
-
-** In state 96, looking ahead at SUPIDOT, reducing production
-** expression -> expression PLUS expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression PLUS expression . 
-
-** In state 96, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression PLUS expression 
-                expression . SUPIDOT expression 
-
-** Conflict (shift/reduce) in state 94.
-** Tokens involved: SUPIDOT PLUS OPOR OPAND MULT MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
-** This state is reached from program after reading:
-
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression SUPIDOT expression
-
-** The derivations that appear below have the following common factor:
-** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
-
-program 
-list(located(def)) EOF 
-def list(located(def)) 
-vdef 
-LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
-                                                                        (?)
-
-** In state 94, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-expression SUPIDOT expression 
-                   expression . SUPIDOT expression 
-
-** In state 94, looking ahead at SUPIDOT, reducing production
-** expression -> expression SUPIDOT expression
-** is permitted because of the following sub-derivation:
-
-expression SUPIDOT expression // lookahead token appears
-expression SUPIDOT expression . 
-
-** Conflict (shift/reduce) in state 92.
-** Tokens involved: SUPIDOT OPOR OPAND MINUS INFIDOT DOUBLEDOTEQ DOT DIV
-** The following explanations concentrate on token SUPIDOT.
+** Conflict (shift/reduce) in state 164.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR EDOT expression
@@ -674,50 +449,242 @@ list(located(def)) EOF
 def list(located(def)) 
 vdef 
 LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
-                                                                   LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
-                                                                        separated_nonempty_list(COMMA,located(expression)) 
-                                                                        expression 
+                                                                   LPAR expression RPAR 
                                                                         (?)
 
-** In state 92, looking ahead at SUPIDOT, shifting is permitted
-** because of the following sub-derivation:
-
-EDOT expression 
-     expression . SUPIDOT expression 
-
-** In state 92, looking ahead at SUPIDOT, reducing production
+** In state 164, looking ahead at WHILE, reducing production
 ** expression -> EDOT expression
 ** is permitted because of the following sub-derivation:
 
-expression SUPIDOT expression // lookahead token appears
+expression expression // lookahead token appears because expression can begin with WHILE
 EDOT expression . 
 
-** Conflict (reduce/reduce) in state 13.
-** Tokens involved: error TYPE LET FUN EXTERN EOF
-** The following explanations concentrate on token error.
+** In state 164, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+EDOT expression 
+     expression expression 
+                . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 163.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
 ** This state is reached from program after reading:
 
-TYPE typecons loption(delimited(INF,separated_nonempty_list(COMMA,located(typevar)),SUP)) EQUALS
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR ANSLASH pattern RARROW expression
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
 
 program 
 list(located(def)) EOF 
-def list(located(def)) // lookahead token appears because list(located(def)) can begin with error
-TYPE typecons loption(delimited(INF,separated_nonempty_list(COMMA,located(typevar)),SUP)) EQUALS tdef // lookahead token is inherited
-                                                                                                 (?)
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   LPAR expression RPAR 
+                                                                        (?)
 
-** In state 13, looking ahead at error, reducing production
-** loption(delimited(LBRACK,separated_nonempty_list(COMMA,separated_pair(located(label),COLONLINE,located(ty))),RBRACK)) ->
+** In state 163, looking ahead at WHILE, reducing production
+** expression -> ANSLASH pattern RARROW expression
 ** is permitted because of the following sub-derivation:
 
-loption(delimited(LBRACK,separated_nonempty_list(COMMA,separated_pair(located(label),COLONLINE,located(ty))),RBRACK)) // lookahead token is inherited
-. 
+expression expression // lookahead token appears because expression can begin with WHILE
+ANSLASH pattern RARROW expression . 
 
-** In state 13, looking ahead at error, reducing production
-** option(PIPE) ->
+** In state 163, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+ANSLASH pattern RARROW expression 
+                       expression expression 
+                                  . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 154.
+** Token involved: LPAR
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   LPAR expression RPAR 
+                                                                        (?)
+
+** In state 154, looking ahead at LPAR, reducing production
+** loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) ->
 ** is permitted because of the following sub-derivation:
 
-option(PIPE) loption(separated_nonempty_list(PIPE,pair(located(constructor),loption(delimited(LPAR,separated_nonempty_list(COMMA,located(ty)),RPAR))))) // lookahead token is inherited because loption(separated_nonempty_list(PIPE,pair(located(constructor),loption(delimited(LPAR,separated_nonempty_list(COMMA,located(ty)),RPAR))))) can vanish
-. 
+expression expression // lookahead token appears because expression can begin with LPAR
+constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP)) loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) // lookahead token is inherited
+                                                                         . 
+
+** In state 154, looking ahead at LPAR, shifting is permitted
+** because of the following sub-derivation:
+
+constructor option(delimited(INF,separated_list(COMMA,located(ty)),SUP)) loption(delimited(LPAR,separated_list(COMMA,located(expression)),RPAR)) 
+                                                                         . LPAR loption(separated_nonempty_list(COMMA,located(expression))) RPAR 
+
+** Conflict (shift/reduce) in state 152.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   LPAR expression RPAR 
+                                                                        (?)
+
+** In state 152, looking ahead at WHILE, reducing production
+** expression -> expression expression
+** is permitted because of the following sub-derivation:
+
+expression expression // lookahead token appears because expression can begin with WHILE
+expression expression . 
+
+** In state 152, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+expression expression 
+           expression expression 
+                      . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 149.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR expression DOUBLEDOTEQ expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   LPAR expression RPAR 
+                                                                        (?)
+
+** In state 149, looking ahead at WHILE, reducing production
+** expression -> expression DOUBLEDOTEQ expression
+** is permitted because of the following sub-derivation:
+
+expression expression // lookahead token appears because expression can begin with WHILE
+expression DOUBLEDOTEQ expression . 
+
+** In state 149, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+expression DOUBLEDOTEQ expression 
+                       expression expression 
+                                  . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 147.
+** Tokens involved: WHILE SWITCH STRING REF LPAR LET LBRACK INT IF ID FUN FOR EDOT DOUBLEDOTEQ DOT CID CHAR ANSLASH
+** The following explanations concentrate on token WHILE.
+** This state is reached from program after reading:
+
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS LPAR vdef SEMICOLON expression
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+                                                                   LPAR expression RPAR 
+                                                                        (?)
+
+** In state 147, looking ahead at WHILE, reducing production
+** expression -> vdef SEMICOLON expression
+** is permitted because of the following sub-derivation:
+
+expression expression // lookahead token appears because expression can begin with WHILE
+vdef SEMICOLON expression . 
+
+** In state 147, looking ahead at WHILE, shifting is permitted
+** because of the following sub-derivation:
+
+vdef SEMICOLON expression 
+               expression expression 
+                          . WHILE LPAR expression RPAR LBRACK expression RBRACK 
+
+** Conflict (shift/reduce) in state 29.
+** Tokens involved: RARROW MULT
+** The following explanations concentrate on token RARROW.
+** This state is reached from program after reading:
+
+LET identifier COLONLINE loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty MULT ty
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+               COLONLINE tscheme 
+                         loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty 
+                                                                                       (?)
+
+** In state 29, looking ahead at RARROW, shifting is permitted
+** because of the following sub-derivation:
+
+ty MULT ty 
+        ty . RARROW ty 
+
+** In state 29, looking ahead at RARROW, reducing production
+** ty -> ty MULT ty
+** is permitted because of the following sub-derivation:
+
+ty RARROW ty // lookahead token appears
+ty MULT ty . 
+
+** Conflict (shift/reduce) in state 27.
+** Tokens involved: RARROW MULT
+** The following explanations concentrate on token RARROW.
+** This state is reached from program after reading:
+
+LET identifier COLONLINE loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty RARROW ty
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+list(located(def)) EOF 
+def list(located(def)) 
+vdef 
+LET identifier option(preceded(COLONLINE,located(tscheme))) EQUALS expression 
+               COLONLINE tscheme 
+                         loption(delimited(LSQR,nonempty_list(located(typevar)),RSQR)) ty 
+                                                                                       (?)
+
+** In state 27, looking ahead at RARROW, shifting is permitted
+** because of the following sub-derivation:
+
+ty RARROW ty 
+          ty . RARROW ty 
+
+** In state 27, looking ahead at RARROW, reducing production
+** ty -> ty RARROW ty
+** is permitted because of the following sub-derivation:
+
+ty RARROW ty // lookahead token appears
+ty RARROW ty . 

@@ -1,2 +1,4 @@
-Line 2, characters 9-10: Error (parsing)
-  Syntax error.
+let nest =
+  switch (bird) {
+  | Nest(Some(bird)) -> bird | Nest(None) -> nothing
+  }

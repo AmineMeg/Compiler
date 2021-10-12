@@ -1,2 +1,1 @@
-Line 1, characters 8-9: Error (during lexing)
-  unexpected character.
+let k = \ (x, y) -> x

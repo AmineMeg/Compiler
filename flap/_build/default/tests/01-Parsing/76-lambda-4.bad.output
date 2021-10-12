@@ -1,2 +1,2 @@
-Line 1, characters 11-12: Error (during lexing)
-  unexpected character.
+Line 1, characters 13-14: Error (parsing)
+  Syntax error.

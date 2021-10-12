@@ -1,2 +1,1 @@
-Line 2, characters 8-9: Error (parsing)
-  Syntax error.
+let what_is_in_the_box = switch (box) { | {box = box}  -> box }

@@ -1,2 +1,1 @@
-Line 1, characters 30-31: Error (parsing)
-  Syntax error.
+let invalid = "This is crazy" (0, 1, 3, "Stop this madness!")

@@ -1,2 +1,1 @@
-Line 1, characters 19-21: Error (parsing)
-  Syntax error.
+let compose = ((id id) (id id)) id

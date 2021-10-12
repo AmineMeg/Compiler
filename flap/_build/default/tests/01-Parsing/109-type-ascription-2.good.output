@@ -1,2 +1,1 @@
-Line 2, characters 5-6: Error (parsing)
-  Syntax error.
+let main = (0 : int)

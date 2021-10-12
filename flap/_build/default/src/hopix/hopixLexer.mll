@@ -61,6 +61,7 @@ rule token = parse
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
+  | "ref"             { REF }
   | "("               { LPAR                        }
   | ")"               { RPAR                        }
   | "{"               { LBRACK }
@@ -74,6 +75,7 @@ rule token = parse
   | ">?"              { INFIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
+  | ";"               { SEMICOLON }
   | "."               { DOT }
   | "!"               { EDOT  }
   | "?"               { IDOT}
@@ -82,10 +84,13 @@ rule token = parse
   | "+"               { PLUS }
   | "-"               { MINUS }
   | "/"               { DIV }
+  | "\\"              { ANSLASH }
   | "*"               { MULT }
   | "|"               { PIPE }
   | "||"              { OPOR }
   | "&&"              { OPAND }
+  | "|"               { POR }
+  | "&"               { PAND }
   | "=?"              { EQIDOT }
   | "<=?"             { INFEQIDOT }  
   | ">=?"             { SUPEQIDOT }
@@ -98,6 +103,7 @@ rule token = parse
   | "else"            { ELSE }
   | "type"            { TYPE }
   | "while"           { WHILE }
+  | "switch"          { SWITCH }
   | "->"              { RARROW }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
@@ -124,7 +130,12 @@ and string buffer = parse
 
 
 and char buffer = parse 
-|'\''                               { incr taille_char; if !taille_char = !longueur then CHAR (Buffer.nth buffer 0) else error lexbuf "unexpected character."}   
+|'\''                               
+  { incr taille_char; 
+    if !taille_char = !longueur 
+    then CHAR (Buffer.nth buffer 0) 
+    else error lexbuf "unexpected character."
+  }   
 |'\n'                               { new_line lexbuf; Buffer.add_char buffer '\n'; incr longueur; char buffer lexbuf}                                                   
 | '\\' (ascii as ch)                { Buffer.add_char buffer (Char.chr(int_of_string(ch))); incr longueur; char buffer lexbuf}
 | '\\' (character_speciaux as ch)   { Buffer.add_char buffer (spe_char_switch ch); incr longueur; char buffer lexbuf}

@@ -1,2 +1,6 @@
-Line 1, characters 40-41: Error (parsing)
-  Syntax error.
+let x =
+  pair <
+  pair<int, string>,
+  string
+  >
+  (Pair < int, string >(0, "Wou!"), "Wouha!")

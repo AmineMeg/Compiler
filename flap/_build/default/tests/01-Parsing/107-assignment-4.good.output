@@ -1,2 +1,1 @@
-Line 2, characters 2-3: Error (during lexing)
-  unexpected character.
+let main = \ x -> (x := 0)

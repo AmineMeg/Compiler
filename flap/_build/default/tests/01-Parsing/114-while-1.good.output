@@ -1,2 +1,1 @@
-Line 2, characters 25-26: Error (parsing)
-  Syntax error.
+let main = while (True) { nothing 0 }

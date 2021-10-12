@@ -1,2 +1,1 @@
-Line 2, characters 1-2: Error (parsing)
-  Syntax error.
+let double = (! ((! x)))

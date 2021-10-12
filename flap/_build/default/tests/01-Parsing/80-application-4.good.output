@@ -1,2 +1,1 @@
-Line 1, characters 10-11: Error (during lexing)
-  unexpected character.
+let eta = \ f -> (\ x -> (f x))

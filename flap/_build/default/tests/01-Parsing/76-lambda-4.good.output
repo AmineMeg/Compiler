@@ -1,2 +1,1 @@
-Line 1, characters 11-12: Error (during lexing)
-  unexpected character.
+let zero = \ _ -> 0

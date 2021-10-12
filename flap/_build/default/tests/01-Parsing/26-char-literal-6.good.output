@@ -1,2 +1,2 @@
-let x = '\r'
-let y = '\b'
+Line 2, characters 12-12: Error (parsing)
+  Syntax error.

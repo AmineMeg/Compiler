@@ -8,16 +8,21 @@ type token =
   | TVAR of (string)
   | TO
   | THEN
+  | SWITCH
   | SUPIDOT
   | SUPEQIDOT
   | SUP
   | STRING of (string)
+  | SEMICOLON
   | RSQR
   | RPAR
+  | REF
   | RBRACK
   | RARROW
+  | POR
   | PLUS
   | PIPE
+  | PAND
   | OPOR
   | OPAND
   | MULT
@@ -50,6 +55,7 @@ type token =
   | COLONLINE
   | CID of (string)
   | CHAR of (char)
+  | ANSLASH
   | AND
 
 (* This exception is raised by the monolithic API functions. *)

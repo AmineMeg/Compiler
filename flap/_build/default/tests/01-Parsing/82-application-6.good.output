@@ -1,2 +1,1 @@
-Line 1, characters 16-17: Error (parsing)
-  Syntax error.
+let bad_man = 0 0
