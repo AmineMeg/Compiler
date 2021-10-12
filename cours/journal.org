@@ -149,5 +149,11 @@
 ** Discussion sur le jalon 1
 ** Introduction à la sémantique et au typage
    Voir la première partie des
-   [[file:cours-04-à-06/cours-04-a-06-intro-semantique-typage.pdf][transparents]]
+   [[file:cours-04-à-06/cours-04-à-06-intro-semantique-typage.pdf][transparents]]
    dédiés.
+** Cours 05 <2021-10-12>
+   Voir la deuxième partie des
+   [[file:cours-04-à-06/cours-04-à-06-intro-semantique-typage.pdf][transparents]]
+   dédiés.
+
+   Le jalon 2 sera donné dans la semaine.
