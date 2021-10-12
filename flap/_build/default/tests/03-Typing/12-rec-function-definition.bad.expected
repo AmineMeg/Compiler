@@ -1,7 +1,0 @@
-Line 5, characters 11-12: Error (typechecking)
-  Type error:
-Expected:
-  int
-Given:
-  string
-

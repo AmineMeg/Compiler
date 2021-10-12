@@ -18,6 +18,13 @@
 
 %start<HopixAST.t> program
 
+%right SEMICOLON 
+%left REF
+%right RARROW
+%left DOUBLEDOTEQ
+%left MULT
+%right EDOT
+%left DOT
 
 
 %%
@@ -132,8 +139,8 @@ expression:
       { Define(v, e) }
     | ANSLASH p=located(pattern) RARROW e=located(expression)
       { Fun (FunctionDefinition(p,e)) }
-    | e1=located(expression) e2=located(expression)
-      { Apply (e1, e2) }  
+    (*| e1=located(expression) e2=located(expression)
+      { Apply (e1, e2) }*)
     | REF e=located(expression)
       { Ref(e) }
     | e1=located(expression) DOUBLEDOTEQ e2=located(expression)
@@ -165,15 +172,14 @@ expression:
       {
         For(vID, e1, e2, e3)
       }
-    | LPAR e=expression RPAR
-      { e }
     | LPAR e=located(expression) COLONLINE t=located(ty) RPAR
       { TypeAnnotation(e, t) }
     
 (*---------------- DEFINITIONS AUXILIAIRES --------------*)
 
-binop:
-    PLUS        {     }
+(*binop:
+    PLUS        { LString "+" }
+  | MINUS 
   | MINUS       {     }
   | MULT        {     }
   | DIV         {     }
@@ -184,7 +190,7 @@ binop:
   | SUPEQIDOT   {     }
   | INFIDOT     {     }
   | SUPIDOT     {     }
-  | DOUBLEDOTEQ {     }
+  | DOUBLEDOTEQ {     }*)
 
 branch:
     p=located(pattern) RARROW e=located(expression)
@@ -195,7 +201,7 @@ branch:
 pattern:
     id=located(identifier)    { PVariable(id) }
   | WILDCARD                  { PWildcard }
-  (*TODO :  PAS DE PARENTHESES A MATCH POUR TYPE ANNOTATION *)
+  (*TODO :  obligé de matcher les parenthèses *)
   | LPAR p=located(pattern) COLONLINE t=located(ty) RPAR
     { PTypeAnnotation(p,t) }
   | l=located(literal)
@@ -211,10 +217,10 @@ pattern:
     { PRecord (l1, l2) }
   | LPAR l=separated_nonempty_list(COMMA, located(pattern)) RPAR
     { PTuple (l) }
-    (* TODO : obligés de matcher les parenthèses *)
+    (* TODO : obligé de matcher les parenthèses *)
   | LPAR p1=located(pattern) POR p2=located(pattern) RPAR
     { POr(p1::[p2]) }
-    (* TODO : obligés de matcher les parenthèses *)
+    (* TODO : obligé de matcher les parenthèses *)
   | LPAR p1=located(pattern) PAND p2=located(pattern) RPAR
     { PAnd(p1::[p2]) }
 

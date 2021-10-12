@@ -1,2 +1,0 @@
-false_rec : [ `a `b] `a -> `b
-main : string

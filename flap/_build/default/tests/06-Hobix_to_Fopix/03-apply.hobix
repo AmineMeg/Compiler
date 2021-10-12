@@ -1,3 +1,0 @@
-fun apply (f, x) = f (x)
-
-val main = apply ((\(x) => print_int (x)), 42)
