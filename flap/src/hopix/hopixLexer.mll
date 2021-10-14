@@ -78,7 +78,6 @@ rule token = parse
   | ";"               { SEMICOLON }
   | "."               { DOT }
   | "!"               { EDOT  }
-  | "?"               { IDOT}
   | "_"               { WILDCARD                    }
   | "and"             { AND                         }
   | "+"               { PLUS }
@@ -86,7 +85,6 @@ rule token = parse
   | "/"               { DIV }
   | "\\"              { ANSLASH }
   | "*"               { MULT }
-  | "|"               { PIPE }
   | "||"              { OPOR }
   | "&&"              { OPAND }
   | "|"               { POR }
@@ -94,8 +92,9 @@ rule token = parse
   | "=?"              { EQIDOT }
   | "<=?"             { INFEQIDOT }  
   | ">=?"             { SUPEQIDOT }
+  | "do"              { DO }
+  | "until"           { UNTIL }
   | "for"             { FOR }
-  | "in"              { IN }
   | "from"            { FROM }
   | "to"              { TO }
   | "if"              { IF }
@@ -126,7 +125,7 @@ and string buffer = parse
 |'\\' (digit digit digit as asc)    { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); string buffer lexbuf}
 |'\\' (layout)                      { string buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; string buffer lexbuf}
-| eof                               { error lexbuf "caractere non fini"}
+| eof                               { error lexbuf "Unterminated string."}
 
 
 and char buffer = parse 
