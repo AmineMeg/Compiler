@@ -142,7 +142,7 @@ and char buffer = parse
 | '\\' (digit digit digit as asc)   { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); incr longueur; char buffer lexbuf }
 | '\\' (layout)                     { char buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; incr longueur; char buffer lexbuf }
-| eof                               { error.error_alert lexbuf.lex_curr_pos "caractère non fini" }    
+| eof                               { error lexbuf "caractère non fini" }    
 
 
  and comments = parse
