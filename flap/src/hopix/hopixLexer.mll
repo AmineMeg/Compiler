@@ -23,7 +23,7 @@
   | '\\' -> '\\'
   | _  -> failwith "Lexer.special_char"
 
-
+  let niveau = ref 0
   let longueur = ref 0
   let taille_char = ref 0
 
@@ -58,9 +58,11 @@ rule token = parse
   | "="               { EQUALS                      }
   | "\'"              { char(Buffer.create 2) lexbuf   }
   | "\""              { string(Buffer.create 32) lexbuf}
+  | "/*"              { comment lexbuf      }
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
+  | "ref"             { REF }
   | "("               { LPAR                        }
   | ")"               { RPAR                        }
   | "{"               { LBRACK }
@@ -74,23 +76,26 @@ rule token = parse
   | ">?"              { INFIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
+  | ";"               { SEMICOLON }
   | "."               { DOT }
   | "!"               { EDOT  }
-  | "?"               { IDOT}
   | "_"               { WILDCARD                    }
   | "and"             { AND                         }
   | "+"               { PLUS }
   | "-"               { MINUS }
   | "/"               { DIV }
+  | "\\"              { ANSLASH }
   | "*"               { MULT }
-  | "|"               { PIPE }
   | "||"              { OPOR }
   | "&&"              { OPAND }
+  | "|"               { POR }
+  | "&"               { PAND }
   | "=?"              { EQIDOT }
   | "<=?"             { INFEQIDOT }  
   | ">=?"             { SUPEQIDOT }
+  | "do"              { DO }
+  | "until"           { UNTIL }
   | "for"             { FOR }
-  | "in"              { IN }
   | "from"            { FROM }
   | "to"              { TO }
   | "if"              { IF }
@@ -98,6 +103,7 @@ rule token = parse
   | "else"            { ELSE }
   | "type"            { TYPE }
   | "while"           { WHILE }
+  | "switch"          { SWITCH }
   | "->"              { RARROW }
   | integer as i      { INT (Mint.of_string i)      }
   | var_id as s       { ID s                        }
@@ -120,15 +126,27 @@ and string buffer = parse
 |'\\' (digit digit digit as asc)    { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); string buffer lexbuf}
 |'\\' (layout)                      { string buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; string buffer lexbuf}
-| eof                               { error lexbuf "caractere non fini"}
+| eof                               { error lexbuf "Unterminated string."}
 
 
 and char buffer = parse 
-|'\''                               { incr taille_char; if !taille_char = !longueur then CHAR (Buffer.nth buffer 0) else error lexbuf "unexpected character."}   
+|'\''                               
+  { incr taille_char; 
+    if !taille_char = !longueur 
+    then CHAR (Buffer.nth buffer 0) 
+    else error lexbuf "unexpected character."
+  }   
 |'\n'                               { new_line lexbuf; Buffer.add_char buffer '\n'; incr longueur; char buffer lexbuf}                                                   
 | '\\' (ascii as ch)                { Buffer.add_char buffer (Char.chr(int_of_string(ch))); incr longueur; char buffer lexbuf}
 | '\\' (character_speciaux as ch)   { Buffer.add_char buffer (spe_char_switch ch); incr longueur; char buffer lexbuf}
 | '\\' (digit digit digit as asc)   { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); incr longueur; char buffer lexbuf }
 | '\\' (layout)                     { char buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; incr longueur; char buffer lexbuf }
-| eof                               { error lexbuf "caractère non fini" }                           
+| eof                               { error.error_alert lexbuf.lex_curr_pos "caractère non fini" }    
+
+
+ and comments = parse
+  | "/*"                          { incr niveau ; comment lexbuf}
+  | "*/"                          { decr niveau ; if !niveau = 0 then token lexbuf else comment lexbuf}
+  | eof                           { error lexbuf "commentaire non fini" }
+  | _                             { comment lexbuf}
