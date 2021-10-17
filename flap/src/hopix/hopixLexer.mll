@@ -23,7 +23,7 @@
   | '\\' -> '\\'
   | _  -> failwith "Lexer.special_char"
 
-
+  let niveau = ref 0
   let longueur = ref 0
   let taille_char = ref 0
 
@@ -58,6 +58,7 @@ rule token = parse
   | "="               { EQUALS                      }
   | "\'"              { char(Buffer.create 2) lexbuf   }
   | "\""              { string(Buffer.create 32) lexbuf}
+  | "#*"              { comments lexbuf      }
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
@@ -70,9 +71,9 @@ rule token = parse
   | "]"               { RSQR }
   | "<"               { INF }
   | ">"               { SUP }
-  | "<?"              { SUPIDOT                     }
+  | "<?"              { INFIDOT                     }
   | ":="              { DOUBLEDOTEQ }
-  | ">?"              { INFIDOT                     }
+  | ">?"              { SUPIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
   | ";"               { SEMICOLON }
@@ -141,4 +142,11 @@ and char buffer = parse
 | '\\' (digit digit digit as asc)   { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); incr longueur; char buffer lexbuf }
 | '\\' (layout)                     { char buffer lexbuf }
 | _ as ch                           { Buffer.add_char buffer ch; incr longueur; char buffer lexbuf }
-| eof                               { error lexbuf "caractère non fini" }                           
+| eof                               { error lexbuf "caractère non fini" }    
+
+
+ and comments = parse
+  | "#*"                          { incr niveau ; comments lexbuf}
+  | "*#"                          { decr niveau ; if !niveau = 0 then token lexbuf else comments lexbuf}
+  | eof                           { error lexbuf "commentaire non fini" }
+  | _                             { comments lexbuf}

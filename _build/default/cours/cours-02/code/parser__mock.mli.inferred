@@ -1,0 +1,5 @@
+type token = STAR | PLUS | INT of int | EOF
+val menhir_begin_marker : int
+val xv_phrase : Ast.e
+val xv_expression : Ast.e
+val menhir_end_marker : int

@@ -26,18 +26,14 @@
 
 %start<HopixAST.t> program
 
-%left REF
 %right RARROW
-%left MULT
-%right EDOT
-%left DOT
+%left POR
+%left MULT PAND
 
 %%
 
 program: v=located(def)* EOF
-{
-  v
-}
+{ v }
 
 (*--------------------PROGRAMME----------------------------*)
 
@@ -77,8 +73,8 @@ vdef:
   | FUN l=separated_nonempty_list(AND, polydef_fun(fundef))
     { RecFunctions(l) }
 
-fundef: 
-    p=located(pattern) EQUALS e=located(expression)
+fundef:
+    p=located(pattern) EQUALS e=located(expression_assign)
     { FunctionDefinition(p, e) }
 
 polydef_val(A):
@@ -90,7 +86,7 @@ polydef_val(A):
 polydef_fun(A):
     l=option(preceded(COLONLINE,located(tscheme)))
     id=located(identifier)
-    EQUALS a=A
+    a=A
     { (id, l, a) }
 
 (*---------------------- TYPE ------------------------------*)
@@ -106,6 +102,8 @@ ty:
     { TyTuple(t1::[t2]) }
   | t=typevar 
     { TyVar t }
+  | LPAR t=ty RPAR
+    { t }
  
 tscheme:
     l=loption(delimited(LSQR,nonempty_list(located(typevar)),
@@ -118,9 +116,7 @@ expression:
     { Sequence(e1::[e2]) }
   | v=expression_vdef SEMICOLON e=located(expression)
     { Define(v, e) }
-  | ANSLASH p=located(pattern) RARROW e=located(expression)
-    { Fun (FunctionDefinition(p,e)) }
-  | e=expression_assign
+  | e=expression_arr
     { e }
 
 expression_vdef:
@@ -132,6 +128,12 @@ expression_vdef:
 expression_let:
     v=expression_vdef SEMICOLON e=located(expression_let)
     { Define (v, e) }
+  | e=expression_assign
+    { e }
+
+expression_arr:
+     ANSLASH p=located(pattern) RARROW e=located(expression_arr)
+    { Fun (FunctionDefinition(p,e)) }
   | e=expression_assign
     { e }
 
@@ -152,23 +154,16 @@ bin_expr:
       { Apply(bin, expr) }
 
 expression_aux:
-    l=located(literal) 
-    { Literal l }
-  | id=located(identifier) l=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
-    { Variable(id, l) }
-  | c=located(constructor)
+    c=located(constructor)
     l1=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
-    l2=loption(delimited(LPAR,separated_list(COMMA,located(expression_aux)), RPAR))
+    l2=loption(delimited(LPAR,separated_nonempty_list(COMMA,located(expression_aux)), RPAR))
     { Tagged (c, l1, l2) }
-  | LBRACK l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, located(expression_aux))) RBRACK
-    l2=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
-    { Record( l1, l2) }
-  | e=located(expression_aux) DOT l=located(label)
+  | e=located(expression_cc) DOT l=located(label)
     { Field (e, l) }
   | LPAR l=separated_nonempty_list(COMMA, located(expression_aux)) RPAR
     { Tuple (l) }
-  (*| e1=located(expression_aux) e2=located(expression_aux)
-    { Apply (e1, e2) }*)
+  | e1=located(expression_cc) e2=located(expression_aux)
+    { Apply (e1, e2) }
   | REF e=located(expression_aux)
     { Ref(e) }
   | EDOT e1=located(expression_aux)
@@ -179,17 +174,17 @@ expression_aux:
       b=preceded(POR?,separated_nonempty_list(POR, located(branch)))
     RBRACK
     { Case(e,b) }
-  | IF LPAR e1=located(expression_aux) RPAR
-    THEN LBRACK e2=located(expression_aux) RBRACK
-    ELSE LBRACK e3=located(expression_aux) RBRACK
+  | IF LPAR e1=located(expression_binop) RPAR
+    THEN LBRACK e2=located(expression_binop) RBRACK
+    ELSE LBRACK e3=located(expression_binop) RBRACK
     {
       IfThenElse (e1, e2, e3)
     }
   | DO LBRACK e1=located(expression_aux) RBRACK
     UNTIL LPAR e2=located(expression_aux) RPAR
-    { While(e2, e1) }
-  | WHILE LPAR e1=located(expression_aux) RPAR 
-    LBRACK e2=located(expression_aux) RBRACK
+    { While(e2,e1) }
+  | WHILE LPAR e1=located(expression_binop) RPAR 
+    LBRACK e2=located(expression_assign) RBRACK
     {
       While(e1, e2)
     }
@@ -203,8 +198,18 @@ expression_aux:
     }
   | LPAR e=located(expression_aux) COLONLINE t=located(ty) RPAR
     { TypeAnnotation(e, t) }
+  | e=expression_cc
+    { e }
 
-   
+expression_cc: 
+    l=located(literal) 
+    { Literal l }
+  | id=located(identifier) l=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+    { Variable(id, l) }
+  | LBRACK l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, located(expression_aux))) RBRACK
+    l2=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
+    { Record( l1, l2) }
+  
 (*---------------- DEFINITIONS AUXILIAIRES --------------*)
 
 bin_var:
@@ -213,17 +218,17 @@ bin_var:
 
 
 binop:
-    PLUS        { Id "`+`" }
-  | MINUS       { Id "`-`" }
-  | MULT        { Id "`*`" }
-  | DIV         { Id "`/`" }
-  | OPAND       { Id "`&&`" }
-  | OPOR        { Id "`||`" }
-  | EQIDOT      { Id "`=?`" }
+    PLUS        { Id "`+`"   }
+  | MINUS       { Id "`-`"   }
+  | MULT        { Id "`*`"   }
+  | DIV         { Id "`/`"   }
+  | OPAND       { Id "`&&`"  }
+  | OPOR        { Id "`||`"  }
+  | EQIDOT      { Id "`=?`"  }
   | INFEQIDOT   { Id "`<=?`" }
   | SUPEQIDOT   { Id "`>=?`" }
-  | INFIDOT     { Id "`<?`" }
-  | SUPIDOT     { Id "`>?`" }
+  | INFIDOT     { Id "`<?`"  }
+  | SUPIDOT     { Id "`>?`"  }
 
 branch:
     p=located(pattern) RARROW e=located(expression_binop)
@@ -232,11 +237,18 @@ branch:
 (*--------------------- PATTERN -------------------------*)
 
 pattern:
+     LPAR p=located(pattern) COLONLINE t=located(ty) RPAR
+    { PTypeAnnotation(p,t) }
+  | p1=located(pattern) POR p2=located(pattern)
+    { POr(p1::[p2]) }
+  | LPAR p1=located(pattern) PAND p2=located(pattern) RPAR
+    { PAnd(p1::[p2]) }
+  | p=pattern_term
+    { p }
+
+pattern_term:
     id=located(identifier)    { PVariable(id) }
   | WILDCARD                  { PWildcard }
-  (*TODO :  obligé de matcher les parenthèses *)
-  | LPAR p=located(pattern) COLONLINE t=located(ty) RPAR
-    { PTypeAnnotation(p,t) }
   | l=located(literal)
     { PLiteral (l) }
   | c=located(constructor)
@@ -244,18 +256,13 @@ pattern:
     l2=loption(delimited(LPAR,separated_nonempty_list(COMMA, located(pattern)),RPAR))
     { PTaggedValue (c, l1, l2) }
   | LBRACK 
-    l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, located(pattern))) 
+    l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, 
+    located(pattern))) 
     RBRACK
     l2=option(delimited(INF,separated_nonempty_list(COMMA, located(ty)),SUP))
     { PRecord (l1, l2) }
   | LPAR l=separated_nonempty_list(COMMA, located(pattern)) RPAR
     { PTuple (l) }
-    (* TODO : obligé de matcher les parenthèses *)
-  | LPAR p1=located(pattern) POR p2=located(pattern) RPAR
-    { POr(p1::[p2]) }
-    (* TODO : obligé de matcher les parenthèses *)
-  | LPAR p1=located(pattern) PAND p2=located(pattern) RPAR
-    { PAnd(p1::[p2]) }
 
 (*------------------------ FINAL ------------------------*)
 

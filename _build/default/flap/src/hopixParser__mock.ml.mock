@@ -1,0 +1,2444 @@
+
+type token = 
+  | WILDCARD
+  | WHILE
+  | UNTIL
+  | TYPE
+  | TVAR of (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 11 "flap/src/hopixParser__mock.ml.mock"
+)
+  | TO
+  | THEN
+  | SWITCH
+  | SUPIDOT
+  | SUPEQIDOT
+  | SUP
+  | STRING of (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 22 "flap/src/hopixParser__mock.ml.mock"
+)
+  | SEMICOLON
+  | RSQR
+  | RPAR
+  | REF
+  | RBRACK
+  | RARROW
+  | POR
+  | PLUS
+  | PAND
+  | OPOR
+  | OPAND
+  | MULT
+  | MINUS
+  | LSQR
+  | LPAR
+  | LET
+  | LBRACK
+  | INT of (
+# 9 "flap/src/hopixParser.mly"
+       (Mint.t)
+# 44 "flap/src/hopixParser__mock.ml.mock"
+)
+  | INFIDOT
+  | INFEQIDOT
+  | INF
+  | IF
+  | ID of (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 53 "flap/src/hopixParser__mock.ml.mock"
+)
+  | FUN
+  | FROM
+  | FOR
+  | EXTERN
+  | EQUALS
+  | EQIDOT
+  | EOF
+  | ELSE
+  | EDOT
+  | DOUBLEDOTEQ
+  | DOT
+  | DO
+  | DIV
+  | COMMA
+  | COLONLINE
+  | CID of (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 73 "flap/src/hopixParser__mock.ml.mock"
+)
+  | CHAR of (
+# 11 "flap/src/hopixParser.mly"
+       (char)
+# 78 "flap/src/hopixParser__mock.ml.mock"
+)
+  | ANSLASH
+  | AND
+
+# 1 "flap/src/hopixParser.mly"
+   (* -*- tuareg -*- *)
+
+  open HopixAST
+  open Position
+
+
+# 90 "flap/src/hopixParser__mock.ml.mock"
+
+let menhir_begin_marker =
+  0
+
+and (xv_vdef, xv_typevar, xv_typecons, xv_ty, xv_tscheme, xv_tdef, xv_separated_pair_located_label__EQUALS_located_pattern__, xv_separated_pair_located_label__EQUALS_located_expression_aux__, xv_separated_pair_located_label__COLONLINE_located_ty__, xv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____, xv_separated_nonempty_list_POR_located_branch__, xv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___, xv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___, xv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___, xv_separated_nonempty_list_COMMA_located_typevar__, xv_separated_nonempty_list_COMMA_located_ty__, xv_separated_nonempty_list_COMMA_located_pattern__, xv_separated_nonempty_list_COMMA_located_expression_aux__, xv_separated_nonempty_list_AND_polydef_fun_fundef__, xv_separated_list_COMMA_located_ty__, xv_separated_list_COMMA_located_expression_aux__, xv_program, xv_preceded_option_POR__separated_nonempty_list_POR_located_branch___, xv_preceded_COLONLINE_located_tscheme__, xv_polydef_val_located_expression_let__, xv_polydef_val_located_expression__, xv_polydef_fun_fundef_, xv_pattern, xv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___, xv_option_preceded_COLONLINE_located_tscheme___, xv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__, xv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__, xv_option_POR_, xv_nonempty_list_located_typevar__, xv_loption_separated_nonempty_list_COMMA_located_ty___, xv_loption_separated_nonempty_list_COMMA_located_expression_aux___, xv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__, xv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__, xv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR__, xv_loption_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR__, xv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__, xv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__, xv_located_typevar_, xv_located_typecons_, xv_located_ty_, xv_located_tscheme_, xv_located_pattern_, xv_located_literal_, xv_located_label_, xv_located_identifier_, xv_located_expression_let_, xv_located_expression_cc_, xv_located_expression_binop_, xv_located_expression_aux_, xv_located_expression_assign_, xv_located_expression_, xv_located_def_, xv_located_constructor_, xv_located_branch_, xv_located_binop_, xv_located_bin_var_, xv_located_bin_expr_, xv_literal, xv_list_located_def__, xv_label, xv_identifier, xv_fundef, xv_expression_vdef, xv_expression_let, xv_expression_cc, xv_expression_binop, xv_expression_aux, xv_expression_assign, xv_expression, xv_delimited_LSQR_nonempty_list_located_typevar___RSQR_, xv_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_, xv_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR_, xv_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR_, xv_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP_, xv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_, xv_delimited_INF_separated_list_COMMA_located_ty___SUP_, xv_def, xv_constructor, xv_branch, xv_binop, xv_bin_var, xv_bin_expr) =
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+              y
+# 99 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_y_ : Lexing.position) (_endpos_y_ : Lexing.position) (_startofs_y_ : int) (_endofs_y_ : int) (_loc_y_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+        _2
+# 103 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+  x
+# 107 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_label_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 175 "<standard.mly>"
+    ( (x, y) )
+# 112 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_pair_located_label__EQUALS_located_pattern__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+              y
+# 117 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_y_ : Lexing.position) (_endpos_y_ : Lexing.position) (_startofs_y_ : int) (_endofs_y_ : int) (_loc_y_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+        _2
+# 121 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+  x
+# 125 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_label_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 175 "<standard.mly>"
+    ( (x, y) )
+# 130 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_pair_located_label__EQUALS_located_expression_aux__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+              y
+# 135 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_y_ : Lexing.position) (_endpos_y_ : Lexing.position) (_startofs_y_ : int) (_endofs_y_ : int) (_loc_y_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+        _2
+# 139 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 174 "<standard.mly>"
+  x
+# 143 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_label_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 175 "<standard.mly>"
+    ( (x, y) )
+# 148 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_pair_located_label__COLONLINE_located_ty__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 153 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 157 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 161 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 166 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 171 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 176 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 181 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_POR_located_branch__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 185 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 189 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_branch_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 194 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_POR_located_branch__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 199 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_branch_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 204 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_POR_located_branch__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 209 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 213 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 217 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__EQUALS_located_pattern__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 222 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 227 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__EQUALS_located_pattern__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 232 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 237 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 241 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 245 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__EQUALS_located_expression_aux__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 250 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 255 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__EQUALS_located_expression_aux__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 260 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 265 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 269 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 273 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__COLONLINE_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 278 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 283 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_pair_located_label__COLONLINE_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 288 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 293 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_typevar__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 297 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 301 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typevar_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 306 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_typevar__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 311 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typevar_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 316 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_typevar__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 321 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_ty__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 325 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 329 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 334 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_ty__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 339 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 344 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_ty__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 349 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_pattern__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 353 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 357 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 362 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_pattern__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 367 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 372 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_pattern__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 377 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_expression_aux__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 381 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 385 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 390 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_expression_aux__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 395 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 400 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_located_expression_aux__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 405 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_AND_polydef_fun_fundef__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 409 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 413 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_polydef_fun_fundef_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 418 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_AND_polydef_fun_fundef__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 423 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_polydef_fun_fundef_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 428 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_AND_polydef_fun_fundef__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "<standard.mly>"
+  xs
+# 433 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_separated_nonempty_list_COMMA_located_ty___) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "<standard.mly>"
+    ( xs )
+# 438 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_list_COMMA_located_ty__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "<standard.mly>"
+  xs
+# 443 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_separated_nonempty_list_COMMA_located_expression_aux___) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "<standard.mly>"
+    ( xs )
+# 448 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_separated_list_COMMA_located_expression_aux__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 182 "<standard.mly>"
+           x
+# 453 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_POR_located_branch__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 181 "<standard.mly>"
+                                     _1
+# 458 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_POR_) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 183 "<standard.mly>"
+    ( x )
+# 463 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_preceded_option_POR__separated_nonempty_list_POR_located_branch___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 182 "<standard.mly>"
+           x
+# 468 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_tscheme_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 181 "<standard.mly>"
+                                     _1
+# 473 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 183 "<standard.mly>"
+    ( x )
+# 478 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_preceded_COLONLINE_located_tscheme__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 166 "<standard.mly>"
+         y
+# 483 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__) (_startpos_y_ : Lexing.position) (_endpos_y_ : Lexing.position) (_startofs_y_ : int) (_endofs_y_ : int) (_loc_y_ : Lexing.position * Lexing.position) (
+# 166 "<standard.mly>"
+  x
+# 487 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_constructor_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 167 "<standard.mly>"
+    ( (x, y) )
+# 492 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 497 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_preceded_COLONLINE_located_tscheme__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 502 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_preceded_COLONLINE_located_tscheme___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 508 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_preceded_COLONLINE_located_tscheme___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 513 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 518 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 524 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 529 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_INF_separated_list_COMMA_located_ty___SUP_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 534 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 540 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 545 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 550 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_POR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 556 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_option_POR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 222 "<standard.mly>"
+         xs
+# 561 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_nonempty_list_located_typevar__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 222 "<standard.mly>"
+  x
+# 565 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typevar_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 223 "<standard.mly>"
+    ( x :: xs )
+# 570 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_nonempty_list_located_typevar__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 220 "<standard.mly>"
+  x
+# 575 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typevar_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 221 "<standard.mly>"
+    ( [ x ] )
+# 580 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_nonempty_list_located_typevar__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 585 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 590 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_located_ty___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 596 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_located_ty___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 601 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_expression_aux__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 606 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_located_expression_aux___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 612 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_located_expression_aux___) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 617 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_LSQR_nonempty_list_located_typevar___RSQR_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 622 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 628 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 633 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 638 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 644 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 649 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 654 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 660 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 665 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 670 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 676 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 681 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 686 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 692 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 697 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 702 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 708 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+         xs
+# 713 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_list_located_def__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+  x
+# 717 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_def_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 213 "<standard.mly>"
+    ( x :: xs )
+# 722 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_list_located_def__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 211 "<standard.mly>"
+    ( [] )
+# 728 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_list_located_def__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 733 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 737 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_nonempty_list_located_typevar__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 742 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 747 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_LSQR_nonempty_list_located_typevar___RSQR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 752 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 756 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 761 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 766 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 771 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 775 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_pattern__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 780 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 785 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 790 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 794 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_located_expression_aux__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 799 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 804 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 809 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 813 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_typevar__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 818 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 823 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 828 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 832 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 837 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 842 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+                 _3
+# 847 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 199 "<standard.mly>"
+           x
+# 851 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_located_ty__) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 198 "<standard.mly>"
+                                               _1
+# 856 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 200 "<standard.mly>"
+    ( x )
+# 861 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_delimited_INF_separated_list_COMMA_located_ty___SUP_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 77 "flap/src/hopixParser.mly"
+        l
+# 866 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_AND_polydef_fun_fundef__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 77 "flap/src/hopixParser.mly"
+   _1
+# 870 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 78 "flap/src/hopixParser.mly"
+    ( RecFunctions(l) )
+# 875 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_vdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 75 "flap/src/hopixParser.mly"
+        p
+# 880 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_polydef_val_located_expression__) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) (
+# 74 "flap/src/hopixParser.mly"
+     _1
+# 885 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 76 "flap/src/hopixParser.mly"
+    ( SimpleValue (p) )
+# 890 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_vdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 286 "flap/src/hopixParser.mly"
+    v
+# 895 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 899 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    (
+# 286 "flap/src/hopixParser.mly"
+           ( TId v )
+# 904 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_typevar) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 283 "flap/src/hopixParser.mly"
+    t
+# 909 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 913 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) ->
+    (
+# 283 "flap/src/hopixParser.mly"
+         ( TCon t )
+# 918 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_typecons) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 107 "flap/src/hopixParser.mly"
+    t
+# 923 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_typevar) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) ->
+    (
+# 108 "flap/src/hopixParser.mly"
+    ( TyVar t )
+# 928 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_ty) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 105 "flap/src/hopixParser.mly"
+                        t2
+# 933 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t2_ : Lexing.position) (_endpos_t2_ : Lexing.position) (_startofs_t2_ : int) (_endofs_t2_ : int) (_loc_t2_ : Lexing.position * Lexing.position) (
+# 105 "flap/src/hopixParser.mly"
+                  _2
+# 937 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 105 "flap/src/hopixParser.mly"
+    t1
+# 941 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t1_ : Lexing.position) (_endpos_t1_ : Lexing.position) (_startofs_t1_ : int) (_endofs_t1_ : int) (_loc_t1_ : Lexing.position * Lexing.position) ->
+    (
+# 106 "flap/src/hopixParser.mly"
+    ( TyTuple(t1::[t2]) )
+# 946 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_ty) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 103 "flap/src/hopixParser.mly"
+                          t2
+# 951 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t2_ : Lexing.position) (_endpos_t2_ : Lexing.position) (_startofs_t2_ : int) (_endofs_t2_ : int) (_loc_t2_ : Lexing.position * Lexing.position) (
+# 103 "flap/src/hopixParser.mly"
+                  _2
+# 955 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 103 "flap/src/hopixParser.mly"
+    t1
+# 959 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t1_ : Lexing.position) (_endpos_t1_ : Lexing.position) (_startofs_t1_ : int) (_endofs_t1_ : int) (_loc_t1_ : Lexing.position * Lexing.position) ->
+    (
+# 104 "flap/src/hopixParser.mly"
+    ( TyArrow (t1,t2) )
+# 964 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_ty) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 100 "flap/src/hopixParser.mly"
+    l
+# 969 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 99 "flap/src/hopixParser.mly"
+    t
+# 973 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_typecons) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) ->
+    (
+# 102 "flap/src/hopixParser.mly"
+    ( TyCon(t, l) )
+# 978 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_ty) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 112 "flap/src/hopixParser.mly"
+           t
+# 983 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 111 "flap/src/hopixParser.mly"
+    l
+# 987 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 113 "flap/src/hopixParser.mly"
+    (  ForallTy (l,t) )
+# 992 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_tscheme) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 70 "flap/src/hopixParser.mly"
+                                                                                             _3
+# 998 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 70 "flap/src/hopixParser.mly"
+    l
+# 1002 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 69 "flap/src/hopixParser.mly"
+   _1
+# 1006 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 72 "flap/src/hopixParser.mly"
+    ( DefineRecordType (l) )
+# 1011 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_tdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 62 "flap/src/hopixParser.mly"
+         l
+# 1016 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 61 "flap/src/hopixParser.mly"
+     _1
+# 1021 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_POR_) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 66 "flap/src/hopixParser.mly"
+    ( 
+      DefineSumType (l) 
+    )
+# 1028 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_tdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 37 "flap/src/hopixParser.mly"
+                        _2
+# 1033 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 37 "flap/src/hopixParser.mly"
+         v
+# 1037 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_list_located_def__) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    ((
+# 38 "flap/src/hopixParser.mly"
+(
+  v
+)
+# 1044 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_program) : (
+# 27 "flap/src/hopixParser.mly"
+      (HopixAST.t)
+# 1048 "flap/src/hopixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 87 "flap/src/hopixParser.mly"
+           a
+# 1053 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_let_) (_startpos_a_ : Lexing.position) (_endpos_a_ : Lexing.position) (_startofs_a_ : int) (_endofs_a_ : int) (_loc_a_ : Lexing.position * Lexing.position) (
+# 86 "flap/src/hopixParser.mly"
+                                                  _3
+# 1058 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 86 "flap/src/hopixParser.mly"
+    l
+# 1062 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_preceded_COLONLINE_located_tscheme___) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 85 "flap/src/hopixParser.mly"
+    id
+# 1066 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) ->
+    (
+# 88 "flap/src/hopixParser.mly"
+    ( (id, l, a) )
+# 1071 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_polydef_val_located_expression_let__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 87 "flap/src/hopixParser.mly"
+           a
+# 1076 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_) (_startpos_a_ : Lexing.position) (_endpos_a_ : Lexing.position) (_startofs_a_ : int) (_endofs_a_ : int) (_loc_a_ : Lexing.position * Lexing.position) (
+# 86 "flap/src/hopixParser.mly"
+                                                  _3
+# 1081 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 86 "flap/src/hopixParser.mly"
+    l
+# 1085 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_preceded_COLONLINE_located_tscheme___) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 85 "flap/src/hopixParser.mly"
+    id
+# 1089 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) ->
+    (
+# 88 "flap/src/hopixParser.mly"
+    ( (id, l, a) )
+# 1094 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_polydef_val_located_expression__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 93 "flap/src/hopixParser.mly"
+           a
+# 1099 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_fundef) (_startpos_a_ : Lexing.position) (_endpos_a_ : Lexing.position) (_startofs_a_ : int) (_endofs_a_ : int) (_loc_a_ : Lexing.position * Lexing.position) (
+# 92 "flap/src/hopixParser.mly"
+                          _3
+# 1104 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 92 "flap/src/hopixParser.mly"
+    id
+# 1108 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) (
+# 91 "flap/src/hopixParser.mly"
+    l
+# 1112 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_preceded_COLONLINE_located_tscheme___) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 94 "flap/src/hopixParser.mly"
+    ( (id, l, a) )
+# 1117 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_polydef_fun_fundef_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 266 "flap/src/hopixParser.mly"
+                                                     _5
+# 1122 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 266 "flap/src/hopixParser.mly"
+                                  p2
+# 1126 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p2_ : Lexing.position) (_endpos_p2_ : Lexing.position) (_startofs_p2_ : int) (_endofs_p2_ : int) (_loc_p2_ : Lexing.position * Lexing.position) (
+# 266 "flap/src/hopixParser.mly"
+                            _3
+# 1130 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 266 "flap/src/hopixParser.mly"
+         p1
+# 1134 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p1_ : Lexing.position) (_endpos_p1_ : Lexing.position) (_startofs_p1_ : int) (_endofs_p1_ : int) (_loc_p1_ : Lexing.position * Lexing.position) (
+# 266 "flap/src/hopixParser.mly"
+   _1
+# 1138 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 267 "flap/src/hopixParser.mly"
+    ( PAnd(p1::[p2]) )
+# 1143 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 263 "flap/src/hopixParser.mly"
+                                                    _5
+# 1148 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 263 "flap/src/hopixParser.mly"
+                                 p2
+# 1152 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p2_ : Lexing.position) (_endpos_p2_ : Lexing.position) (_startofs_p2_ : int) (_endofs_p2_ : int) (_loc_p2_ : Lexing.position * Lexing.position) (
+# 263 "flap/src/hopixParser.mly"
+                            _3
+# 1156 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 263 "flap/src/hopixParser.mly"
+         p1
+# 1160 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p1_ : Lexing.position) (_endpos_p1_ : Lexing.position) (_startofs_p1_ : int) (_endofs_p1_ : int) (_loc_p1_ : Lexing.position * Lexing.position) (
+# 263 "flap/src/hopixParser.mly"
+   _1
+# 1164 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 264 "flap/src/hopixParser.mly"
+    ( POr(p1::[p2]) )
+# 1169 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 260 "flap/src/hopixParser.mly"
+                                                           _3
+# 1174 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 260 "flap/src/hopixParser.mly"
+         l
+# 1178 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_pattern__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 260 "flap/src/hopixParser.mly"
+   _1
+# 1182 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 261 "flap/src/hopixParser.mly"
+    ( PTuple (l) )
+# 1187 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 258 "flap/src/hopixParser.mly"
+    l2
+# 1192 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) (_startpos_l2_ : Lexing.position) (_endpos_l2_ : Lexing.position) (_startofs_l2_ : int) (_endofs_l2_ : int) (_loc_l2_ : Lexing.position * Lexing.position) (
+# 256 "flap/src/hopixParser.mly"
+                      _3
+# 1197 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 255 "flap/src/hopixParser.mly"
+    l1
+# 1201 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___) (_startpos_l1_ : Lexing.position) (_endpos_l1_ : Lexing.position) (_startofs_l1_ : int) (_endofs_l1_ : int) (_loc_l1_ : Lexing.position * Lexing.position) (
+# 254 "flap/src/hopixParser.mly"
+   _1
+# 1205 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 259 "flap/src/hopixParser.mly"
+    ( PRecord (l1, l2) )
+# 1210 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 252 "flap/src/hopixParser.mly"
+    l2
+# 1215 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR__) (_startpos_l2_ : Lexing.position) (_endpos_l2_ : Lexing.position) (_startofs_l2_ : int) (_endofs_l2_ : int) (_loc_l2_ : Lexing.position * Lexing.position) (
+# 251 "flap/src/hopixParser.mly"
+    l1
+# 1219 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__) (_startpos_l1_ : Lexing.position) (_endpos_l1_ : Lexing.position) (_startofs_l1_ : int) (_endofs_l1_ : int) (_loc_l1_ : Lexing.position * Lexing.position) (
+# 250 "flap/src/hopixParser.mly"
+    c
+# 1223 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_constructor_) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 253 "flap/src/hopixParser.mly"
+    ( PTaggedValue (c, l1, l2) )
+# 1228 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 248 "flap/src/hopixParser.mly"
+    l
+# 1233 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_literal_) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 249 "flap/src/hopixParser.mly"
+    ( PLiteral (l) )
+# 1238 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 246 "flap/src/hopixParser.mly"
+                                                   _5
+# 1243 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 246 "flap/src/hopixParser.mly"
+                                      t
+# 1247 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 246 "flap/src/hopixParser.mly"
+                           _3
+# 1251 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 246 "flap/src/hopixParser.mly"
+         p
+# 1255 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) (
+# 246 "flap/src/hopixParser.mly"
+   _1
+# 1259 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 247 "flap/src/hopixParser.mly"
+    ( PTypeAnnotation(p,t) )
+# 1264 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 244 "flap/src/hopixParser.mly"
+   _1
+# 1269 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 244 "flap/src/hopixParser.mly"
+                              ( PWildcard )
+# 1274 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 243 "flap/src/hopixParser.mly"
+    id
+# 1279 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "flap/src/hopixParser.mly"
+                              ( PVariable(id) )
+# 1284 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_pattern) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1289 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_typevar) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1296 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_typevar_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1301 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_typecons) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1308 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_typecons_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1313 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_ty) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1320 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_ty_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1325 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_tscheme) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1332 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_tscheme_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1337 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_pattern) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1344 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_pattern_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1349 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_literal) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1356 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_literal_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1361 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1368 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1373 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_identifier) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1380 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_identifier_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1385 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_let) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1392 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_let_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1397 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_cc) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1404 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_cc_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1409 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_binop) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1416 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_binop_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1421 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_aux) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1428 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_aux_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1433 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_assign) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1440 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_assign_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1445 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1452 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_expression_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1457 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_def) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1464 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_def_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1469 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_constructor) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1476 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_constructor_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1481 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_branch) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1488 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_branch_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1493 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_binop) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1500 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_binop_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1505 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_bin_var) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1512 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_bin_var_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 291 "flap/src/hopixParser.mly"
+                    x
+# 1517 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_bin_expr) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 291 "flap/src/hopixParser.mly"
+                        (
+  Position.with_poss _startpos _endpos x
+)
+# 1524 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_located_bin_expr_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 274 "flap/src/hopixParser.mly"
+    s
+# 1529 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 1533 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_s_ : Lexing.position) (_endpos_s_ : Lexing.position) (_startofs_s_ : int) (_endofs_s_ : int) (_loc_s_ : Lexing.position * Lexing.position) ->
+    (
+# 274 "flap/src/hopixParser.mly"
+              ( LString s )
+# 1538 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 273 "flap/src/hopixParser.mly"
+    c
+# 1543 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 11 "flap/src/hopixParser.mly"
+       (char)
+# 1547 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 273 "flap/src/hopixParser.mly"
+              ( LChar c )
+# 1552 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 272 "flap/src/hopixParser.mly"
+    i
+# 1557 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 9 "flap/src/hopixParser.mly"
+       (Mint.t)
+# 1561 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_i_ : Lexing.position) (_endpos_i_ : Lexing.position) (_startofs_i_ : int) (_endofs_i_ : int) (_loc_i_ : Lexing.position * Lexing.position) ->
+    (
+# 272 "flap/src/hopixParser.mly"
+              ( LInt i )
+# 1566 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 289 "flap/src/hopixParser.mly"
+    l
+# 1571 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 1575 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 289 "flap/src/hopixParser.mly"
+         ( LId l )
+# 1580 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_label) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 277 "flap/src/hopixParser.mly"
+    id
+# 1585 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 1589 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) ->
+    (
+# 277 "flap/src/hopixParser.mly"
+          ( Id id )
+# 1594 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_identifier) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 81 "flap/src/hopixParser.mly"
+                              e
+# 1599 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_assign_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 81 "flap/src/hopixParser.mly"
+                      _2
+# 1603 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 81 "flap/src/hopixParser.mly"
+    p
+# 1607 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) ->
+    (
+# 82 "flap/src/hopixParser.mly"
+    ( FunctionDefinition(p, e) )
+# 1612 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_fundef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 129 "flap/src/hopixParser.mly"
+        l
+# 1617 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_AND_polydef_fun_fundef__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 129 "flap/src/hopixParser.mly"
+   _1
+# 1621 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 130 "flap/src/hopixParser.mly"
+    ( RecFunctions(l) )
+# 1626 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_vdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 127 "flap/src/hopixParser.mly"
+        p
+# 1631 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_polydef_val_located_expression_let__) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) (
+# 126 "flap/src/hopixParser.mly"
+                _1
+# 1636 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 128 "flap/src/hopixParser.mly"
+    ( SimpleValue (p) )
+# 1641 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_vdef) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 135 "flap/src/hopixParser.mly"
+    e
+# 1646 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_assign) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 136 "flap/src/hopixParser.mly"
+    ( e )
+# 1651 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_let) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 133 "flap/src/hopixParser.mly"
+                                e
+# 1656 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_let_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 133 "flap/src/hopixParser.mly"
+                     _2
+# 1660 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 133 "flap/src/hopixParser.mly"
+    v
+# 1664 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_vdef) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    (
+# 134 "flap/src/hopixParser.mly"
+    ( Define (v, e) )
+# 1669 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_let) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 212 "flap/src/hopixParser.mly"
+                           l
+# 1674 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 212 "flap/src/hopixParser.mly"
+    id
+# 1678 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) ->
+    (
+# 213 "flap/src/hopixParser.mly"
+  ( 
+    Variable(id, l) 
+  )
+# 1685 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_cc) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 208 "flap/src/hopixParser.mly"
+  l
+# 1690 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_literal_) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 209 "flap/src/hopixParser.mly"
+  ( 
+    Literal l 
+  )
+# 1697 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_cc) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 147 "flap/src/hopixParser.mly"
+    e
+# 1702 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_aux) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 148 "flap/src/hopixParser.mly"
+      ( e )
+# 1707 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 145 "flap/src/hopixParser.mly"
+                          e2
+# 1712 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_binop_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 145 "flap/src/hopixParser.mly"
+     e1
+# 1716 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_bin_expr_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) ->
+    (
+# 146 "flap/src/hopixParser.mly"
+    ( Apply(e1, e2) )
+# 1721 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 204 "flap/src/hopixParser.mly"
+    e
+# 1726 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_cc) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 205 "flap/src/hopixParser.mly"
+    ( e )
+# 1731 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 200 "flap/src/hopixParser.mly"
+                                                          _5
+# 1736 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 200 "flap/src/hopixParser.mly"
+                                             t
+# 1740 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_ty_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 200 "flap/src/hopixParser.mly"
+                                  _3
+# 1744 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 200 "flap/src/hopixParser.mly"
+         e
+# 1748 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 200 "flap/src/hopixParser.mly"
+   _1
+# 1752 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 201 "flap/src/hopixParser.mly"
+    ( 
+      TypeAnnotation(e, t) 
+    )
+# 1759 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 196 "flap/src/hopixParser.mly"
+                                     _13
+# 1764 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__13_ : Lexing.position) (_endpos__13_ : Lexing.position) (_startofs__13_ : int) (_endofs__13_ : int) (_loc__13_ : Lexing.position * Lexing.position) (
+# 196 "flap/src/hopixParser.mly"
+           e3
+# 1768 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e3_ : Lexing.position) (_endpos_e3_ : Lexing.position) (_startofs_e3_ : int) (_endofs_e3_ : int) (_loc_e3_ : Lexing.position * Lexing.position) (
+# 195 "flap/src/hopixParser.mly"
+                                        _11
+# 1773 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__11_ : Lexing.position) (_endpos__11_ : Lexing.position) (_startofs__11_ : int) (_endofs__11_ : int) (_loc__11_ : Lexing.position * Lexing.position) (
+# 195 "flap/src/hopixParser.mly"
+                                   _10
+# 1777 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__10_ : Lexing.position) (_endpos__10_ : Lexing.position) (_startofs__10_ : int) (_endofs__10_ : int) (_loc__10_ : Lexing.position * Lexing.position) (
+# 195 "flap/src/hopixParser.mly"
+         e2
+# 1781 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 194 "flap/src/hopixParser.mly"
+      _8
+# 1786 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__8_ : Lexing.position) (_endpos__8_ : Lexing.position) (_startofs__8_ : int) (_endofs__8_ : int) (_loc__8_ : Lexing.position * Lexing.position) (
+# 193 "flap/src/hopixParser.mly"
+                                             _7
+# 1791 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__7_ : Lexing.position) (_endpos__7_ : Lexing.position) (_startofs__7_ : int) (_endofs__7_ : int) (_loc__7_ : Lexing.position * Lexing.position) (
+# 193 "flap/src/hopixParser.mly"
+                                        _6
+# 1795 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
+# 193 "flap/src/hopixParser.mly"
+              e1
+# 1799 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) (
+# 193 "flap/src/hopixParser.mly"
+        _4
+# 1803 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 192 "flap/src/hopixParser.mly"
+                               _3
+# 1808 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 192 "flap/src/hopixParser.mly"
+        vID
+# 1812 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_vID_ : Lexing.position) (_endpos_vID_ : Lexing.position) (_startofs_vID_ : int) (_endofs_vID_ : int) (_loc_vID_ : Lexing.position * Lexing.position) (
+# 192 "flap/src/hopixParser.mly"
+   _1
+# 1816 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 197 "flap/src/hopixParser.mly"
+    (
+      For(vID, e1, e2, e3)
+    )
+# 1823 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 188 "flap/src/hopixParser.mly"
+                                     _7
+# 1828 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__7_ : Lexing.position) (_endpos__7_ : Lexing.position) (_startofs__7_ : int) (_endofs__7_ : int) (_loc__7_ : Lexing.position * Lexing.position) (
+# 188 "flap/src/hopixParser.mly"
+           e2
+# 1832 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 187 "flap/src/hopixParser.mly"
+                                              _5
+# 1837 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 187 "flap/src/hopixParser.mly"
+                                         _4
+# 1841 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 187 "flap/src/hopixParser.mly"
+               e1
+# 1845 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) (
+# 187 "flap/src/hopixParser.mly"
+         _2
+# 1849 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 187 "flap/src/hopixParser.mly"
+   _1
+# 1853 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 189 "flap/src/hopixParser.mly"
+    (
+      While(e1, e2)
+    )
+# 1860 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 185 "flap/src/hopixParser.mly"
+                                         _8
+# 1865 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__8_ : Lexing.position) (_endpos__8_ : Lexing.position) (_startofs__8_ : int) (_endofs__8_ : int) (_loc__8_ : Lexing.position * Lexing.position) (
+# 185 "flap/src/hopixParser.mly"
+               e2
+# 1869 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 185 "flap/src/hopixParser.mly"
+         _6
+# 1873 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
+# 184 "flap/src/hopixParser.mly"
+                                               _5
+# 1878 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 184 "flap/src/hopixParser.mly"
+                                        _4
+# 1882 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 184 "flap/src/hopixParser.mly"
+              e1
+# 1886 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) (
+# 184 "flap/src/hopixParser.mly"
+      _2
+# 1890 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 184 "flap/src/hopixParser.mly"
+   _1
+# 1894 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 186 "flap/src/hopixParser.mly"
+    ( While(e2, e1) )
+# 1899 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 180 "flap/src/hopixParser.mly"
+                                          _12
+# 1904 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__12_ : Lexing.position) (_endpos__12_ : Lexing.position) (_startofs__12_ : int) (_endofs__12_ : int) (_loc__12_ : Lexing.position * Lexing.position) (
+# 180 "flap/src/hopixParser.mly"
+                e3
+# 1908 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e3_ : Lexing.position) (_endpos_e3_ : Lexing.position) (_startofs_e3_ : int) (_endofs_e3_ : int) (_loc_e3_ : Lexing.position * Lexing.position) (
+# 180 "flap/src/hopixParser.mly"
+        _10
+# 1912 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__10_ : Lexing.position) (_endpos__10_ : Lexing.position) (_startofs__10_ : int) (_endofs__10_ : int) (_loc__10_ : Lexing.position * Lexing.position) (
+# 179 "flap/src/hopixParser.mly"
+                                                 _9
+# 1917 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__9_ : Lexing.position) (_endpos__9_ : Lexing.position) (_startofs__9_ : int) (_endofs__9_ : int) (_loc__9_ : Lexing.position * Lexing.position) (
+# 179 "flap/src/hopixParser.mly"
+                                          _8
+# 1921 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__8_ : Lexing.position) (_endpos__8_ : Lexing.position) (_startofs__8_ : int) (_endofs__8_ : int) (_loc__8_ : Lexing.position * Lexing.position) (
+# 179 "flap/src/hopixParser.mly"
+                e2
+# 1925 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 179 "flap/src/hopixParser.mly"
+        _6
+# 1929 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
+# 178 "flap/src/hopixParser.mly"
+                                           _5
+# 1934 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 178 "flap/src/hopixParser.mly"
+                                      _4
+# 1938 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 178 "flap/src/hopixParser.mly"
+            e1
+# 1942 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) (
+# 178 "flap/src/hopixParser.mly"
+      _2
+# 1946 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 178 "flap/src/hopixParser.mly"
+   _1
+# 1950 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 181 "flap/src/hopixParser.mly"
+    (
+      IfThenElse (e1, e2, e3)
+    )
+# 1957 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 175 "flap/src/hopixParser.mly"
+                                                                    _7
+# 1963 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__7_ : Lexing.position) (_endpos__7_ : Lexing.position) (_startofs__7_ : int) (_endofs__7_ : int) (_loc__7_ : Lexing.position * Lexing.position) (
+# 175 "flap/src/hopixParser.mly"
+      b
+# 1967 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_preceded_option_POR__separated_nonempty_list_POR_located_branch___) (_startpos_b_ : Lexing.position) (_endpos_b_ : Lexing.position) (_startofs_b_ : int) (_endofs_b_ : int) (_loc_b_ : Lexing.position * Lexing.position) (
+# 173 "flap/src/hopixParser.mly"
+                                       _5
+# 1972 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 173 "flap/src/hopixParser.mly"
+                                  _4
+# 1976 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 173 "flap/src/hopixParser.mly"
+         e
+# 1980 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 172 "flap/src/hopixParser.mly"
+          _2
+# 1985 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 172 "flap/src/hopixParser.mly"
+   _1
+# 1989 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 177 "flap/src/hopixParser.mly"
+    ( Case(e,b) )
+# 1994 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 170 "flap/src/hopixParser.mly"
+         e1
+# 1999 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) (
+# 170 "flap/src/hopixParser.mly"
+   _1
+# 2003 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 171 "flap/src/hopixParser.mly"
+    ( Read(e1) )
+# 2008 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 168 "flap/src/hopixParser.mly"
+        e
+# 2013 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 168 "flap/src/hopixParser.mly"
+   _1
+# 2017 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 169 "flap/src/hopixParser.mly"
+    ( Ref(e) )
+# 2022 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 166 "flap/src/hopixParser.mly"
+                              e2
+# 2027 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_cc_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 166 "flap/src/hopixParser.mly"
+    e1
+# 2031 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_cc_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) ->
+    (
+# 167 "flap/src/hopixParser.mly"
+    ( Apply (e1, e2) )
+# 2036 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 164 "flap/src/hopixParser.mly"
+                                                                  _3
+# 2041 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 164 "flap/src/hopixParser.mly"
+         l
+# 2045 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_located_expression_aux__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 164 "flap/src/hopixParser.mly"
+   _1
+# 2049 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 165 "flap/src/hopixParser.mly"
+    ( Tuple (l) )
+# 2054 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 162 "flap/src/hopixParser.mly"
+                                  l
+# 2059 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_label_) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 162 "flap/src/hopixParser.mly"
+                             _2
+# 2063 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 162 "flap/src/hopixParser.mly"
+    e
+# 2067 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 163 "flap/src/hopixParser.mly"
+    ( Field (e, l) )
+# 2072 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 160 "flap/src/hopixParser.mly"
+    l2
+# 2077 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__) (_startpos_l2_ : Lexing.position) (_endpos_l2_ : Lexing.position) (_startofs_l2_ : int) (_endofs_l2_ : int) (_loc_l2_ : Lexing.position * Lexing.position) (
+# 159 "flap/src/hopixParser.mly"
+                                                                                                             _3
+# 2081 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 159 "flap/src/hopixParser.mly"
+           l1
+# 2085 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___) (_startpos_l1_ : Lexing.position) (_endpos_l1_ : Lexing.position) (_startofs_l1_ : int) (_endofs_l1_ : int) (_loc_l1_ : Lexing.position * Lexing.position) (
+# 159 "flap/src/hopixParser.mly"
+   _1
+# 2089 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 161 "flap/src/hopixParser.mly"
+    ( Record( l1, l2) )
+# 2094 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 157 "flap/src/hopixParser.mly"
+    l2
+# 2099 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR__) (_startpos_l2_ : Lexing.position) (_endpos_l2_ : Lexing.position) (_startofs_l2_ : int) (_endofs_l2_ : int) (_loc_l2_ : Lexing.position * Lexing.position) (
+# 156 "flap/src/hopixParser.mly"
+    l1
+# 2103 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__) (_startpos_l1_ : Lexing.position) (_endpos_l1_ : Lexing.position) (_startofs_l1_ : int) (_endofs_l1_ : int) (_loc_l1_ : Lexing.position * Lexing.position) (
+# 155 "flap/src/hopixParser.mly"
+    c
+# 2107 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_constructor_) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 158 "flap/src/hopixParser.mly"
+    ( Tagged (c, l1, l2) )
+# 2112 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_aux) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 141 "flap/src/hopixParser.mly"
+    e
+# 2117 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_binop) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 142 "flap/src/hopixParser.mly"
+    ( e )
+# 2122 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_assign) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 139 "flap/src/hopixParser.mly"
+                                              e2
+# 2127 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_binop_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 139 "flap/src/hopixParser.mly"
+                                 _2
+# 2131 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 139 "flap/src/hopixParser.mly"
+    e1
+# 2135 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_assign_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) ->
+    (
+# 140 "flap/src/hopixParser.mly"
+    ( Assign (e1, e2) )
+# 2140 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression_assign) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 123 "flap/src/hopixParser.mly"
+    e
+# 2145 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_assign) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) ->
+    (
+# 124 "flap/src/hopixParser.mly"
+    ( e )
+# 2150 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 121 "flap/src/hopixParser.mly"
+                                      e
+# 2155 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_assign_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 121 "flap/src/hopixParser.mly"
+                              _3
+# 2159 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 121 "flap/src/hopixParser.mly"
+            p
+# 2163 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) (
+# 121 "flap/src/hopixParser.mly"
+   _1
+# 2167 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 122 "flap/src/hopixParser.mly"
+    ( Fun (FunctionDefinition(p,e)) )
+# 2172 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 119 "flap/src/hopixParser.mly"
+                                e
+# 2177 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 119 "flap/src/hopixParser.mly"
+                     _2
+# 2181 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 119 "flap/src/hopixParser.mly"
+    v
+# 2185 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_expression_vdef) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    (
+# 120 "flap/src/hopixParser.mly"
+    ( Define(v, e) )
+# 2190 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 117 "flap/src/hopixParser.mly"
+                                            e2
+# 2195 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_) (_startpos_e2_ : Lexing.position) (_endpos_e2_ : Lexing.position) (_startofs_e2_ : int) (_endofs_e2_ : int) (_loc_e2_ : Lexing.position * Lexing.position) (
+# 117 "flap/src/hopixParser.mly"
+                                 _2
+# 2199 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 117 "flap/src/hopixParser.mly"
+    e1
+# 2203 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_assign_) (_startpos_e1_ : Lexing.position) (_endpos_e1_ : Lexing.position) (_startofs_e1_ : int) (_endofs_e1_ : int) (_loc_e1_ : Lexing.position * Lexing.position) ->
+    (
+# 118 "flap/src/hopixParser.mly"
+    ( Sequence(e1::[e2]) )
+# 2208 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_expression) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 55 "flap/src/hopixParser.mly"
+   _1
+# 2213 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_error) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 56 "flap/src/hopixParser.mly"
+    ( 
+      let pos=Position.lex_join _startpos _endpos
+      in Error.error "parsing" pos "Syntax error."
+    )
+# 2221 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_def) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 54 "flap/src/hopixParser.mly"
+    v
+# 2226 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_vdef) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    (
+# 54 "flap/src/hopixParser.mly"
+             ( DefineValue v )
+# 2231 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_def) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 52 "flap/src/hopixParser.mly"
+                                            ts
+# 2236 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_tscheme_) (_startpos_ts_ : Lexing.position) (_endpos_ts_ : Lexing.position) (_startofs_ts_ : int) (_endofs_ts_ : int) (_loc_ts_ : Lexing.position * Lexing.position) (
+# 52 "flap/src/hopixParser.mly"
+                                 _3
+# 2240 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 52 "flap/src/hopixParser.mly"
+           id
+# 2244 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_identifier_) (_startpos_id_ : Lexing.position) (_endpos_id_ : Lexing.position) (_startofs_id_ : int) (_endofs_id_ : int) (_loc_id_ : Lexing.position * Lexing.position) (
+# 52 "flap/src/hopixParser.mly"
+   _1
+# 2248 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 53 "flap/src/hopixParser.mly"
+    ( DeclareExtern (id,ts) )
+# 2253 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_def) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 50 "flap/src/hopixParser.mly"
+    l
+# 2258 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 49 "flap/src/hopixParser.mly"
+         t
+# 2262 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typecons_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 49 "flap/src/hopixParser.mly"
+   _1
+# 2266 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 51 "flap/src/hopixParser.mly"
+    ( DefineType (t, l, Abstract) )
+# 2271 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_def) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 47 "flap/src/hopixParser.mly"
+           s
+# 2276 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_tdef) (_startpos_s_ : Lexing.position) (_endpos_s_ : Lexing.position) (_startofs_s_ : int) (_endofs_s_ : int) (_loc_s_ : Lexing.position * Lexing.position) (
+# 46 "flap/src/hopixParser.mly"
+                                                                                  _4
+# 2281 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 46 "flap/src/hopixParser.mly"
+    l
+# 2285 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 45 "flap/src/hopixParser.mly"
+         t
+# 2289 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_typecons_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 44 "flap/src/hopixParser.mly"
+    _1
+# 2294 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 48 "flap/src/hopixParser.mly"
+    ( DefineType (t, l, s) )
+# 2299 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_def) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 280 "flap/src/hopixParser.mly"
+    c
+# 2304 "flap/src/hopixParser__mock.ml.mock"
+   : (
+# 10 "flap/src/hopixParser.mly"
+       (string)
+# 2308 "flap/src/hopixParser__mock.ml.mock"
+  )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 280 "flap/src/hopixParser.mly"
+          ( KId c )
+# 2313 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_constructor) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 237 "flap/src/hopixParser.mly"
+                              e
+# 2318 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_binop_) (_startpos_e_ : Lexing.position) (_endpos_e_ : Lexing.position) (_startofs_e_ : int) (_endofs_e_ : int) (_loc_e_ : Lexing.position * Lexing.position) (
+# 237 "flap/src/hopixParser.mly"
+                      _2
+# 2322 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 237 "flap/src/hopixParser.mly"
+    p
+# 2326 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_pattern_) (_startpos_p_ : Lexing.position) (_endpos_p_ : Lexing.position) (_startofs_p_ : int) (_endofs_p_ : int) (_loc_p_ : Lexing.position * Lexing.position) ->
+    (
+# 238 "flap/src/hopixParser.mly"
+    ( Branch (p, e) )
+# 2331 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_branch) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 234 "flap/src/hopixParser.mly"
+   _1
+# 2336 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 234 "flap/src/hopixParser.mly"
+                ( Id "`>?`"  )
+# 2341 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 233 "flap/src/hopixParser.mly"
+   _1
+# 2346 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 233 "flap/src/hopixParser.mly"
+                ( Id "`<?`"  )
+# 2351 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 232 "flap/src/hopixParser.mly"
+   _1
+# 2356 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "flap/src/hopixParser.mly"
+                ( Id "`>=?`" )
+# 2361 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "flap/src/hopixParser.mly"
+   _1
+# 2366 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 231 "flap/src/hopixParser.mly"
+                ( Id "`<=?`" )
+# 2371 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 230 "flap/src/hopixParser.mly"
+   _1
+# 2376 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 230 "flap/src/hopixParser.mly"
+                ( Id "`=?`"  )
+# 2381 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 229 "flap/src/hopixParser.mly"
+   _1
+# 2386 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 229 "flap/src/hopixParser.mly"
+                ( Id "`||`"  )
+# 2391 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 228 "flap/src/hopixParser.mly"
+   _1
+# 2396 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 228 "flap/src/hopixParser.mly"
+                ( Id "`&&`"  )
+# 2401 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 227 "flap/src/hopixParser.mly"
+   _1
+# 2406 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 227 "flap/src/hopixParser.mly"
+                ( Id "`/`"   )
+# 2411 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 226 "flap/src/hopixParser.mly"
+   _1
+# 2416 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 226 "flap/src/hopixParser.mly"
+                ( Id "`*`"   )
+# 2421 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 225 "flap/src/hopixParser.mly"
+   _1
+# 2426 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 225 "flap/src/hopixParser.mly"
+                ( Id "`-`"   )
+# 2431 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 223 "flap/src/hopixParser.mly"
+      _1
+# 2437 "flap/src/hopixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 224 "flap/src/hopixParser.mly"
+                ( Id "`+`"   )
+# 2442 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_binop) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 219 "flap/src/hopixParser.mly"
+      b
+# 2447 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_binop_) (_startpos_b_ : Lexing.position) (_endpos_b_ : Lexing.position) (_startofs_b_ : int) (_endofs_b_ : int) (_loc_b_ : Lexing.position * Lexing.position) ->
+    (
+# 220 "flap/src/hopixParser.mly"
+    ( Variable(b, None) )
+# 2452 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_bin_var) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 151 "flap/src/hopixParser.mly"
+                                   bin
+# 2457 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_bin_var_) (_startpos_bin_ : Lexing.position) (_endpos_bin_ : Lexing.position) (_startofs_bin_ : int) (_endofs_bin_ : int) (_loc_bin_ : Lexing.position * Lexing.position) (
+# 151 "flap/src/hopixParser.mly"
+      expr
+# 2461 "flap/src/hopixParser__mock.ml.mock"
+   : 'tv_located_expression_aux_) (_startpos_expr_ : Lexing.position) (_endpos_expr_ : Lexing.position) (_startofs_expr_ : int) (_endofs_expr_ : int) (_loc_expr_ : Lexing.position * Lexing.position) ->
+    (
+# 152 "flap/src/hopixParser.mly"
+      ( Apply(bin, expr) )
+# 2466 "flap/src/hopixParser__mock.ml.mock"
+     : 'tv_bin_expr) in
+  (raise Not_found : 'tv_vdef * 'tv_typevar * 'tv_typecons * 'tv_ty * 'tv_tscheme * 'tv_tdef * 'tv_separated_pair_located_label__EQUALS_located_pattern__ * 'tv_separated_pair_located_label__EQUALS_located_expression_aux__ * 'tv_separated_pair_located_label__COLONLINE_located_ty__ * 'tv_separated_nonempty_list_POR_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR____ * 'tv_separated_nonempty_list_POR_located_branch__ * 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_pattern___ * 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__EQUALS_located_expression_aux___ * 'tv_separated_nonempty_list_COMMA_separated_pair_located_label__COLONLINE_located_ty___ * 'tv_separated_nonempty_list_COMMA_located_typevar__ * 'tv_separated_nonempty_list_COMMA_located_ty__ * 'tv_separated_nonempty_list_COMMA_located_pattern__ * 'tv_separated_nonempty_list_COMMA_located_expression_aux__ * 'tv_separated_nonempty_list_AND_polydef_fun_fundef__ * 'tv_separated_list_COMMA_located_ty__ * 'tv_separated_list_COMMA_located_expression_aux__ * 'tv_program * 'tv_preceded_option_POR__separated_nonempty_list_POR_located_branch___ * 'tv_preceded_COLONLINE_located_tscheme__ * 'tv_polydef_val_located_expression_let__ * 'tv_polydef_val_located_expression__ * 'tv_polydef_fun_fundef_ * 'tv_pattern * 'tv_pair_located_constructor__loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR___ * 'tv_option_preceded_COLONLINE_located_tscheme___ * 'tv_option_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__ * 'tv_option_delimited_INF_separated_list_COMMA_located_ty___SUP__ * 'tv_option_POR_ * 'tv_nonempty_list_located_typevar__ * 'tv_loption_separated_nonempty_list_COMMA_located_ty___ * 'tv_loption_separated_nonempty_list_COMMA_located_expression_aux___ * 'tv_loption_delimited_LSQR_nonempty_list_located_typevar___RSQR__ * 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR__ * 'tv_loption_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR__ * 'tv_loption_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR__ * 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP__ * 'tv_loption_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP__ * 'tv_located_typevar_ * 'tv_located_typecons_ * 'tv_located_ty_ * 'tv_located_tscheme_ * 'tv_located_pattern_ * 'tv_located_literal_ * 'tv_located_label_ * 'tv_located_identifier_ * 'tv_located_expression_let_ * 'tv_located_expression_cc_ * 'tv_located_expression_binop_ * 'tv_located_expression_aux_ * 'tv_located_expression_assign_ * 'tv_located_expression_ * 'tv_located_def_ * 'tv_located_constructor_ * 'tv_located_branch_ * 'tv_located_binop_ * 'tv_located_bin_var_ * 'tv_located_bin_expr_ * 'tv_literal * 'tv_list_located_def__ * 'tv_label * 'tv_identifier * 'tv_fundef * 'tv_expression_vdef * 'tv_expression_let * 'tv_expression_cc * 'tv_expression_binop * 'tv_expression_aux * 'tv_expression_assign * 'tv_expression * 'tv_delimited_LSQR_nonempty_list_located_typevar___RSQR_ * 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_ty___RPAR_ * 'tv_delimited_LPAR_separated_nonempty_list_COMMA_located_pattern___RPAR_ * 'tv_delimited_LPAR_separated_list_COMMA_located_expression_aux___RPAR_ * 'tv_delimited_INF_separated_nonempty_list_COMMA_located_typevar___SUP_ * 'tv_delimited_INF_separated_nonempty_list_COMMA_located_ty___SUP_ * 'tv_delimited_INF_separated_list_COMMA_located_ty___SUP_ * 'tv_def * 'tv_constructor * 'tv_branch * 'tv_binop * 'tv_bin_var * 'tv_bin_expr)
+
+and menhir_end_marker =
+  0
+
+# 269 "<standard.mly>"
+  
+
+# 2476 "flap/src/hopixParser__mock.ml.mock"
