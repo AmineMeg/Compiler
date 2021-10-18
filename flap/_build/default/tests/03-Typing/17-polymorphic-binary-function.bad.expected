@@ -1,7 +1,0 @@
-Line 2, characters 33-34: Error (typechecking)
-  Type error:
-Expected:
-  `a
-Given:
-  `b
-
