@@ -1,0 +1,1089 @@
+
+type token = 
+  | UPPERSAND
+  | TAIL
+  | SWITCH
+  | SUB
+  | SEMICOLON
+  | RPAREN
+  | RID of (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 13 "src/retrolixParser__mock.ml.mock"
+)
+  | RET
+  | RARROW
+  | ORELSE
+  | OR
+  | MUL
+  | LTE
+  | LT
+  | LSTRING of (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 25 "src/retrolixParser__mock.ml.mock"
+)
+  | LPAREN
+  | LOCAL
+  | LCHAR of (
+# 20 "src/retrolixParser.mly"
+      (char)
+# 32 "src/retrolixParser__mock.ml.mock"
+)
+  | LARROW
+  | JUMPIF
+  | JUMP
+  | INT of (
+# 18 "src/retrolixParser.mly"
+      (Mint.t)
+# 40 "src/retrolixParser__mock.ml.mock"
+)
+  | ID of (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 45 "src/retrolixParser__mock.ml.mock"
+)
+  | GTE
+  | GT
+  | GLOBALS
+  | EXTERNAL
+  | EXIT
+  | EQ
+  | EOF
+  | END
+  | DIV
+  | DEF
+  | COPY
+  | COMMENT of (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 61 "src/retrolixParser__mock.ml.mock"
+)
+  | COMMA
+  | COLON
+  | CALL
+  | AND
+  | ADD
+
+# 1 "src/retrolixParser.mly"
+   (* Emacs, use -*- tuareg -*- to open this file! *)
+
+  open RetrolixAST
+
+  let fresh_label =
+    let r = ref 0 in
+    fun () -> incr r; Label ("_L" ^ string_of_int !r)
+
+  let bool_of_unit_option o =
+    match o with None -> false | Some () -> true
+
+# 81 "src/retrolixParser__mock.ml.mock"
+
+let menhir_begin_marker =
+  0
+
+and (xv_separated_nonempty_list_COMMA_rvalue_, xv_separated_nonempty_list_COMMA_label_, xv_separated_nonempty_list_COMMA_identifier_, xv_separated_list_COMMA_rvalue_, xv_separated_list_COMMA_label_, xv_separated_list_COMMA_identifier_, xv_rvalue, xv_register, xv_program, xv_orelse_label, xv_option_orelse_label_, xv_option_TAIL_, xv_op, xv_lvalue, xv_loption_separated_nonempty_list_COMMA_rvalue__, xv_loption_separated_nonempty_list_COMMA_label__, xv_loption_separated_nonempty_list_COMMA_identifier__, xv_locals, xv_literal, xv_list_labelled_instruction_, xv_list_definition_, xv_labelled_instruction, xv_label, xv_instruction, xv_identifier, xv_function_identifier, xv_definition, xv_condition, xv_block) =
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 90 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_rvalue_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 94 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) ((
+# 242 "<standard.mly>"
+  x
+# 98 "src/retrolixParser__mock.ml.mock"
+   : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 102 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 107 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_rvalue_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
+# 240 "<standard.mly>"
+  x
+# 112 "src/retrolixParser__mock.ml.mock"
+   : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 116 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 121 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_rvalue_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 126 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_label_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 130 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 134 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 139 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 144 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 149 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+                    xs
+# 154 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_identifier_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+        _2
+# 158 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 242 "<standard.mly>"
+  x
+# 162 "src/retrolixParser__mock.ml.mock"
+   : 'tv_identifier) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 243 "<standard.mly>"
+    ( x :: xs )
+# 167 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_identifier_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 240 "<standard.mly>"
+  x
+# 172 "src/retrolixParser__mock.ml.mock"
+   : 'tv_identifier) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 241 "<standard.mly>"
+    ( [ x ] )
+# 177 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_nonempty_list_COMMA_identifier_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "<standard.mly>"
+  xs
+# 182 "src/retrolixParser__mock.ml.mock"
+   : 'tv_loption_separated_nonempty_list_COMMA_rvalue__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "<standard.mly>"
+    ( xs )
+# 187 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_list_COMMA_rvalue_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "<standard.mly>"
+  xs
+# 192 "src/retrolixParser__mock.ml.mock"
+   : 'tv_loption_separated_nonempty_list_COMMA_label__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "<standard.mly>"
+    ( xs )
+# 197 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_list_COMMA_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 231 "<standard.mly>"
+  xs
+# 202 "src/retrolixParser__mock.ml.mock"
+   : 'tv_loption_separated_nonempty_list_COMMA_identifier__) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 232 "<standard.mly>"
+    ( xs )
+# 207 "src/retrolixParser__mock.ml.mock"
+     : 'tv_separated_list_COMMA_identifier_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 212 "src/retrolixParser__mock.ml.mock"
+   : 'tv_orelse_label) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 217 "src/retrolixParser__mock.ml.mock"
+     : 'tv_option_orelse_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 223 "src/retrolixParser__mock.ml.mock"
+     : 'tv_option_orelse_label_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "<standard.mly>"
+  x
+# 228 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "<standard.mly>"
+    ( Some x )
+# 233 "src/retrolixParser__mock.ml.mock"
+     : 'tv_option_TAIL_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 114 "<standard.mly>"
+    ( None )
+# 239 "src/retrolixParser__mock.ml.mock"
+     : 'tv_option_TAIL_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 244 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_rvalue_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 249 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_rvalue__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 255 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_rvalue__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 260 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_label_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 265 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_label__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 271 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_label__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 143 "<standard.mly>"
+  x
+# 276 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_identifier_) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 144 "<standard.mly>"
+    ( x )
+# 281 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_identifier__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 142 "<standard.mly>"
+    ( [] )
+# 287 "src/retrolixParser__mock.ml.mock"
+     : 'tv_loption_separated_nonempty_list_COMMA_identifier__) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+         xs
+# 292 "src/retrolixParser__mock.ml.mock"
+   : 'tv_list_labelled_instruction_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+  x
+# 296 "src/retrolixParser__mock.ml.mock"
+   : 'tv_labelled_instruction) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 213 "<standard.mly>"
+    ( x :: xs )
+# 301 "src/retrolixParser__mock.ml.mock"
+     : 'tv_list_labelled_instruction_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 211 "<standard.mly>"
+    ( [] )
+# 307 "src/retrolixParser__mock.ml.mock"
+     : 'tv_list_labelled_instruction_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+         xs
+# 312 "src/retrolixParser__mock.ml.mock"
+   : 'tv_list_definition_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 212 "<standard.mly>"
+  x
+# 316 "src/retrolixParser__mock.ml.mock"
+   : 'tv_definition) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 213 "<standard.mly>"
+    ( x :: xs )
+# 321 "src/retrolixParser__mock.ml.mock"
+     : 'tv_list_definition_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 211 "<standard.mly>"
+    ( [] )
+# 327 "src/retrolixParser__mock.ml.mock"
+     : 'tv_list_definition_) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 164 "src/retrolixParser.mly"
+  l
+# 332 "src/retrolixParser__mock.ml.mock"
+   : 'tv_literal) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    ((
+# 165 "src/retrolixParser.mly"
+(
+  `Immediate l
+)
+# 339 "src/retrolixParser__mock.ml.mock"
+     : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 343 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ((
+# 160 "src/retrolixParser.mly"
+  l
+# 348 "src/retrolixParser__mock.ml.mock"
+   : 'tv_lvalue) : (
+# 21 "src/retrolixParser.mly"
+     (lvalue)
+# 352 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    ((
+# 161 "src/retrolixParser.mly"
+(
+  (l :> rvalue)
+)
+# 359 "src/retrolixParser__mock.ml.mock"
+     : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 363 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 154 "src/retrolixParser.mly"
+          r
+# 368 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 372 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_r_ : Lexing.position) (_endpos_r_ : Lexing.position) (_startofs_r_ : int) (_endofs_r_ : int) (_loc_r_ : Lexing.position * Lexing.position) ->
+    (
+# 155 "src/retrolixParser.mly"
+(
+  RId r
+)
+# 379 "src/retrolixParser__mock.ml.mock"
+     : 'tv_register) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 31 "src/retrolixParser.mly"
+ _1
+# 384 "src/retrolixParser__mock.ml.mock"
+   : 'tv_error) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    ((
+# 31 "src/retrolixParser.mly"
+        (
+  let pos = Position.lex_join _startpos _endpos in
+  Error.error "parsing" pos "Syntax error."
+)
+# 392 "src/retrolixParser__mock.ml.mock"
+     : 'tv_program) : (
+# 23 "src/retrolixParser.mly"
+      (RetrolixAST.t)
+# 396 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 27 "src/retrolixParser.mly"
+                       _2
+# 401 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 27 "src/retrolixParser.mly"
+         ds
+# 405 "src/retrolixParser__mock.ml.mock"
+   : 'tv_list_definition_) (_startpos_ds_ : Lexing.position) (_endpos_ds_ : Lexing.position) (_startofs_ds_ : int) (_endofs_ds_ : int) (_loc_ds_ : Lexing.position * Lexing.position) ->
+    ((
+# 28 "src/retrolixParser.mly"
+(
+  ds
+)
+# 412 "src/retrolixParser__mock.ml.mock"
+     : 'tv_program) : (
+# 23 "src/retrolixParser.mly"
+      (RetrolixAST.t)
+# 416 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 81 "src/retrolixParser.mly"
+                     l
+# 421 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 81 "src/retrolixParser.mly"
+             _1
+# 425 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 81 "src/retrolixParser.mly"
+                             (
+  l
+)
+# 432 "src/retrolixParser__mock.ml.mock"
+     : 'tv_orelse_label) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 142 "src/retrolixParser.mly"
+ _1
+# 437 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 142 "src/retrolixParser.mly"
+      ( Or )
+# 442 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 141 "src/retrolixParser.mly"
+ _1
+# 447 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 141 "src/retrolixParser.mly"
+      ( And )
+# 452 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 140 "src/retrolixParser.mly"
+ _1
+# 457 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 140 "src/retrolixParser.mly"
+       ( Copy )
+# 462 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 139 "src/retrolixParser.mly"
+ _1
+# 467 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 139 "src/retrolixParser.mly"
+      ( Sub )
+# 472 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 138 "src/retrolixParser.mly"
+ _1
+# 477 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 138 "src/retrolixParser.mly"
+      ( Div )
+# 482 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 137 "src/retrolixParser.mly"
+ _1
+# 487 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 137 "src/retrolixParser.mly"
+      ( Mul )
+# 492 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 135 "src/retrolixParser.mly"
+   _1
+# 498 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 136 "src/retrolixParser.mly"
+      ( Add )
+# 503 "src/retrolixParser__mock.ml.mock"
+     : 'tv_op) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 149 "src/retrolixParser.mly"
+  r
+# 508 "src/retrolixParser__mock.ml.mock"
+   : 'tv_register) (_startpos_r_ : Lexing.position) (_endpos_r_ : Lexing.position) (_startofs_r_ : int) (_endofs_r_ : int) (_loc_r_ : Lexing.position * Lexing.position) ->
+    ((
+# 150 "src/retrolixParser.mly"
+(
+  `Register r
+)
+# 515 "src/retrolixParser__mock.ml.mock"
+     : 'tv_lvalue) : (
+# 21 "src/retrolixParser.mly"
+     (lvalue)
+# 519 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 145 "src/retrolixParser.mly"
+ v
+# 524 "src/retrolixParser__mock.ml.mock"
+   : 'tv_identifier) (_startpos_v_ : Lexing.position) (_endpos_v_ : Lexing.position) (_startofs_v_ : int) (_endofs_v_ : int) (_loc_v_ : Lexing.position * Lexing.position) ->
+    ((
+# 146 "src/retrolixParser.mly"
+(
+  `Variable v
+)
+# 531 "src/retrolixParser__mock.ml.mock"
+     : 'tv_lvalue) : (
+# 21 "src/retrolixParser.mly"
+     (lvalue)
+# 535 "src/retrolixParser__mock.ml.mock"
+    )) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) ->
+    (
+# 57 "src/retrolixParser.mly"
+(
+  []
+)
+# 543 "src/retrolixParser__mock.ml.mock"
+     : 'tv_locals) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 52 "src/retrolixParser.mly"
+                                                           _3
+# 548 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 52 "src/retrolixParser.mly"
+              xs
+# 552 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_nonempty_list_COMMA_identifier_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 52 "src/retrolixParser.mly"
+       _1
+# 556 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 53 "src/retrolixParser.mly"
+(
+  xs
+)
+# 563 "src/retrolixParser__mock.ml.mock"
+     : 'tv_locals) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 181 "src/retrolixParser.mly"
+  s
+# 568 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 572 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_s_ : Lexing.position) (_endpos_s_ : Lexing.position) (_startofs_s_ : int) (_endofs_s_ : int) (_loc_s_ : Lexing.position * Lexing.position) ->
+    (
+# 182 "src/retrolixParser.mly"
+(
+  LString s
+)
+# 579 "src/retrolixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 177 "src/retrolixParser.mly"
+  c
+# 584 "src/retrolixParser__mock.ml.mock"
+   : (
+# 20 "src/retrolixParser.mly"
+      (char)
+# 588 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 178 "src/retrolixParser.mly"
+(
+  LChar c
+)
+# 595 "src/retrolixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 173 "src/retrolixParser.mly"
+            x
+# 600 "src/retrolixParser__mock.ml.mock"
+   : 'tv_function_identifier) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) (
+# 173 "src/retrolixParser.mly"
+ _1
+# 604 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 174 "src/retrolixParser.mly"
+(
+  LFun x
+)
+# 611 "src/retrolixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 169 "src/retrolixParser.mly"
+         x
+# 616 "src/retrolixParser__mock.ml.mock"
+   : (
+# 18 "src/retrolixParser.mly"
+      (Mint.t)
+# 620 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 170 "src/retrolixParser.mly"
+(
+  LInt x
+)
+# 627 "src/retrolixParser__mock.ml.mock"
+     : 'tv_literal) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 73 "src/retrolixParser.mly"
+               _2
+# 632 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 73 "src/retrolixParser.mly"
+  i
+# 636 "src/retrolixParser__mock.ml.mock"
+   : 'tv_instruction) (_startpos_i_ : Lexing.position) (_endpos_i_ : Lexing.position) (_startofs_i_ : int) (_endofs_i_ : int) (_loc_i_ : Lexing.position * Lexing.position) ->
+    (
+# 73 "src/retrolixParser.mly"
+                          (
+  (fresh_label (), i)
+)
+# 643 "src/retrolixParser__mock.ml.mock"
+     : 'tv_labelled_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 70 "src/retrolixParser.mly"
+                                                 _4
+# 648 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 70 "src/retrolixParser.mly"
+                                    i
+# 652 "src/retrolixParser__mock.ml.mock"
+   : 'tv_instruction) (_startpos_i_ : Lexing.position) (_endpos_i_ : Lexing.position) (_startofs_i_ : int) (_endofs_i_ : int) (_loc_i_ : Lexing.position * Lexing.position) (
+# 70 "src/retrolixParser.mly"
+                             _2
+# 656 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 70 "src/retrolixParser.mly"
+                      l
+# 660 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 70 "src/retrolixParser.mly"
+                                                            (
+  (l, i)
+)
+# 667 "src/retrolixParser__mock.ml.mock"
+     : 'tv_labelled_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 77 "src/retrolixParser.mly"
+       l
+# 672 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 676 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 77 "src/retrolixParser.mly"
+            (
+  Label l
+)
+# 683 "src/retrolixParser__mock.ml.mock"
+     : 'tv_label) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 123 "src/retrolixParser.mly"
+ _1
+# 688 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 124 "src/retrolixParser.mly"
+(
+  Exit
+)
+# 695 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 119 "src/retrolixParser.mly"
+  c
+# 700 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 704 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) ->
+    (
+# 120 "src/retrolixParser.mly"
+(
+  Comment c
+)
+# 711 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 115 "src/retrolixParser.mly"
+  dl
+# 716 "src/retrolixParser__mock.ml.mock"
+   : 'tv_option_orelse_label_) (_startpos_dl_ : Lexing.position) (_endpos_dl_ : Lexing.position) (_startofs_dl_ : int) (_endofs_dl_ : int) (_loc_dl_ : Lexing.position * Lexing.position) (
+# 114 "src/retrolixParser.mly"
+         ls
+# 720 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_label_) (_startpos_ls_ : Lexing.position) (_endpos_ls_ : Lexing.position) (_startofs_ls_ : int) (_endofs_ls_ : int) (_loc_ls_ : Lexing.position * Lexing.position) (
+# 113 "src/retrolixParser.mly"
+                  _3
+# 725 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) ((
+# 113 "src/retrolixParser.mly"
+         rv
+# 729 "src/retrolixParser__mock.ml.mock"
+   : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 733 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_rv_ : Lexing.position) (_endpos_rv_ : Lexing.position) (_startofs_rv_ : int) (_endofs_rv_ : int) (_loc_rv_ : Lexing.position * Lexing.position) (
+# 113 "src/retrolixParser.mly"
+ _1
+# 737 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 116 "src/retrolixParser.mly"
+(
+  Switch (rv, Array.of_list ls, dl)
+)
+# 744 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 109 "src/retrolixParser.mly"
+                        l2
+# 749 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_l2_ : Lexing.position) (_endpos_l2_ : Lexing.position) (_startofs_l2_ : int) (_endofs_l2_ : int) (_loc_l2_ : Lexing.position * Lexing.position) (
+# 109 "src/retrolixParser.mly"
+                 _6
+# 753 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
+# 109 "src/retrolixParser.mly"
+         l1
+# 757 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_l1_ : Lexing.position) (_endpos_l1_ : Lexing.position) (_startofs_l1_ : int) (_endofs_l1_ : int) (_loc_l1_ : Lexing.position * Lexing.position) (
+# 108 "src/retrolixParser.mly"
+                                                     _4
+# 762 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 108 "src/retrolixParser.mly"
+                     xs
+# 766 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_rvalue_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 108 "src/retrolixParser.mly"
+         c
+# 770 "src/retrolixParser__mock.ml.mock"
+   : 'tv_condition) (_startpos_c_ : Lexing.position) (_endpos_c_ : Lexing.position) (_startofs_c_ : int) (_endofs_c_ : int) (_loc_c_ : Lexing.position * Lexing.position) (
+# 108 "src/retrolixParser.mly"
+ _1
+# 774 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 110 "src/retrolixParser.mly"
+(
+  ConditionalJump (c, xs, l1, l2)
+)
+# 781 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 104 "src/retrolixParser.mly"
+       l
+# 786 "src/retrolixParser__mock.ml.mock"
+   : 'tv_label) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) (
+# 104 "src/retrolixParser.mly"
+ _1
+# 790 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 105 "src/retrolixParser.mly"
+(
+  Jump l
+)
+# 797 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 100 "src/retrolixParser.mly"
+                       xs
+# 802 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_rvalue_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 100 "src/retrolixParser.mly"
+                  o
+# 806 "src/retrolixParser__mock.ml.mock"
+   : 'tv_op) (_startpos_o_ : Lexing.position) (_endpos_o_ : Lexing.position) (_startofs_o_ : int) (_endofs_o_ : int) (_loc_o_ : Lexing.position * Lexing.position) (
+# 100 "src/retrolixParser.mly"
+          _2
+# 810 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) ((
+# 100 "src/retrolixParser.mly"
+  l
+# 814 "src/retrolixParser__mock.ml.mock"
+   : 'tv_lvalue) : (
+# 21 "src/retrolixParser.mly"
+     (lvalue)
+# 818 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_l_ : Lexing.position) (_endpos_l_ : Lexing.position) (_startofs_l_ : int) (_endofs_l_ : int) (_loc_l_ : Lexing.position * Lexing.position) ->
+    (
+# 101 "src/retrolixParser.mly"
+(
+  Assign (l, o, xs)
+)
+# 825 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 96 "src/retrolixParser.mly"
+ _1
+# 830 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 97 "src/retrolixParser.mly"
+(
+  Ret
+)
+# 837 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 92 "src/retrolixParser.mly"
+                                                 t
+# 842 "src/retrolixParser__mock.ml.mock"
+   : 'tv_option_TAIL_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 92 "src/retrolixParser.mly"
+                                         _4
+# 846 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 92 "src/retrolixParser.mly"
+         xs
+# 850 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_rvalue_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 91 "src/retrolixParser.mly"
+                       _2
+# 855 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 91 "src/retrolixParser.mly"
+  f
+# 859 "src/retrolixParser__mock.ml.mock"
+   : 'tv_function_identifier) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) ->
+    (
+# 93 "src/retrolixParser.mly"
+(
+  Call (`Immediate (LFun f), xs, bool_of_unit_option t)
+)
+# 866 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 87 "src/retrolixParser.mly"
+                                                 t
+# 871 "src/retrolixParser__mock.ml.mock"
+   : 'tv_option_TAIL_) (_startpos_t_ : Lexing.position) (_endpos_t_ : Lexing.position) (_startofs_t_ : int) (_endofs_t_ : int) (_loc_t_ : Lexing.position * Lexing.position) (
+# 87 "src/retrolixParser.mly"
+                                         _5
+# 875 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 87 "src/retrolixParser.mly"
+         xs
+# 879 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_rvalue_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 86 "src/retrolixParser.mly"
+               _3
+# 884 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) ((
+# 86 "src/retrolixParser.mly"
+       f
+# 888 "src/retrolixParser__mock.ml.mock"
+   : 'tv_rvalue) : (
+# 22 "src/retrolixParser.mly"
+     (rvalue)
+# 892 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 85 "src/retrolixParser.mly"
+            _1
+# 897 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 88 "src/retrolixParser.mly"
+(
+  Call (f, xs, bool_of_unit_option t)
+)
+# 904 "src/retrolixParser__mock.ml.mock"
+     : 'tv_instruction) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 66 "src/retrolixParser.mly"
+            x
+# 909 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 913 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 66 "src/retrolixParser.mly"
+                 (
+  Id x
+)
+# 920 "src/retrolixParser__mock.ml.mock"
+     : 'tv_identifier) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 191 "src/retrolixParser.mly"
+                     x
+# 925 "src/retrolixParser__mock.ml.mock"
+   : (
+# 19 "src/retrolixParser.mly"
+      (string)
+# 929 "src/retrolixParser__mock.ml.mock"
+  )) (_startpos_x_ : Lexing.position) (_endpos_x_ : Lexing.position) (_startofs_x_ : int) (_endofs_x_ : int) (_loc_x_ : Lexing.position * Lexing.position) ->
+    (
+# 192 "src/retrolixParser.mly"
+(
+  FId x
+)
+# 936 "src/retrolixParser__mock.ml.mock"
+     : 'tv_function_identifier) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 47 "src/retrolixParser.mly"
+           f
+# 941 "src/retrolixParser__mock.ml.mock"
+   : 'tv_function_identifier) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 47 "src/retrolixParser.mly"
+ _1
+# 945 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 48 "src/retrolixParser.mly"
+(
+  DExternalFunction f
+)
+# 952 "src/retrolixParser__mock.ml.mock"
+     : 'tv_definition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 42 "src/retrolixParser.mly"
+         _7
+# 958 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__7_ : Lexing.position) (_endpos__7_ : Lexing.position) (_startofs__7_ : int) (_endofs__7_ : int) (_loc__7_ : Lexing.position * Lexing.position) (
+# 42 "src/retrolixParser.mly"
+  b
+# 962 "src/retrolixParser__mock.ml.mock"
+   : 'tv_block) (_startpos_b_ : Lexing.position) (_endpos_b_ : Lexing.position) (_startofs_b_ : int) (_endofs_b_ : int) (_loc_b_ : Lexing.position * Lexing.position) (
+# 41 "src/retrolixParser.mly"
+                                             _5
+# 966 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__5_ : Lexing.position) (_endpos__5_ : Lexing.position) (_startofs__5_ : int) (_endofs__5_ : int) (_loc__5_ : Lexing.position * Lexing.position) (
+# 41 "src/retrolixParser.mly"
+         xs
+# 970 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_identifier_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 40 "src/retrolixParser.mly"
+                           _3
+# 975 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__3_ : Lexing.position) (_endpos__3_ : Lexing.position) (_startofs__3_ : int) (_endofs__3_ : int) (_loc__3_ : Lexing.position * Lexing.position) (
+# 40 "src/retrolixParser.mly"
+      f
+# 979 "src/retrolixParser__mock.ml.mock"
+   : 'tv_function_identifier) (_startpos_f_ : Lexing.position) (_endpos_f_ : Lexing.position) (_startofs_f_ : int) (_endofs_f_ : int) (_loc_f_ : Lexing.position * Lexing.position) (
+# 40 "src/retrolixParser.mly"
+ _1
+# 983 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 44 "src/retrolixParser.mly"
+(
+  DFunction (f, xs, b)
+)
+# 990 "src/retrolixParser__mock.ml.mock"
+     : 'tv_definition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 37 "src/retrolixParser.mly"
+                                             _6
+# 995 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__6_ : Lexing.position) (_endpos__6_ : Lexing.position) (_startofs__6_ : int) (_endofs__6_ : int) (_loc__6_ : Lexing.position * Lexing.position) (
+# 37 "src/retrolixParser.mly"
+                                      b
+# 999 "src/retrolixParser__mock.ml.mock"
+   : 'tv_block) (_startpos_b_ : Lexing.position) (_endpos_b_ : Lexing.position) (_startofs_b_ : int) (_endofs_b_ : int) (_loc_b_ : Lexing.position * Lexing.position) (
+# 36 "src/retrolixParser.mly"
+                                                               _4
+# 1004 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__4_ : Lexing.position) (_endpos__4_ : Lexing.position) (_startofs__4_ : int) (_endofs__4_ : int) (_loc__4_ : Lexing.position * Lexing.position) (
+# 36 "src/retrolixParser.mly"
+                           xs
+# 1008 "src/retrolixParser__mock.ml.mock"
+   : 'tv_separated_list_COMMA_identifier_) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) (
+# 36 "src/retrolixParser.mly"
+                   _2
+# 1012 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__2_ : Lexing.position) (_endpos__2_ : Lexing.position) (_startofs__2_ : int) (_endofs__2_ : int) (_loc__2_ : Lexing.position * Lexing.position) (
+# 36 "src/retrolixParser.mly"
+           _1
+# 1016 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 37 "src/retrolixParser.mly"
+                                                  (
+  DValues (xs, b)
+)
+# 1023 "src/retrolixParser__mock.ml.mock"
+     : 'tv_definition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 133 "src/retrolixParser.mly"
+ _1
+# 1028 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 133 "src/retrolixParser.mly"
+      ( EQ )
+# 1033 "src/retrolixParser__mock.ml.mock"
+     : 'tv_condition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 132 "src/retrolixParser.mly"
+ _1
+# 1038 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 132 "src/retrolixParser.mly"
+      ( LTE )
+# 1043 "src/retrolixParser__mock.ml.mock"
+     : 'tv_condition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 131 "src/retrolixParser.mly"
+ _1
+# 1048 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 131 "src/retrolixParser.mly"
+      ( GTE )
+# 1053 "src/retrolixParser__mock.ml.mock"
+     : 'tv_condition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 130 "src/retrolixParser.mly"
+ _1
+# 1058 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 130 "src/retrolixParser.mly"
+      ( LT )
+# 1063 "src/retrolixParser__mock.ml.mock"
+     : 'tv_condition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 128 "src/retrolixParser.mly"
+          _1
+# 1069 "src/retrolixParser__mock.ml.mock"
+   : unit) (_startpos__1_ : Lexing.position) (_endpos__1_ : Lexing.position) (_startofs__1_ : int) (_endofs__1_ : int) (_loc__1_ : Lexing.position * Lexing.position) ->
+    (
+# 129 "src/retrolixParser.mly"
+      ( GT )
+# 1074 "src/retrolixParser__mock.ml.mock"
+     : 'tv_condition) in
+  let _ = fun (_eRR : exn) (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (
+# 61 "src/retrolixParser.mly"
+                 ls
+# 1079 "src/retrolixParser__mock.ml.mock"
+   : 'tv_list_labelled_instruction_) (_startpos_ls_ : Lexing.position) (_endpos_ls_ : Lexing.position) (_startofs_ls_ : int) (_endofs_ls_ : int) (_loc_ls_ : Lexing.position * Lexing.position) (
+# 61 "src/retrolixParser.mly"
+       xs
+# 1083 "src/retrolixParser__mock.ml.mock"
+   : 'tv_locals) (_startpos_xs_ : Lexing.position) (_endpos_xs_ : Lexing.position) (_startofs_xs_ : int) (_endofs_xs_ : int) (_loc_xs_ : Lexing.position * Lexing.position) ->
+    (
+# 62 "src/retrolixParser.mly"
+(
+  (xs, ls)
+)
+# 1090 "src/retrolixParser__mock.ml.mock"
+     : 'tv_block) in
+  (raise Not_found : 'tv_separated_nonempty_list_COMMA_rvalue_ * 'tv_separated_nonempty_list_COMMA_label_ * 'tv_separated_nonempty_list_COMMA_identifier_ * 'tv_separated_list_COMMA_rvalue_ * 'tv_separated_list_COMMA_label_ * 'tv_separated_list_COMMA_identifier_ * 'tv_rvalue * 'tv_register * 'tv_program * 'tv_orelse_label * 'tv_option_orelse_label_ * 'tv_option_TAIL_ * 'tv_op * 'tv_lvalue * 'tv_loption_separated_nonempty_list_COMMA_rvalue__ * 'tv_loption_separated_nonempty_list_COMMA_label__ * 'tv_loption_separated_nonempty_list_COMMA_identifier__ * 'tv_locals * 'tv_literal * 'tv_list_labelled_instruction_ * 'tv_list_definition_ * 'tv_labelled_instruction * 'tv_label * 'tv_instruction * 'tv_identifier * 'tv_function_identifier * 'tv_definition * 'tv_condition * 'tv_block)
+
+and menhir_end_marker =
+  0
+
+# 269 "<standard.mly>"
+  
+
+# 1100 "src/retrolixParser__mock.ml.mock"
