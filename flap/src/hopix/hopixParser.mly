@@ -28,7 +28,7 @@
 
 %right RARROW
 %left POR
-%left MULT PAND
+%nonassoc MULT 
 
 %%
 
@@ -160,8 +160,8 @@ expression_aux:
     { Tagged (c, l1, l2) }
   | e=located(expression_cc) DOT l=located(label)
     { Field (e, l) }
-  | LPAR l=separated_nonempty_list(COMMA, located(expression_aux)) RPAR
-    { Tuple (l) }
+  | LPAR e=located(expression_aux) COMMA l=separated_nonempty_list(COMMA, located(expression_aux)) RPAR
+    { Tuple (e::l) }
   | e1=located(expression_cc) e2=located(expression_aux)
     { Apply (e1, e2) }
   | REF e=located(expression_aux)
@@ -182,7 +182,9 @@ expression_aux:
     }
   | DO LBRACK e1=located(expression_aux) RBRACK
     UNTIL LPAR e2=located(expression_aux) RPAR
-    { While(e2,e1) }
+    { let l = Position.with_poss $startpos $endpos (While(e2, e1))
+      in
+      Sequence(e1::[l]) }
   | WHILE LPAR e1=located(expression_binop) RPAR 
     LBRACK e2=located(expression_assign) RBRACK
     {
@@ -198,6 +200,8 @@ expression_aux:
     }
   | LPAR e=located(expression_aux) COLONLINE t=located(ty) RPAR
     { TypeAnnotation(e, t) }
+  | LPAR e=expression RPAR 
+    { e } 
   | e=expression_cc
     { e }
 
@@ -209,6 +213,7 @@ expression_cc:
   | LBRACK l1=separated_nonempty_list(COMMA, separated_pair(located(label), EQUALS, located(expression_aux))) RBRACK
     l2=option(delimited(INF,separated_list(COMMA,located(ty)),SUP))
     { Record( l1, l2) }
+
   
 (*---------------- DEFINITIONS AUXILIAIRES --------------*)
 
