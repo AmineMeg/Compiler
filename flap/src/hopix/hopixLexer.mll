@@ -125,12 +125,12 @@ and string buffer = parse
 |'\\' (character_speciaux as ch)    { Buffer.add_char buffer (spe_char_switch ch); string buffer lexbuf}
 |'\\' (digit digit digit as asc)    { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); string buffer lexbuf}
 |'\\' (layout)                      { string buffer lexbuf }
-| _ as ch                           { Buffer.add_char buffer ch; string buffer lexbuf}
+| _ as ch                         { Buffer.add_char buffer ch; string buffer lexbuf}
 | eof                               { error lexbuf "Unterminated string."}
 
 
 and char buffer = parse 
-|'\''                               
+|'\''
   { incr taille_char; 
     if !taille_char = !longueur 
     then CHAR (Buffer.nth buffer 0) 

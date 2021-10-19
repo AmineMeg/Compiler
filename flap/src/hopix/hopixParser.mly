@@ -28,7 +28,8 @@
 
 %right RARROW
 %left POR
-%nonassoc MULT 
+%left PLUS MINUS
+%left MULT DIV
 
 %%
 
@@ -120,7 +121,11 @@ expression:
     { Sequence(e1::[e2]) }
   | v=expression_vdef SEMICOLON e=located(expression)
     { Define(v, e) }
-  | e=expression_arr
+  | LPAR e=located(expression) COLONLINE t=located(ty) RPAR
+    { TypeAnnotation(e, t) }
+  |  ANSLASH p=located(pattern) RARROW e=located(expression)
+    { Fun (FunctionDefinition(p,e)) }
+  | e=expression_assign
     { e }
 
 expression_vdef:
@@ -135,29 +140,14 @@ expression_let:
   | e=expression_assign
     { e }
 
-expression_arr:
-    LPAR e=located(expression_arr) COLONLINE t=located(ty) RPAR
-    { TypeAnnotation(e, t) }
-  |  ANSLASH p=located(pattern) RARROW e=located(expression_arr)
-    { Fun (FunctionDefinition(p,e)) }
-  | e=expression_assign
-    { e }
-
 expression_assign:
-    e1=located(expression_assign) DOUBLEDOTEQ e2=located(expression_binop)
+    e1=located(expression_aux) DOUBLEDOTEQ e2=located(expression_assign)
     { Assign (e1, e2) }
-  | e=expression_binop
-    { e }
-
-expression_binop:
-     e1=located(bin_expr) e2=located(expression_binop) 
-    { Apply(e1, e2) }
+  | e1=located(expression_aux) b=located(bin_var) e2=located(expression_assign) 
+    { let bin = Position.with_poss $startpos $endpos (Apply(b, e1))
+      in Apply(bin, e2) }
   | e=expression_aux
       { e }
-
-bin_expr:
-    | expr=located(expression_aux) bin=located(bin_var)
-      { Apply(bin, expr) }
 
 expression_aux:
     c=located(constructor)
@@ -180,9 +170,9 @@ expression_aux:
       b=preceded(POR?,separated_nonempty_list(POR, located(branch)))
     RBRACK
     { Case(e,b) }
-  | IF LPAR e1=located(expression_binop) RPAR
-    THEN LBRACK e2=located(expression_binop) RBRACK
-    ELSE LBRACK e3=located(expression_binop) RBRACK
+  | IF LPAR e1=located(expression_assign) RPAR
+    THEN LBRACK e2=located(expression_assign) RBRACK
+    ELSE LBRACK e3=located(expression_assign) RBRACK
     {
       IfThenElse (e1, e2, e3)
     }
@@ -191,7 +181,7 @@ expression_aux:
     { let l = Position.with_poss $startpos $endpos (While(e2, e1))
       in
       Sequence(e1::[l]) }
-  | WHILE LPAR e1=located(expression_binop) RPAR 
+  | WHILE LPAR e1=located(expression_assign) RPAR 
     LBRACK e2=located(expression_assign) RBRACK
     {
       While(e1, e2)
@@ -225,8 +215,7 @@ bin_var:
     | b=located(binop)
     { Variable(b, None) }
 
-
-binop:
+%inline binop:
     PLUS        { Id "`+`"   }
   | MINUS       { Id "`-`"   }
   | MULT        { Id "`*`"   }
@@ -240,7 +229,7 @@ binop:
   | SUPIDOT     { Id "`>?`"  }
 
 branch:
-    p=located(pattern) RARROW e=located(expression_binop)
+    p=located(pattern) RARROW e=located(expression_assign)
     { Branch (p, e) }
       
 (*--------------------- PATTERN -------------------------*)
