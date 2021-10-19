@@ -278,17 +278,20 @@ and expression = function
                  ++ braces' (located expression e)))
 
 
+and delimit l r d =
+  surround 2 1 (!^ l) d (!^ r)
+
 and braces' d =
-  group (string "{" ^^ break 1 ^^ d ++ string "}")
+  delimit "{" "}" d
 
 and make_label (l, e) =
   located label l ++ string "=" ++ located expression e
 
 and guarded_expression (c, t) =
   nest 2 (
-      parens (located expression c) 
+      parens (located expression c)
       ^^ (break 1)
-      ^^ braces (located expression t)
+      ^^ prefix 2 1 (!^ "then") (braces' (located expression t))
   )
 
 and optional_type_instantiation = function
@@ -301,7 +304,7 @@ and optional_type_instantiation = function
      ++ string ">"
 
 and else_expression e =
-  break 1 ^^ string "else" ++ braces (located expression e)
+  break 1 ^^ prefix 2 1 (!^ "else") (braces' (located expression e))
 
 and function_type_arguments = function
   | None ->

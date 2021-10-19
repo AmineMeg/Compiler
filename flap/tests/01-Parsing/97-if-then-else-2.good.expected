@@ -1,2 +1,3 @@
 let main =
-  if (failure 0) {print error_message} else {exit EXIT_FAILURE}
+  if (failure 0) then { print error_message }
+  else { exit EXIT_FAILURE }

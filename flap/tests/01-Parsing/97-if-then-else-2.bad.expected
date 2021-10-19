@@ -1,2 +1,2 @@
-Line 4, characters 3-3: Error (parsing)
-  Syntax error.
+let main =
+  if (failure 0) then { print error_message } else { () }
