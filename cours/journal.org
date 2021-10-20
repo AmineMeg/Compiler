@@ -157,3 +157,10 @@
    dédiés.
 
    Le jalon 2 sera donné dans la semaine.
+** Cours 06 <2021-10-19>
+   On commence par répondre aux dernières questions sur le jalon 1, avant de
+   discuter extensivement le contenu du jalon 2, qui a été donné la semaine
+   dernière. Cette discussion a occupé quasiment toute la séance.
+
+   Le jalon 3 a été donné juste avant la séance; on en discutera lors de la
+   prochaine séance de cours.
