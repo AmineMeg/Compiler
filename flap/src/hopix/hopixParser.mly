@@ -27,9 +27,7 @@
 %start<HopixAST.t> program
 
 %right RARROW
-%left POR
-%left PLUS MINUS
-%left MULT DIV
+%left MULT
 
 %%
 
@@ -237,7 +235,7 @@ branch:
 pattern:
      LPAR p=located(pattern) COLONLINE t=located(ty) RPAR
     { PTypeAnnotation(p,t) }
-  | p1=located(pattern) POR p2=located(pattern)
+  | p1=located(pattern_term) POR p2=located(pattern)
     { POr(p1::[p2]) }
   | LPAR p1=located(pattern) PAND p2=located(pattern) RPAR
     { PAnd(p1::[p2]) }
