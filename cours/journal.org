@@ -164,3 +164,7 @@
 
    Le jalon 3 a été donné juste avant la séance; on en discutera lors de la
    prochaine séance de cours.
+** Cours 07 <2021-10-26>
+   Voir la troisième partie des
+   [[file:cours-04-à-06/cours-04-à-06-intro-semantique-typage.pdf][transparents]]
+   dédiés.
