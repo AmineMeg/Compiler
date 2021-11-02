@@ -1,7 +1,0 @@
-Line 2, characters 21-22: Error (typechecking)
-  Type error:
-Expected:
-  `a
-Given:
-  int
-

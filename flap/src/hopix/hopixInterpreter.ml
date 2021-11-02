@@ -346,20 +346,28 @@ and E = [runtime.environment], M = [runtime.memory].
 *)
 and expression _ environment memory =
 function 
-| Apply (a, b) -> 
-let vb = expression' environment memory b in 
-begin match expression' environment memory a with
-| VPrimitive (_, f) ->
-f memory vb 
-| _ -> failwith " "
-end 
+| Literal l ->
+  literal (Position.value l)
+| Variable (x, _) ->
+  Environment.lookup (Position.position x) (Position.value x) environment
+(*TODO : USE FOLD_LEFT INSTAD OF MAP*)
+| Tagged (c, _, l) ->
+  let list = List.map (fun x  -> expression' environment memory x) l in
+  VTagged (Position.value c, list) 
 
+| Apply (a, b) -> 
+  let vb = expression' environment memory b in 
+  begin match expression' environment memory a with
+    | VPrimitive (_, f) ->
+      f memory vb 
+    | _ -> failwith " "
+  end 
 
 | IfThenElse (c, t, f) -> 
   let v = expression' environment memory c in 
   begin match value_as_bool v with 
-  | true -> expression' environment memory t
-  | false -> expression' environment memory f
+    | true -> expression' environment memory t
+    | false -> expression' environment memory f
   end
 
 | While (c, e) -> 
@@ -390,10 +398,7 @@ end
     | _ -> failwith "Read erreur"
   end    
   
-| Variable (x, _) ->
-  Environment.lookup (Position.position x) (Position.value x) environment
-| Literal l ->
-  literal (Position.value l)
+
 | _ -> failwith "expression:students do ur job"
 
 

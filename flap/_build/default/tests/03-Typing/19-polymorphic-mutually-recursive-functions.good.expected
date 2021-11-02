@@ -1,3 +1,0 @@
-false_rec : [ `a `b] `a -> `b
-false_rec2 : [ `b `a] `a -> `b
-main : string
