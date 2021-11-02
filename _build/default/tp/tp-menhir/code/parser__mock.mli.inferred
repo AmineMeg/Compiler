@@ -1,5 +1,0 @@
-type token = PLUS | INT of int | ID of string | EOF
-val menhir_begin_marker : int
-val xv_phrase : AST.exp
-val xv_exp : AST.exp
-val menhir_end_marker : int

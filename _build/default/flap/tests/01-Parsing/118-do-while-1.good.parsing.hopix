@@ -1,2 +1,0 @@
-let main =
-  do { nothing (0) } until (True)
