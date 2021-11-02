@@ -351,6 +351,12 @@ function
 | Variable (x, _) ->
   Environment.lookup (Position.position x) (Position.value x) environment
 (*TODO : USE FOLD_LEFT INSTAD OF MAP*)
+
+(**
+| Tagged(c,_,e) ->
+  let v () = expressions environment memory e in
+  VTagged(c.value,v())*)
+
 | Tagged (c, _, l) ->
   let list = List.map (fun x  -> expression' environment memory x) l in
   VTagged (Position.value c, list) 
@@ -387,6 +393,16 @@ function
   in 
   aux ()
 
+
+| Field(e,l) -> 
+  let v = expression' environment memory e in
+  begin match v with
+   | VRecord b -> List.assoc l.value b
+   | _ -> failwith "Field Error" 
+  end
+
+
+
 | Ref(e) ->
     let v = expression' environment memory e in 
     (* Trouvé dans les fonctions du dossier common ! 
@@ -402,6 +418,17 @@ function
     | _ -> failwith "Read erreur"
   end    
   
+  
+| Assign(e1, e2) -> 
+  let v1 = expression' environment memory e1 in
+  let v2 = expression' environment memory e2 in
+  begin match v1 with 
+    |VLocation l -> 
+      let pos = Memory.dereference memory l in
+      Memory.write pos (Mint.of_int 0) v2;
+      VUnit
+    | _ -> failwith "Erreur dans Assign"
+  end
 
 | _ -> failwith "expression:students do ur job"
 
@@ -410,6 +437,17 @@ and literal = function
 | LInt x -> VInt x
 | LChar c -> VChar c 
 | LString s -> VString s 
+
+(**and expressions environment memory et =
+let rec aux vt = function
+  | [] ->
+    List.rev vt
+  | e :: et ->
+    let v = expression' environment memory e in
+    aux (v :: vt) et
+in
+aux [] et*)
+
 
 (** This function returns the difference between two runtimes. *)
 and extract_observable runtime runtime' =
