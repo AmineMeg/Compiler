@@ -354,7 +354,11 @@ function
 | Tagged (c, _, l) ->
   let list = List.map (fun x  -> expression' environment memory x) l in
   VTagged (Position.value c, list) 
-
+| Record  (l, _) ->
+     let tmp labExp = 
+     match labExp with 
+	    | (label, exp) -> (Position.value label, expression' environment memory exp)
+     in VRecord (List.map tmp l)
 | Apply (a, b) -> 
   let vb = expression' environment memory b in 
   begin match expression' environment memory a with
