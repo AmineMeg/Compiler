@@ -1,0 +1,71 @@
+type token =
+    WHILE
+  | VAL
+  | THEN
+  | SWITCH
+  | STAR
+  | SLASH
+  | SEMICOLON
+  | RPAREN
+  | RBRACKET
+  | RBRACE
+  | PLUS
+  | PIPE
+  | OR
+  | NOTHING
+  | NEWBLOCK
+  | MINUS
+  | LTE
+  | LT
+  | LSTRING of string
+  | LPAREN
+  | LOR
+  | LCHAR of char
+  | LBRACKET
+  | LBRACE
+  | LAND
+  | INT of int64
+  | INFIXID of string
+  | IN
+  | IF
+  | ID of string
+  | GTE
+  | GT
+  | FUN
+  | FI
+  | EXTERN
+  | EQUAL
+  | EQ
+  | EOF
+  | ELSE
+  | DRARROW
+  | DEQUAL
+  | COMMA
+  | COLON
+  | BACKSLASH
+  | AND
+val menhir_begin_marker : int
+val xv_very_simple_expression : HobixAST.expression
+val xv_value_def : HobixAST.identifier * HobixAST.expression
+val xv_simple_expression : HobixAST.expression
+val xv_separated_nonempty_list_COMMA_identifier_ : HobixAST.identifier list
+val xv_separated_nonempty_list_COMMA_expression_ : HobixAST.expression list
+val xv_separated_list_COMMA_identifier_ : HobixAST.identifier list
+val xv_separated_list_COMMA_expression_ : HobixAST.expression list
+val xv_program : HobixAST.t
+val xv_mutfun : (HobixAST.identifier * HobixAST.expression) list
+val xv_loption_separated_nonempty_list_COMMA_identifier__ :
+  HobixAST.identifier list
+val xv_loption_separated_nonempty_list_COMMA_expression__ :
+  HobixAST.expression list
+val xv_literal : HobixAST.literal
+val xv_list_definition_ : HobixAST.t
+val xv_list_branch_ : (int * HobixAST.expression) list
+val xv_identifier : HobixAST.identifier
+val xv_function_definition : HobixAST.identifier * HobixAST.expression
+val xv_expression : HobixAST.expression
+val xv_definition : HobixAST.definition
+val xv_default : HobixAST.expression option
+val xv_branch : int * HobixAST.expression
+val xv_binop : string
+val menhir_end_marker : int

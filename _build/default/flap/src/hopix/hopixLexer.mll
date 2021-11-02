@@ -58,7 +58,7 @@ rule token = parse
   | "="               { EQUALS                      }
   | "\'"              { char(Buffer.create 2) lexbuf   }
   | "\""              { string(Buffer.create 32) lexbuf}
-  | "/*"              { comments lexbuf      }
+  | "#*"              { comments lexbuf      }
   | "let"             { LET                         }
   | "fun"             { FUN  }
   | "extern"          { EXTERN }
@@ -71,9 +71,9 @@ rule token = parse
   | "]"               { RSQR }
   | "<"               { INF }
   | ">"               { SUP }
-  | "<?"              { SUPIDOT                     }
+  | "<?"              { INFIDOT                     }
   | ":="              { DOUBLEDOTEQ }
-  | ">?"              { INFIDOT                     }
+  | ">?"              { SUPIDOT                     }
   | ","               { COMMA                       }
   | ":"               { COLONLINE                   }
   | ";"               { SEMICOLON }
@@ -125,12 +125,12 @@ and string buffer = parse
 |'\\' (character_speciaux as ch)    { Buffer.add_char buffer (spe_char_switch ch); string buffer lexbuf}
 |'\\' (digit digit digit as asc)    { Buffer.add_char buffer (is_a_valid_ascii(int_of_string(asc))); string buffer lexbuf}
 |'\\' (layout)                      { string buffer lexbuf }
-| _ as ch                           { Buffer.add_char buffer ch; string buffer lexbuf}
+| _ as ch                         { Buffer.add_char buffer ch; string buffer lexbuf}
 | eof                               { error lexbuf "Unterminated string."}
 
 
 and char buffer = parse 
-|'\''                               
+|'\''
   { incr taille_char; 
     if !taille_char = !longueur 
     then CHAR (Buffer.nth buffer 0) 
@@ -146,7 +146,7 @@ and char buffer = parse
 
 
  and comments = parse
-  | "/*"                          { incr niveau ; comments lexbuf}
-  | "*/"                          { decr niveau ; if !niveau = 0 then token lexbuf else comments lexbuf}
+  | "#*"                          { incr niveau ; comments lexbuf}
+  | "*#"                          { decr niveau ; if !niveau = 0 then token lexbuf else comments lexbuf}
   | eof                           { error lexbuf "commentaire non fini" }
   | _                             { comments lexbuf}
