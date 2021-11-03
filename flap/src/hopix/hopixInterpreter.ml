@@ -328,9 +328,10 @@ value_definition runtime.environment runtime.memory d
 
 and value_definition environment memory = function
 | SimpleValue(x,_,e) -> 
-let v = expression' environment memory e in
-bind_identifier environment x v 
-| _ -> failwith "recfunctions"
+  let v = expression' environment memory e in
+  bind_identifier environment x v 
+| RecFunctions (f) -> failwith "value_def | RecFunction"
+
 
 and bind_identifier environment x v =
 Environment.bind environment (Position.value x) v
@@ -350,36 +351,77 @@ function
   literal (Position.value l)
 | Variable (x, _) ->
   Environment.lookup (Position.position x) (Position.value x) environment
-(*TODO : USE FOLD_LEFT INSTAD OF MAP*)
-
-(**
-| Tagged(c,_,e) ->
-  let v () = expressions environment memory e in
-  VTagged(c.value,v())*)
-
 | Tagged (c, _, l) ->
   let list = List.map (fun x  -> expression' environment memory x) l in
-  VTagged (Position.value c, list) 
+  VTagged (Position.value c, list)
 | Record  (l, _) ->
      let tmp labExp = 
      match labExp with 
 	    | (label, exp) -> (Position.value label, expression' environment memory exp)
      in VRecord (List.map tmp l)
+| Field(e,l) -> 
+  let v = expression' environment memory e in
+  begin match v with
+   | VRecord b -> List.assoc l.value b
+   | _ -> failwith "Field Error" 
+  end
+| Tuple (l) ->
+  let list = List.map (fun x -> expression' environment memory x) l
+  in VTuple (list)
+| Sequence (l) ->
+  let list = List.map (fun x  -> expression' environment memory x) l in
+  List.nth list (List.length list - 1)
+| Define (v, e) ->
+    (* On évalue la valeur de la vdefinition v, et on en récupère l'environnement *)
+    let environment = 
+      match v with
+      | SimpleValue(i,_,e) -> 
+        let env = expression' environment memory e in
+        Environment.bind environment i.value env
+      | _ -> failwith "recfunctions"
+    in
+    expression' environment memory e
+| Fun (f) -> 
+  begin
+    match f with
+    | FunctionDefinition( p, e) -> VClosure(environment, p, e)
+  end
 | Apply (a, b) -> 
   let vb = expression' environment memory b in 
   begin match expression' environment memory a with
-    | VPrimitive (_, f) ->
-      f memory vb 
-    | _ -> failwith " "
+    | VPrimitive (_, f) -> f memory vb 
+    | _ -> failwith "Apply"
   end 
-
+| Ref(e) ->
+    let v = expression' environment memory e in 
+    (* Trouvé dans les fonctions du dossier common ! 
+    Il y a toute une partie Mem  *)
+    VLocation (Memory.allocate memory (Mint.of_int 1) v)
+| Assign(e1, e2) -> 
+  let v1 = expression' environment memory e1 in
+  let v2 = expression' environment memory e2 in
+  begin match v1 with 
+    |VLocation l -> 
+      let pos = Memory.dereference memory l in
+      Memory.write pos (Mint.of_int 0) v2;
+      VUnit
+    | _ -> failwith "Erreur dans Assign"
+  end
+| Read(e) ->
+  let v = expression' environment memory e in
+  begin match v with
+    | VLocation a -> 
+      let block = Memory.dereference memory a in (* Ca sort la position de notre ref *)
+      let read = Memory.read block (Mint.of_int 0) in read (* plutot explicite *)
+    | _ -> failwith "Read erreur"
+  end  
+| Case (e, b) -> failwith "Case"
 | IfThenElse (c, t, f) -> 
   let v = expression' environment memory c in 
   begin match value_as_bool v with 
     | true -> expression' environment memory t
     | false -> expression' environment memory f
   end
-
 | While (c, e) -> 
   let rec aux() = 
     let v = expression' environment memory c in
@@ -392,44 +434,33 @@ function
       VUnit
   in 
   aux ()
-
-
-| Field(e,l) -> 
-  let v = expression' environment memory e in
-  begin match v with
-   | VRecord b -> List.assoc l.value b
-   | _ -> failwith "Field Error" 
-  end
-
-
-
-| Ref(e) ->
-    let v = expression' environment memory e in 
-    (* Trouvé dans les fonctions du dossier common ! 
-    Il y a toute une partie Mem  *)
-    VLocation (Memory.allocate memory (Mint.of_int 1) v)
-
-| Read(e) ->
-  let v = expression' environment memory e in
-  begin match v with
-    | VLocation a -> 
-      let block = Memory.dereference memory a in (* Ca sort la position de notre ref *)
-      let read = Memory.read block (Mint.of_int 0) in read (* plutot explicite *)
-    | _ -> failwith "Read erreur"
-  end    
-  
-  
-| Assign(e1, e2) -> 
-  let v1 = expression' environment memory e1 in
-  let v2 = expression' environment memory e2 in
-  begin match v1 with 
-    |VLocation l -> 
-      let pos = Memory.dereference memory l in
-      Memory.write pos (Mint.of_int 0) v2;
-      VUnit
-    | _ -> failwith "Erreur dans Assign"
-  end
-
+| For (i, debut, fin, e) ->
+  (* On evalue e1 *)
+  let n1 = expression' environment memory debut in
+  let n1_int = value_as_int (n1) in
+  (* On ajoute i=e1 à l'environnement *)
+  let envBinded = Environment.bind environment (Position.value i) n1 in
+  (* On evalue e2 *)
+  let n2_int = value_as_int (expression' environment memory fin) in
+  (* Si la valeur e1 est inferieure ou égale à celle de e2 *)
+  if (n1_int<=n2_int) 
+  then
+    (* e1 est incrémenté de 1 *)
+    let n1_incr = 
+      match n1_int with
+      | Some n -> Mint.add n (Mint.of_int 1)
+      | None -> Mint.of_int 1
+    in
+    let pos = debut.position in
+    let debut = Literal(Position.with_pos pos (LInt(n1_incr)))  in
+    (* on rappelle for *)
+    let for_np1 = For(i, (Position.with_pos pos debut), fin, e) in
+    (* on appelle la sequence de e aux différentes itérations de boucles *)
+    let seq = Sequence([e; (Position.with_pos pos for_np1)]) in 
+    Environment.update pos (Position.value i) envBinded n1;
+    expression pos envBinded memory seq
+  else (VUnit)
+| TypeAnnotation (e, _) -> failwith "TypeAnnotation"
 | _ -> failwith "expression:students do ur job"
 
 
