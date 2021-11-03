@@ -330,7 +330,20 @@ and value_definition environment memory = function
 | SimpleValue(x,_,e) -> 
   let v = expression' environment memory e in
   bind_identifier environment x v 
-| RecFunctions (f) -> failwith "value_def | RecFunction"
+| RecFunctions (f) ->
+  (* On ajoute à l'environnement les noms de fonctions *)
+  let environment = List.fold_left (fun environment (id,_,_) -> 
+    Environment.bind environment id.value VUnit) environment f 
+  in
+  (* On crée la liste des clotûres correspondant à f *)
+	let closure_list = 
+    List.map (fun (id,_,FunctionDefinition (pat,e)) ->
+    id,VClosure (environment, pat, e)) f 
+  in 
+  (* met à jour les expression et leurs identifiants dans l'environnement *)
+  List.iter (fun (id,e) -> Environment.update id.position id.value environment e) closure_list;
+  environment
+
 
 
 and bind_identifier environment x v =
@@ -345,6 +358,27 @@ E, M ⊢ e ⇓ v, M'
 
 and E = [runtime.environment], M = [runtime.memory].
 *)
+and pattern' env p vb =
+  match p with 
+  | PVariable id -> Environment.bind env id.value vb
+  | PWildcard -> env
+  | PTypeAnnotation (_, _) -> env
+  | PLiteral l ->  env
+  | PTaggedValue (c, _, l) -> 
+    List.fold_left (fun env patt -> pattern' env patt.value vb) env l
+  | PRecord (l, _) -> failwith "PRecord"
+    (*List.fold_left (fun env id_pat -> lab env id_pat vb) env l*)
+  | PTuple (patts) -> 
+    List.fold_left (fun env patt -> pattern' env patt.value vb) env patts 
+  | POr (l) -> failwith "POr"
+    (*List.fold_left (fun q patt -> pattern' env patt.value vb) env l*)
+  | PAnd (l) -> failwith "PAnd"
+    List.fold_left (fun q patt -> pattern' env patt.value vb) env l
+  | _ -> failwith "pattern'"
+
+and lab env (i, p) vb =
+  pattern' env p.value vb
+
 and expression _ environment memory =
 function 
 | Literal l ->
@@ -387,10 +421,12 @@ function
     | FunctionDefinition( p, e) -> VClosure(environment, p, e)
   end
 | Apply (a, b) -> 
+  let va = expression' environment memory a in
   let vb = expression' environment memory b in 
-  begin match expression' environment memory a with
+  begin match va with
     | VPrimitive (_, f) -> f memory vb 
-    | _ -> failwith "Apply"
+    | VClosure (env, p, e) ->
+      expression' (pattern' env p.value vb) memory e
   end 
 | Ref(e) ->
     let v = expression' environment memory e in 
@@ -455,12 +491,12 @@ function
     let debut = Literal(Position.with_pos pos (LInt(n1_incr)))  in
     (* on rappelle for *)
     let for_np1 = For(i, (Position.with_pos pos debut), fin, e) in
-    (* on appelle la sequence de e aux différentes itérations de boucles *)
-    let seq = Sequence([e; (Position.with_pos pos for_np1)]) in 
+    (* on appelle la sequence de e aux différentes itérations de boucle *)
+    let seq = Sequence([e; (Position.with_pos pos for_np1)]) in
     Environment.update pos (Position.value i) envBinded n1;
     expression pos envBinded memory seq
   else (VUnit)
-| TypeAnnotation (e, _) -> failwith "TypeAnnotation"
+| TypeAnnotation (e, _) -> expression' environment memory e
 | _ -> failwith "expression:students do ur job"
 
 
