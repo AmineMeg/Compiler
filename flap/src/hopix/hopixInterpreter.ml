@@ -368,9 +368,11 @@ function
 | Tuple (l) ->
   let list = List.map (fun x -> expression' environment memory x) l
   in VTuple (list)
+
 | Sequence (l) ->
   let list = List.map (fun x  -> expression' environment memory x) l in
   List.nth list (List.length list - 1)
+
 | Define (v, e) ->
     (* On évalue la valeur de la vdefinition v, et on en récupère l'environnement *)
     let environment = 
@@ -386,11 +388,13 @@ function
     match f with
     | FunctionDefinition( p, e) -> VClosure(environment, p, e)
   end
-| Apply (a, b) -> 
+  | Apply (a, b) -> 
+  let va = expression' environment memory a in
   let vb = expression' environment memory b in 
-  begin match expression' environment memory a with
+  begin match va with
     | VPrimitive (_, f) -> f memory vb 
-    | _ -> failwith "Apply"
+    | VClosure (env, p, e) ->
+      expression' (pat env p.value vb) memory e
   end 
 | Ref(e) ->
     let v = expression' environment memory e in 
@@ -462,6 +466,26 @@ function
   else (VUnit)
 | TypeAnnotation (e, _) -> failwith "TypeAnnotation"
 | _ -> failwith "expression:students do ur job"
+
+
+and pat env p vb =
+  match p with 
+  | PVariable id -> Environment.bind env id.value vb
+  | PWildcard -> env
+  | PLiteral l ->  env
+  | PRecord (l, _) ->
+    List.fold_left (fun env id_pat -> lab env id_pat vb) env l  
+  (**| PTaggedValue (c, _, l) -> begin match vb with 
+                                | VTagged(const, gl) -> 
+                                end *)
+  (**| PTuple(p) -> begin match vb with 
+                      | VTuple gl -> List.fold_left2 pat env p.value gl
+                      | _ -> failwith "PTuple error"
+                    end*)
+  | _ -> failwith "pat"
+
+and lab env (i, p) vb =
+  pat env p.value vb
 
 
 and literal = function
