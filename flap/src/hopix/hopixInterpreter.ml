@@ -366,13 +366,13 @@ and pattern' env p vb =
   | PLiteral l ->  env
   | PTaggedValue (c, _, l) -> 
     List.fold_left (fun env patt -> pattern' env patt.value vb) env l
-  | PRecord (l, _) -> failwith "PRecord"
-    (*List.fold_left (fun env id_pat -> lab env id_pat vb) env l*)
+  | PRecord (l, _) -> 
+    List.fold_left (fun env id_pat -> lab env id_pat vb) env l
   | PTuple (patts) -> 
     List.fold_left (fun env patt -> pattern' env patt.value vb) env patts 
-  | POr (l) -> failwith "POr"
-    (*List.fold_left (fun q patt -> pattern' env patt.value vb) env l*)
-  | PAnd (l) -> failwith "PAnd"
+  | POr (l) -> 
+    List.fold_left (fun q patt -> pattern' env patt.value vb) env l
+  | PAnd (l) -> 
     List.fold_left (fun q patt -> pattern' env patt.value vb) env l
   | _ -> failwith "pattern'"
 
@@ -500,23 +500,6 @@ function
   else (VUnit)
 | TypeAnnotation (e, _) -> expression' environment memory e
 | _ -> failwith "expression:students do ur job"
-
-
-and pat env p vb =
-  match p with 
-  | PVariable id -> Environment.bind env id.value vb
-  | PWildcard -> env
-  | PLiteral l ->  env
-  | PRecord (l, _) ->
-    List.fold_left (fun env id_pat -> lab env id_pat vb) env l  
-  (**| PTaggedValue (c, _, l) -> begin match vb with 
-                                | VTagged(const, gl) -> 
-                                end *)
-  (**| PTuple(p) -> begin match vb with 
-                      | VTuple gl -> List.fold_left2 pat env p.value gl
-                      | _ -> failwith "PTuple error"
-                    end*)
-  | _ -> failwith "pat"
 
 and literal = function
 | LInt x -> VInt x
