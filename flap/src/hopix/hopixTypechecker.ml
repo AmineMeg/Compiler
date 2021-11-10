@@ -220,9 +220,52 @@ let typecheck tenv ast : typing_environment =
     let ity = located (type_of_expression tenv) e in
     check_expected_type pos xty ity
 
-  (** [type_of_expression tenv pos e] computes a type for [e] if it exists. *)
-  and type_of_expression tenv pos : expression -> aty =
-failwith "Students! This is your job!"
+ (** [type_of_expression tenv pos e] computes a type for [e] if it exists. *)
+  and type_of_expression tenv pos : expression -> aty = function
+      Literal l -> located type_of_literal l
+  | Variable (id, ty) -> failwith "Variable"
+  (** A tagged value [K <ty_1, ..., ty_m> (e₁, ..., eₙ)]. *)
+  | Tagged (cons, ty, exp) -> failwith "Tagged"
+  (** A record [{l₁ = e₁, ..., lₙ = eₙ} <ty₁, ..., tyₘ>]. *)
+  | Record (lis, ty) -> failwith "Record"
+  (** A record field access [e.l]. *)
+  | Field (exp, lab) -> failwith "Field"
+  (** A tuple [(e₁, ..., en)]. *)
+  | Tuple exp -> failwith "Tuple"
+  (** A sequence [e1; e2] *)
+  | Sequence exp -> failwith "Sequence"
+  (** A local definition of value(s) [value_definition; e₂]. *)
+  | Define (vd, exp) -> failwith "Define"
+  (** An anonymous function [ pattern -> e ]. *)
+  | Fun f -> failwith "Fun"
+  (** A function application [a₁ (a₂))]. *)
+  | Apply (exp1, exp2) -> failwith "Apply"
+  (** A reference allocation. *)
+  | Ref exp ->
+    let e = located (type_of_expression tenv) exp in
+    href e
+  (** An assignment. *)
+  | Assign (exp1, exp2) -> failwith "Assign"
+  (** A dereference. *)
+  | Read exp -> failwith "Read"
+    (*let e = located (type_of_expression tenv) exp in 
+    type_of_reference_type e*)
+  (** A pattern matching [switch (e) { p₁ -> e₁ | ... | pₙ -> eₙ }. *)
+  | Case (exp, brs) -> failwith "Case"
+  (** A conditional expression of the form [if (...) ... else ...]. *)
+  | IfThenElse (exp1, exp2, epx3) -> failwith "IfThenElse"
+  (** An unbounded loop of the form [while (...) { ... }]. *)
+  | While (exp1, exp2) -> failwith "While"
+  (** A bounded loop of the form [for x in (e₁ to e₂) { ... }]. *)
+  | For (id, exp1, exp2, exp3) -> failwith "For"
+  (** A type annotation [(e : ty)]. *)
+  | TypeAnnotation (exp, ty) -> failwith "TypeAnnotation"
+  | _ -> failwith "Autres"
+
+  and type_of_literal l = function
+      LInt _ -> hint
+    | LString _ -> hstring
+    | LChar _ -> hchar
 
   and patterns tenv = function
     | [] ->
