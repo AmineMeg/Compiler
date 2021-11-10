@@ -223,7 +223,14 @@ let typecheck tenv ast : typing_environment =
  (** [type_of_expression tenv pos e] computes a type for [e] if it exists. *)
   and type_of_expression tenv pos : expression -> aty = function
       Literal l -> located type_of_literal l
-  | Variable(id, ty) -> failwith "Variable"
+  | Variable(id, ty) -> 
+      let aty_ty = 
+        try 
+              lookup_type_scheme_of_value id.position id.value tenv
+            with 
+            | UnboundIdentifier (pos,Id(y)) -> type_error pos ("Unbound Identifier")
+            in 
+      type_of_monotype (aty_ty)
   (** A tagged value [K <ty_1, ..., ty_m> (e₁, ..., eₙ)]. *)
   | Tagged (cons, ty, exp) -> failwith "Tagged"
   (** A record [{l₁ = e₁, ..., lₙ = eₙ} <ty₁, ..., tyₘ>]. *)
