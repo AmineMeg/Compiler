@@ -239,8 +239,18 @@ let typecheck tenv ast : typing_environment =
   (** An anonymous function [ pattern -> e ]. *)
   | Fun f -> failwith "Fun"
   (** A function application [a₁ (a₂))]. *)
-  | Apply (exp1, exp2) -> failwith "Apply"
-  (** A reference allocation. *)
+  | Apply (exp1, exp2) -> 
+  let exp1Type = output_type_of_function (located (type_of_expression tenv) exp1)
+  in 
+  let fOutputType =
+    try 
+     output_type_of_function (located (type_of_expression tenv) exp1) 
+    with
+    | NotAFunction -> type_error pos (Printf.sprintf "Only functions can be applied.")
+    | _ -> failwith "invalid arg"
+  in
+  check_expression_monotype tenv exp1Type exp2;
+  fOutputType;
   | Ref exp ->
     let e = located (type_of_expression tenv) exp in
     href e
