@@ -223,7 +223,7 @@ let typecheck tenv ast : typing_environment =
  (** [type_of_expression tenv pos e] computes a type for [e] if it exists. *)
   and type_of_expression tenv pos : expression -> aty = function
       Literal l -> located type_of_literal l
-  | Variable (id, ty) -> failwith "Variable"
+  | Variable(id, ty) -> failwith "Variable"
   (** A tagged value [K <ty_1, ..., ty_m> (e₁, ..., eₙ)]. *)
   | Tagged (cons, ty, exp) -> failwith "Tagged"
   (** A record [{l₁ = e₁, ..., lₙ = eₙ} <ty₁, ..., tyₘ>]. *)
@@ -240,7 +240,11 @@ let typecheck tenv ast : typing_environment =
   | Fun f -> failwith "Fun"
   (** A function application [a₁ (a₂))]. *)
   | Apply (exp1, exp2) -> 
-  let exp1Type = output_type_of_function (located (type_of_expression tenv) exp1)
+  let fInputType = function
+  | ATyArrow (ty,_) -> ty
+  | _ -> raise NotAFunction
+  in
+  let exp1Type = fInputType (located (type_of_expression tenv) exp1)
   in 
   let fOutputType =
     try 
