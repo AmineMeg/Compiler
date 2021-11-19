@@ -1,5 +1,0 @@
-globals ()
-  l00: %rdi <- copy 73;
-  l01: observe_int();
-  l02: exit;
-end
