@@ -2,6 +2,8 @@
 open HopixAST
 open HopixTypes
 
+exception NotMatchingExp 
+
 let initial_typing_environment = HopixTypes.initial_typing_environment
 
 type typing_environment = HopixTypes.typing_environment
@@ -231,8 +233,20 @@ let typecheck tenv ast : typing_environment =
             | UnboundIdentifier (pos,Id(y)) -> type_error pos ("Unbound Identifier")
             in 
       type_of_monotype (aty_ty)
-  (** A tagged value [K <ty_1, ..., ty_m> (e₁, ..., eₙ)]. *)
-  | Tagged (cons, ty, exp) -> failwith "Tagged"
+  (** A tagged value [K <ty_1, ..., ty_m> (e₁, ..., eₙ)]. *) 
+  | Tagged (cons, ty, exp) -> 
+      let atyScheme = 
+      let cons_p = ( Position.value cons ) in
+      try
+        lookup_type_scheme_of_constructor cons_p tenv
+      with 
+       | UnboundConstructor  -> type_error pos ("unbound Identifier")
+       | _ -> raise (Invalid_argument "error argument")
+        in
+          let ty_scheme = type_of_monotype (atyScheme) 
+        in 
+          input_exp_check pos tenv ty_scheme exp
+          
   (** A record [{l₁ = e₁, ..., lₙ = eₙ} <ty₁, ..., tyₘ>]. *)
   | Record (lis, ty) -> failwith "Record"
   (** A record field access [e.l]. *)
@@ -240,48 +254,132 @@ let typecheck tenv ast : typing_environment =
   (** A tuple [(e₁, ..., en)]. *)
   | Tuple exp -> failwith "Tuple"
   (** A sequence [e1; e2] *)
-  | Sequence exp -> failwith "Sequence"
-  (** A local definition of value(s) [value_definition; e₂]. *)
-  | Define (vd, exp) -> failwith "Define"
+  | Sequence exp ->
+    let rec aux = function 
+      | [] -> failwith "empty list"
+      | l::[] -> located (type_of_expression tenv) l
+      | h::t -> check_expression_monotype tenv hunit h ; aux t
+    in 
+    aux exp
+  | Define (d, exp) -> 
+    let tenv' = value_definition tenv d in
+    located (type_of_expression tenv') exp
   (** An anonymous function [ pattern -> e ]. *)
-  | Fun f -> failwith "Fun"
+  | Fun f -> 
+  begin match f with  FunctionDefinition(p,e) -> 
+    let tenv', ty = located (pattern tenv) p in 
+    check_expression_monotype tenv' ty e;ty
+  end
+
   (** A function application [a₁ (a₂))]. *)
   | Apply (exp1, exp2) -> 
-  let fInputType = function
-  | ATyArrow (ty,_) -> ty
-  | _ -> raise NotAFunction
-  in
-  let exp1Type = fInputType (located (type_of_expression tenv) exp1)
-  in 
-  let fOutputType =
-    try 
-     output_type_of_function (located (type_of_expression tenv) exp1) 
-    with
-    | NotAFunction -> type_error pos (Printf.sprintf "Only functions can be applied.")
-    | _ -> failwith "invalid arg"
-  in
-  check_expression_monotype tenv exp1Type exp2;
-  fOutputType;
+    let fInputType = function
+    | ATyArrow (ty, _) -> ty
+    | _ -> raise NotAFunction
+    in
+    let exp1Type = fInputType (located (type_of_expression tenv) exp1)
+    in 
+    let fOutputType =
+      try 
+      output_type_of_function (located (type_of_expression tenv) exp1) 
+      with
+      | NotAFunction -> type_error pos (Printf.sprintf "Only functions can be applied.")
+      | _ -> failwith "invalid arg"
+    in
+    check_expression_monotype tenv exp1Type exp2;
+    fOutputType;
   | Ref exp ->
     let e = located (type_of_expression tenv) exp in
     href e
   (** An assignment. *)
-  | Assign (exp1, exp2) -> failwith "Assign"
+  | Assign (exp1, exp2) -> 
+      let exp2_type = 
+        try 
+          type_of_reference_type (located (type_of_expression tenv) exp1)
+        with 
+        | NotAReference -> failwith "error ref"
+        | _ -> raise (Invalid_argument "error assign")
+
+        in 
+        check_expression_monotype tenv exp2_type exp2; hunit     
   (** A dereference. *)
-  | Read exp -> failwith "Read"
+  | Read exp ->   
+    let type_exp = located (type_of_expression tenv ) exp in
+    type_of_reference_type type_exp
+
     (*let e = located (type_of_expression tenv) exp in 
     type_of_reference_type e*)
   (** A pattern matching [switch (e) { p₁ -> e₁ | ... | pₙ -> eₙ }. *)
-  | Case (exp, brs) -> failwith "Case"
-  (** A conditional expression of the form [if (...) ... else ...]. *)
-  | IfThenElse (exp1, exp2, epx3) -> failwith "IfThenElse"
+  
+  | Case (exp, brs) -> 
+      let exp_type = located (type_of_expression tenv) exp in 
+      let patt_typr aty_patt expr_type =
+        if expr_type <> aty_patt then raise NotMatchingExp
+      in
+      let type_pat_exp_check pat exp_type = 
+        let _ ,ty = located (pattern tenv) pat in 
+        try
+             patt_typr ty exp_type;
+        with
+        | NotMatchingExp -> type_error pat.position "error pattern"
+      in
+      let rec aux acc = function
+         | [] -> acc
+         | h :: t ->  match Position.value h with
+           | Branch (p,e) -> 
+               let tenv',aty = located ( pattern tenv ) p in
+              type_pat_exp_check p exp_type;
+              aux (located (type_of_expression tenv') e) t  
+     in aux exp_type brs
+
+  | IfThenElse (exp1, exp2, exp3) ->  
+    check_expression_monotype tenv hunit exp1;
+    check_expression_monotype tenv hunit exp2;
+    check_expression_monotype tenv hunit exp3;
+    hunit;
   (** An unbounded loop of the form [while (...) { ... }]. *)
-  | While (exp1, exp2) -> failwith "While"
+  | While (exp1, exp2) ->
+    check_expression_monotype tenv hbool exp1;
+    check_expression_monotype tenv hunit exp2;
+    hunit;
   (** A bounded loop of the form [for x in (e₁ to e₂) { ... }]. *)
-  | For (id, exp1, exp2, exp3) -> failwith "For"
+  | For (id, expd, expa, expb) ->
+    check_expression_monotype tenv hint expa;
+    check_expression_monotype tenv hint expd;
+    let tenv' = 
+      bind_value id.value (monotype hint) tenv in
+      check_expression_monotype tenv' hunit expb ;
+      hunit
   (** A type annotation [(e : ty)]. *)
-  | TypeAnnotation (exp, ty) -> failwith "TypeAnnotation"
-  | _ -> failwith "Autres"
+  | TypeAnnotation (exp, ty) ->  
+    let aux = 
+      match (aty_of_ty' ty) with 
+      | ATyArrow (ty, _) -> ty
+      | _ -> raise NotAFunction
+    in 
+    check_expression_monotype tenv aux exp; 
+    (aty_of_ty' ty)
+  | _ -> failwith "other"
+
+
+  and input_exp_check pos tenv ty_scheme expl =
+  let type_of_input ty_arrow =
+    try
+      match ty_arrow with 
+      | ATyArrow (ty, _) -> ty
+      | _ -> raise NotAFunction
+    with NotAFunction -> type_error pos ("error not function")
+    in
+    match ty_scheme with 
+      | ATyArrow _ ->
+            let rec aux ty_arrow = function
+            | [] -> ty_arrow
+            | h :: t -> check_expression_monotype tenv (type_of_input ty_arrow) h;
+              aux (output_type_of_function ty_arrow) t
+              in
+            aux ty_scheme expl
+      | _ -> ty_scheme
+  
 
   and type_of_literal l = function
       LInt _ -> hint
@@ -299,8 +397,16 @@ let typecheck tenv ast : typing_environment =
   (** [pattern tenv pos p] computes a new environment completed with
       the variables introduced by the pattern [p] as well as the type
       of this pattern. *)
-  and pattern tenv pos =
-  failwith "Students! This is your job!"
+  and pattern tenv pos = function
+  | PTuple _ -> failwith "PTuple"                   
+  | PLiteral l -> failwith "PLiteral"
+  | PTypeAnnotation (exp, ty) ->
+        begin match exp.value with 
+        | PVariable id -> (bind_value id.value (monotype (aty_of_ty' ty)) tenv), aty_of_ty' ty
+        | PWildcard -> tenv, aty_of_ty' ty
+        | _ -> failwith "error"
+        end
+  | _ -> failwith "error"
   in
   program ast
 
