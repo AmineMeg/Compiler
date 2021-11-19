@@ -1,0 +1,27 @@
+07.bad      : INCOMPREHENSIBLE JSP POURQUOI
+21.bad      : souci caractère
+24.bad      : souci caractère
+25.bad      : souci caractère
+26.bad      : souci caractère
+40.good     : ty -> (ty) non reconnu
+53.good     : ne demande pas d associativité pour la multiplication ??
+65.good     : exp -> exp exp non reconnu
+65.bad      : exp -> exp exp non reconnu
+69.good      : exp -> exp exp non reconnu
+72.bad      : exp -> exp exp non reconnu 
+82.good     : exp -> exp exp non reconnu
+84.good     : manque opérateur
+84.bad      : manque opérateur
+86.good     : manque opérateur
+86.bad      : manque opérateur
+87.bad      : manque opérateur 
+93.bad      : souci caractère
+94.good     : manque opérateur
+98-3.bad    : manque opérateur
+98-4.bad    : manque opérateur
+100.bad     : manque opérateur
+106.good    : manque opérateur
+113.bad     : exp -> exp exp non reconnu
+113.good    : exp -> exp exp non reconnu
+115.good    : manque opérateur
+118.good    : exp -> exp exp non reconnu
