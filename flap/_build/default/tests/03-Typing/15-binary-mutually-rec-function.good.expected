@@ -1,3 +1,0 @@
-fst : int * int -> int
-snd : int * int -> int
-main : int
