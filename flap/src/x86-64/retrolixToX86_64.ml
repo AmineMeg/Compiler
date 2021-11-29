@@ -147,6 +147,7 @@ let register_globals global_set env =
 
 (** {2 Abstract instruction selectors and calling conventions} *)
 
+(** module des fonctions qui seront à implémenter plus loin *)
 module type InstructionSelector =
   sig
     (** [mov ~dst ~src] generates the x86-64 assembly listing to copy [src] into
@@ -186,7 +187,9 @@ module type InstructionSelector =
       ll:T.label -> lr:T.label ->
       T.line list
 
-    (** [switch ~default ~discriminant ~cases] generates the x86-64 assembly
+    (** [switch ~default ~discriminant(: source que l'on peut lire: constante ou immediat : 
+        indique la case à laquelle on doit aller dans ~cases : si ~discr est outOfBound on 
+        va à default s'il est donné) ~cases] generates the x86-64 assembly
        listing to jump to [cases.(discriminant)], or to the (optional) [default]
        label when discriminant is larger than [Array.length cases].
 
@@ -495,40 +498,44 @@ module Codegen(IS : InstructionSelector)(FM : FrameManager) =
   end
 
 (** {2 Concrete instructions selectors and calling conventions} *)
-
+let r15 = `Reg X86_64_Architecture.R15
 module InstructionSelector : InstructionSelector =
   struct
     open T
 
     let mov ~(dst : dst) ~(src : src) =
-      failwith "Students! This is your job!"
+      insns begin
+      match (src, dst) with
+      | `Addr addr_s, `Addr addr_d -> [movq ~src ~dst]
+      | _ -> [movq ~src:src ~dst:dst]
+      end
 
     let bin ins ~dst ~srcl ~srcr =
       failwith "Students! This is your job!"
 
     let add ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (addq srcr r15) :: (movq r15 dst) :: [])
 
     let sub ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (subq srcr r15) :: (movq r15 dst) :: [])
 
     let mul ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (imulq srcr r15) :: (movq r15 dst) :: [])
 
     let div ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+    failwith "div"
 
     let andl ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (andq srcr r15) :: (movq r15 dst) :: [])
 
     let orl ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (orq srcr r15) :: (movq r15 dst) :: [])
 
     let conditional_jump ~cc ~srcl ~srcr ~ll ~lr =
-      failwith "Students! This is your job!"
+      insns ((movq srcl r15) :: (cmpq srcr r15) :: (jccl ~cc ~tgt:ll) :: (jmpl ~tgt:lr) :: [])
 
     let switch ?default ~discriminant ~cases =
-      failwith "Students! This is your job!"
+      failwith "failure switch"
 
   end
 
@@ -552,28 +559,49 @@ module FrameManager(IS : InstructionSelector) : FrameManager =
 
     (** [stack_usage_after_prologue fd] returns the size, in bytes, of the stack
         space after the function prologue. *)
-    let stack_usage_after_prologue fd =
-      Mint.size_in_bytes
-      + (if empty_frame fd then 0 else 1) * Mint.size_in_bytes
-      + fd.locals_space
+
 
     let frame_descriptor ~params ~locals =
-      (* Student! Implement me! *)
-      { param_count = 0; locals_space = 0; stack_map = S.IdMap.empty; }
-
+      failwith "frame_descriptor"
+      
+  open T
     let location_of fd id =
-      failwith "Students! This is your job!"
+      if (S.IdMap.mem id fd.stack_map)
+      then (let adresseId = S.IdMap.find id fd.stack_map in 
+      {
+        offset = Some(Lit(adresseId)) ;
+        base = Some (X86_64_Architecture.RBP) ;
+        idx = None ;
+        scale = `One;
+      })
+      else ({
+        offset = Some(Lab(data_label_of_global id));
+        base = Some (X86_64_Architecture.RIP);
+        idx = None;
+        scale = `One;
+      })
 
     let function_prologue fd =
-      (* Student! Implement me! *)
-      []
+      let n = align fd.locals_space (Mint.size_in_bytes * 2) in
+      insns (pushq rbp :: movq rsp rbp :: subq (liti n) rsp ::[])
 
     let function_epilogue fd =
-      (* Student! Implement me! *)
-      []
+      let n = align fd.locals_space (Mint.size_in_bytes * 2) in
+      insns (addq (liti n) rsp :: movq rbp rsp :: popq rbp :: [])
 
+    (** [kind] définit si la fonction est récursive ou non :
+    - si récursive, la liste finale est la liste d'instructions des
+    push des arguments, suivi du call à f 
+    - sinon on appelle directement l'epilogue*)
     let call fd ~kind ~f ~args =
-      failwith "Students! This is your job!"
+      let rec aux insList = function
+          | [] -> insList
+          | arg :: tail -> aux ((pushq ~src:arg) :: insList) tail
+      in 
+      let insList = aux [] args in
+      insns ((insList) @ [(calldi ~tgt:f)])
+           
+    
 
   end
 
