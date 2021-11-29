@@ -1,0 +1,6 @@
+Line 0, characters -1--1: Error (ELF)
+  Could not assemble or link file "/tmp/flapffd272.s":
+/usr/bin/ld : /tmp/ccqaqJ6r.o : dans la fonction « print_seven_int_for_real » :
+/tmp/flapffd272.s:35 : référence indéfinie vers « a7 »
+collect2: error: ld returned 1 exit status
+
