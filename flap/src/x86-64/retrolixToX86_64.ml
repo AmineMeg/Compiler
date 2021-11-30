@@ -496,12 +496,15 @@ module Codegen(IS : InstructionSelector)(FM : FrameManager) =
   end
 
 (** {2 Concrete instructions selectors and calling conventions} *)
-let r15 = `Reg X86_64_Architecture.R15
+(** registre reservé au compilateur *)
+let r15 = `Reg X86_64_Architecture.R15 
+(** registre necessaire à la division : *) 
 let rax = `Reg X86_64_Architecture.RAX
 module InstructionSelector : InstructionSelector =
   struct
     open T
 
+    (** si on bouge une adresse dans une autre on passe par r15 *)
     let mov ~(dst : dst) ~(src : src) =
       insns begin
       match (src, dst) with
@@ -510,7 +513,7 @@ module InstructionSelector : InstructionSelector =
       end
 
     let bin ins ~dst ~srcl ~srcr =
-      failwith "Students! This is your job!"
+      failwith "bin : Students! This is your job!"
 
     let add ~dst ~srcl ~srcr =
       insns ((movq srcl r15) :: (addq srcr r15) :: (movq r15 dst) :: [])
@@ -536,7 +539,10 @@ module InstructionSelector : InstructionSelector =
     (** [switch ~default ~discriminant(: source que l'on peut lire: constante ou immediat : 
         indique la case à laquelle on doit aller dans ~cases : si ~discr est outOfBound on 
         va à default s'il est donné) ~cases] 
-        On regarde la valeur de defaut*)
+        On regarde la valeur de defaut
+        - On bouge le discriminant dans r15, on le compare à la longueur de cases
+          -> s'il est plus grand ou egal on saute à def
+          -> sinon on compare *)
     let switch ?default ~discriminant ~cases =
       failwith "switch"
 
@@ -612,14 +618,13 @@ module FrameManager(IS : InstructionSelector) : FrameManager =
       let n = align fd.locals_space (Mint.size_in_bytes * 2) in
       insns (addq (liti n) rsp :: movq rbp rsp :: popq rbp :: [])
 
-    (** [kind] définit si la fonction est récursive ou non :
-    - si récursive, la liste finale est la liste d'instructions des
-    push des arguments, suivi du call à f 
-    - sinon on appelle directement l'epilogue*)
+    (** la liste finale est la liste d'instructions de
+    push des arguments, suivi du call à f*)
     let call fd ~kind ~f ~args =
-      let rec aux insList = function
-          | [] -> insList
-          | arg :: tail -> aux ((pushq ~src:arg) :: insList) tail
+      let rec aux insList arg = 
+        match arg with
+        | [] -> insList
+        | h :: t -> aux ((pushq ~src:h) :: insList) t
       in 
       let insList = aux [] args in
       insns ((insList) @ [(calldi ~tgt:f)])
