@@ -506,16 +506,6 @@ and literal = function
 | LChar c -> VChar c 
 | LString s -> VString s 
 
-(**and expressions environment memory et =
-let rec aux vt = function
-  | [] ->
-    List.rev vt
-  | e :: et ->
-    let v = expression' environment memory e in
-    aux (v :: vt) et
-in
-aux [] et*)
-
 
 (** This function returns the difference between two runtimes. *)
 and extract_observable runtime runtime' =
